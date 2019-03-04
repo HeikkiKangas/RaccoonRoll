@@ -6,21 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /*
-Hours:
-TileMappeja ~2h
-
-26.02   Start:  20:20
-        End:    23:50   3h 30min
-
-27.02   Start:  15:15
-        End:    16:15   1h
-
-01.03   Start:  10:20
-        End:    12:20   2h
-
-03.03   Start:  21:30
-        End:    00:00   2h 30min
-
 Tile width: 16
 Resolution: 1920
 Show tiles: 30
@@ -66,12 +51,6 @@ public class RaccoonRoll extends Game {
     public void updateWorldDimensions() {
         float aspectRatio = 1.0f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
         WORLD_HEIGHT = WORLD_WIDTH * aspectRatio;
-        /*
-        Gdx.app.log("World Width", "" + WORLD_WIDTH);
-        Gdx.app.log("World Height", "" + WORLD_HEIGHT);
-        Gdx.app.log("Pixels Width", "" + Gdx.graphics.getWidth());
-        Gdx.app.log("Pixels Height", "" + Gdx.graphics.getHeight());
-        */
         setupCameras();
     }
 

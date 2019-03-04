@@ -17,7 +17,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -76,7 +75,7 @@ public class Level1Screen extends LevelScreen {
         playerBody.createFixture(getPlayerFixtureDef());
 
         goodObjectsRectangles = getGoodRectangles();
-        System.out.println(goodObjectsRectangles.size());
+
         createWalls();
         playerRotation = 90;
         playerRadius = 12 * game.getScale();
@@ -123,10 +122,9 @@ public class Level1Screen extends LevelScreen {
         ArrayList<Rectangle> rectanglesToRemove = new ArrayList<Rectangle>();
         Vector2 playerPos = playerBody.getWorldCenter();
         Circle playerCircle = new Circle(playerPos.x, playerPos.y, playerRadius);
-        //System.out.println(playerBody.getWorldCenter());
+
         for (Rectangle rectangle : goodObjectsRectangles) {
             if (Intersector.overlaps(playerCircle, rectangle)) {
-                System.out.println("Clearing tile");
                 rectanglesToRemove.add(rectangle);
                 clearTile(
                         (TiledMapTileLayer) tiledMap.getLayers().get("good_tiles"),
@@ -145,7 +143,6 @@ public class Level1Screen extends LevelScreen {
     private void clearTile(TiledMapTileLayer tileLayer, Vector2 tileIndex) {
         int x = (int) tileIndex.x;
         int y = (int) tileIndex.y;
-        System.out.println("X: " + x + " Y: " + y);
         tileLayer.setCell(x, y, null);
     }
 
