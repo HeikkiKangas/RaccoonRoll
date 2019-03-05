@@ -81,7 +81,5 @@ public class RaccoonRoll extends Game {
     public void setupCameras() {
         worldCamera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
         textCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Gdx.app.log("WorldCameraWidth", "" + worldCamera.viewportWidth);
-        Gdx.app.log("WorldCameraHeight", "" + worldCamera.viewportHeight);
     }
 }
