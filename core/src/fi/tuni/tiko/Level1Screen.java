@@ -41,7 +41,6 @@ public class Level1Screen extends LevelScreen {
     float tileSize = 16f;
 
     // Refactor attributes below this line to separate player class
-    Texture playerTexture;
     float playerRotation;
     float playerRadius;
     Animation<TextureRegion> playerAnimation;
@@ -51,10 +50,8 @@ public class Level1Screen extends LevelScreen {
     public Level1Screen(RaccoonRoll game) {
         super(game);
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("graphics/player_animation/racc_roll.txt"));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("graphics/player/roll_animation/racc_roll.txt"));
         playerAnimation = new Animation<TextureRegion>(1 / 30f, atlas.findRegions("racc_roll"));
-
-        playerTexture = new Texture("raccoon.png");
 
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.textureMinFilter = Texture.TextureFilter.Nearest;
