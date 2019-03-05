@@ -1,0 +1,173 @@
+racc_roll.png
+size: 1608, 67
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+racc_roll
+  rotate: false
+  xy: 0, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 1
+racc_roll
+  rotate: false
+  xy: 67, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 2
+racc_roll
+  rotate: false
+  xy: 134, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 3
+racc_roll
+  rotate: false
+  xy: 201, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 4
+racc_roll
+  rotate: false
+  xy: 268, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 5
+racc_roll
+  rotate: false
+  xy: 335, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 6
+racc_roll
+  rotate: false
+  xy: 402, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 7
+racc_roll
+  rotate: false
+  xy: 469, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 8
+racc_roll
+  rotate: false
+  xy: 536, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 9
+racc_roll
+  rotate: false
+  xy: 603, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 10
+racc_roll
+  rotate: false
+  xy: 670, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 11
+racc_roll
+  rotate: false
+  xy: 737, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 12
+racc_roll
+  rotate: false
+  xy: 804, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 13
+racc_roll
+  rotate: false
+  xy: 871, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 14
+racc_roll
+  rotate: false
+  xy: 938, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 15
+racc_roll
+  rotate: false
+  xy: 1005, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 16
+racc_roll
+  rotate: false
+  xy: 1072, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 17
+racc_roll
+  rotate: false
+  xy: 1139, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 18
+racc_roll
+  rotate: false
+  xy: 1206, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 19
+racc_roll
+  rotate: false
+  xy: 1273, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 20
+racc_roll
+  rotate: false
+  xy: 1340, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 21
+racc_roll
+  rotate: false
+  xy: 1407, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 22
+racc_roll
+  rotate: false
+  xy: 1474, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 23
+racc_roll
+  rotate: false
+  xy: 1541, 0
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: 24
