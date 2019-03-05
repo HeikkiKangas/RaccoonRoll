@@ -98,3 +98,7 @@ project(":core") {
 tasks.eclipse.doLast {
     delete ".project"
 }
+
+task gitPull(type: Exec) {
+    commandLine 'git', 'pull', 'origin', 'master'
+}
