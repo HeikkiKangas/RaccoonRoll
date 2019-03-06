@@ -17,7 +17,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     SpriteBatch batch;
     OrthographicCamera worldCamera;
     OrthographicCamera textCamera;
-    Skin skin;
+    //jos tämä paska vaikka löytäisi sen
+    Skin skin = new Skin (Gdx.files.internal("comic-ui.json"));
     TextButton play;
     TextButton options;
     Stage stage;
@@ -28,7 +29,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
 
-        skin = new Skin (Gdx.files.internal("comic-ui.json"));
+        //skin = new Skin (Gdx.files.internal("comic-ui.json"));
         play = new TextButton("Play", skin);
         options = new TextButton("options", skin);
         stage = new Stage();
