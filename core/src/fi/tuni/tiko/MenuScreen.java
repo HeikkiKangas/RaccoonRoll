@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public abstract class MainMenuScreen extends ApplicationAdapter implements Screen {
+public class MenuScreen extends ApplicationAdapter implements Screen {
     RaccoonRoll game;
     SpriteBatch batch;
     OrthographicCamera worldCamera;
@@ -22,7 +22,7 @@ public abstract class MainMenuScreen extends ApplicationAdapter implements Scree
     TextButton options;
     Stage stage;
 
-    public MainMenuScreen(RaccoonRoll game) {
+    public MenuScreen(RaccoonRoll game) {
         this.game = game;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
@@ -62,11 +62,21 @@ public abstract class MainMenuScreen extends ApplicationAdapter implements Scree
     }
 
     @Override
-    public void render() {
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+    }
+
+    @Override
+    public void hide() {
+
     }
 }
