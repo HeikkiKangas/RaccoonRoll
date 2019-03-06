@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,11 +18,11 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     SpriteBatch batch;
     OrthographicCamera worldCamera;
     OrthographicCamera textCamera;
-    //jos tämä paska vaikka löytäisi sen
-    Skin skin = new Skin (Gdx.files.internal("comic-ui.json"));
+    Skin skin;
     TextButton play;
     TextButton options;
     Stage stage;
+    TextureAtlas atlas;
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
@@ -29,7 +30,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
 
-        //skin = new Skin (Gdx.files.internal("comic-ui.json"));
+        atlas = new TextureAtlas("comic-ui.atlas");
+        skin = new Skin (Gdx.files.internal("comic-ui.json"), atlas);
         play = new TextButton("Play", skin);
         options = new TextButton("options", skin);
         stage = new Stage();
