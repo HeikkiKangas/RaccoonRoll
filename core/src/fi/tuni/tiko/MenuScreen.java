@@ -22,6 +22,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Skin skin;
     TextButton play;
     TextButton options;
+    TextButton about;
     Stage stage;
 
     public MenuScreen(RaccoonRoll game) {
@@ -43,17 +44,20 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"));
         play = new TextButton("Play", skin);
-        options = new TextButton("options", skin);
+        options = new TextButton("Options", skin);
+        about = new TextButton("About", skin);
 
         //fill ja uniform laittaa muotoonsa
         table.add(play).fillX().uniformX();
-        table.row().pad(10, 0, 0, 0);
+        table.row().pad(25, 0, 0, 0);
         table.add(options).fillX().uniformX();
+        table.row().pad(25, 0, 0, 0);
+        table.add(about).fillX().uniformX();
 
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Play button clicked");
+                Gdx.app.log("Play", "Button clicked");
                 game.setScreen(new Level1Screen(game));
             }
         });
@@ -61,7 +65,14 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         options.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Here we have options");
+                Gdx.app.log("Options", "Should be here");
+            }
+        });
+
+        about.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("About", "Should be here");
             }
         });
     }
@@ -78,5 +89,17 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     @Override
     public void hide() {
 
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        // change the stage's viewport when teh screen size is changed
+        stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void dispose() {
+        // dispose of assets when not needed anymore
+        stage.dispose();
     }
 }
