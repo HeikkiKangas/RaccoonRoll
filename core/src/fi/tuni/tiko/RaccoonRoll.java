@@ -30,7 +30,7 @@ public class RaccoonRoll extends Game {
 		updateWorldDimensions();
 		setupCameras();
 
-		setScreen(new Level1Screen(this));
+		setScreen(new MenuScreen(this));
 	}
 
 	@Override

@@ -30,8 +30,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
 
-        atlas = new TextureAtlas("comic-ui.atlas");
-        skin = new Skin (Gdx.files.internal("comic-ui.json"), atlas);
+        atlas = new TextureAtlas("uiskin/comic-ui.atlas");
+        skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"), atlas);
         play = new TextButton("Play", skin);
         options = new TextButton("options", skin);
         stage = new Stage();
