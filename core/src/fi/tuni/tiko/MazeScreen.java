@@ -45,6 +45,8 @@ public class MazeScreen implements Screen {
     ArrayList<Rectangle> goodObjectsRectangles;
     Player player;
 
+    int goodObjectsRemaining;
+
     // Refactor attributes below this line to separate player class
 
 
@@ -74,12 +76,13 @@ public class MazeScreen implements Screen {
 
         player.createPlayerBody(world, getPlayerStartPos());
         goodObjectsRectangles = getGoodRectangles();
+        goodObjectsRemaining = goodObjectsRectangles.size();
 
         createWalls();
     }
 
     public void clearScreen() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
@@ -109,6 +112,7 @@ public class MazeScreen implements Screen {
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         player.draw(batch, delta);
+        //drawGoodObjectsRemaining();
         batch.end();
         world.step(1 / 60f, 6, 2);
     }
@@ -157,6 +161,7 @@ public class MazeScreen implements Screen {
             }
         }
         goodObjectsRectangles.removeAll(rectanglesToRemove);
+        goodObjectsRemaining = goodObjectsRectangles.size();
     }
 
     private Vector2 getRectangleTileIndex(Rectangle rectangle) {

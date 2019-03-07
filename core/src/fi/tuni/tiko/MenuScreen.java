@@ -42,6 +42,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         //for testing purposes
+        // Locale could be moved to RaccoonRoll class to save a bit of memory
         //locale = new Locale("fi", "FI");
         locale = Locale.getDefault();
         menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), locale);
@@ -109,7 +110,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        // change the stage's viewport when teh screen size is changed
+        // change the stage's viewport when the screen size is changed
         stage.getViewport().update(width, height, true);
     }
 

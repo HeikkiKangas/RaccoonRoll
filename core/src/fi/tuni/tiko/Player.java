@@ -21,6 +21,7 @@ public class Player {
     Animation<TextureRegion> playerAnimation;
     float statetime;
     RaccoonRoll game;
+    TextureAtlas atlas;
 
     public Player(RaccoonRoll game) {
         this.game = game;
@@ -124,5 +125,9 @@ public class Player {
         playerFixtureDef.shape = playerCircle;
 
         return playerFixtureDef;
+    }
+
+    public void dispose() {
+        atlas.dispose();
     }
 }
