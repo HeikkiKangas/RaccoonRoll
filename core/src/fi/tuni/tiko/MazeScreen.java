@@ -47,10 +47,6 @@ public class MazeScreen implements Screen {
 
     int goodObjectsRemaining;
 
-    // Refactor attributes below this line to separate player class
-
-
-
     public MazeScreen(RaccoonRoll game, String levelName) {
         this.game = game;
         batch = game.getBatch();

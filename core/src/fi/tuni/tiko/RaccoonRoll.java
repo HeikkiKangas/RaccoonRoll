@@ -3,7 +3,10 @@ package fi.tuni.tiko;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 /*
 Tile width: 16
@@ -19,6 +22,8 @@ public class RaccoonRoll extends Game {
     private OrthographicCamera textCamera;
     //private final float scale = 1/48f;
     private final float scale = 1f / 48f;
+    private GlyphLayout glyphLayout;
+
 
 	@Override
 	public void create () {
@@ -26,6 +31,7 @@ public class RaccoonRoll extends Game {
 
         worldCamera = new OrthographicCamera();
         textCamera = new OrthographicCamera();
+        glyphLayout = new GlyphLayout();
 
 		updateWorldDimensions();
 		setupCameras();
@@ -53,6 +59,11 @@ public class RaccoonRoll extends Game {
         float aspectRatio = 1.0f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
         WORLD_HEIGHT = WORLD_WIDTH * aspectRatio;
         setupCameras();
+    }
+
+    public Vector2 getTextSize(BitmapFont font, String text) {
+        glyphLayout.setText(font, text);
+        return new Vector2(glyphLayout.width, glyphLayout.height);
     }
 
     public OrthographicCamera getWorldCamera() {
