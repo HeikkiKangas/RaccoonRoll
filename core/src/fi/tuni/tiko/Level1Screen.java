@@ -56,7 +56,7 @@ public class Level1Screen extends LevelScreen {
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.textureMinFilter = Texture.TextureFilter.Nearest;
         parameters.textureMagFilter = Texture.TextureFilter.Nearest;
-        tiledMap = new TmxMapLoader().load("tilemaps/maze.tmx", parameters);
+        tiledMap = new TmxMapLoader().load("tilemaps/tutorial.tmx", parameters);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
 
         MapProperties mapProps = tiledMap.getProperties();

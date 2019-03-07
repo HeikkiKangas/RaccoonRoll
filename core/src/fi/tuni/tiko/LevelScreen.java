@@ -34,11 +34,13 @@ public abstract class LevelScreen implements Screen {
         debugRenderer = new Box2DDebugRenderer();
     }
 
-    @Override
-    public abstract void render(float delta);
-
     public void clearScreen() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        Gdx.app.log("Resize", "happened");
     }
 }

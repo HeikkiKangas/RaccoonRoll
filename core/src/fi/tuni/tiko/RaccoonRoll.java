@@ -46,6 +46,7 @@ public class RaccoonRoll extends Game {
     @Override
     public void resize(int width, int height) {
         updateWorldDimensions();
+        // Gdx.app.log("RaccoonRoll", "Resize happened");
     }
 
     public void updateWorldDimensions() {
