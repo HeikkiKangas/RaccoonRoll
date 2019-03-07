@@ -77,6 +77,7 @@ public class RaccoonRoll extends Game {
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.color = Color.BLACK;
 
+        // fontin koko muutettavissa vaihtamalla scaleFontille annettavaa parametriä
         fontParameter.size = scaleFont(20);
         textFont = fontGenerator.generateFont(fontParameter);
 

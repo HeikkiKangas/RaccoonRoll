@@ -53,7 +53,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
-        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
@@ -72,6 +71,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
+        // abother table for buttons
         Table buttonTable = new Table();
         //gives me the grid
         //table.setDebug(true);
@@ -83,21 +83,41 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         skin = new Skin();
 
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        /*
+        korvataan jsonista poistetut fontit RaccoonRollissa generoiduilla
+        fonttien koko vaihdettavissa RaccoonRoll generateFonts() metodissa
+        */
         skin.add("button", game.getButtonFont());
         skin.add("title", game.getTitleFont());
         skin.add("font", game.getTextFont());
 
+        // ladataan erikseen json koska konstruktorilla ladatessa valittaisi puuttuvista fonteista
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
 
+        /*
+            Label käyttää oletuksena pientä perusfonttia joka on tekstiä varten
+            stylename titlen kanssa isompaa title fonttia
+         */
         title = new Label(menuBundle.get("title"), skin, "title");
         play = new TextButton(menuBundle.get("playButton"), skin);
         options = new TextButton(menuBundle.get("optionsButton"), skin);
         about = new TextButton(menuBundle.get("aboutButton"), skin);
 
+        // nappien koon asetus, muuta lukua 200 tarpeen mukaan
+        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
+
         //fill ja uniform laittaa muotoonsa
         table.add(title);
         table.row().pad(75, 0, 0, 0);
+
+        // lisätään buttonTable tableen jotta napit eivät olisi titlen levyiset
         table.add(buttonTable);
+
+        /*
+        .width(Value.percentWidth(0.5f, table) = puolet parent tablen leveydestä
+        lisäillään napit buttoonTableen ihan samallailla kun ennen tableen
+        button height 200px fullHD resoluutiolla, puolet pienemmällä resoluutiolla automaattisesti 100px jne.
+        */
         buttonTable.add(play).width(Value.percentWidth(0.5f, table)).height(buttonHeight);
         buttonTable.row().padTop(25);
         buttonTable.add(options).uniformX().fillX().height(buttonHeight);
