@@ -39,15 +39,15 @@ public class Level1Screen extends LevelScreen {
     float tiledMapHeight;
     float tiledMapWidth;
     float tileSize = 16f;
+    ArrayList<Rectangle> goodObjectsRectangles;
 
     // Refactor attributes below this line to separate player class
     float playerRotation;
     float playerRadius;
     Animation<TextureRegion> playerAnimation;
     float statetime;
-    ArrayList<Rectangle> goodObjectsRectangles;
 
-    public Level1Screen(RaccoonRoll game) {
+    public Level1Screen(RaccoonRoll game, String levelName) {
         super(game);
 
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("graphics/player/roll_animation/racc_roll.txt"));
@@ -56,7 +56,7 @@ public class Level1Screen extends LevelScreen {
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.textureMinFilter = Texture.TextureFilter.Nearest;
         parameters.textureMagFilter = Texture.TextureFilter.Nearest;
-        tiledMap = new TmxMapLoader().load("tilemaps/tutorial.tmx", parameters);
+        tiledMap = new TmxMapLoader().load("tilemaps/" + levelName + ".tmx", parameters);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
 
         MapProperties mapProps = tiledMap.getProperties();
@@ -117,8 +117,10 @@ public class Level1Screen extends LevelScreen {
 
     private void checkGoodObjectOverlaps() {
         ArrayList<Rectangle> rectanglesToRemove = new ArrayList<Rectangle>();
-        Vector2 playerPos = playerBody.getWorldCenter();
-        Circle playerCircle = new Circle(playerPos.x, playerPos.y, playerRadius);
+        float playerX = playerBody.getPosition().x;
+        float playerY = playerBody.getPosition().y;
+        // Vector2 playerPos = playerBody.getWorldCenter();
+        Circle playerCircle = new Circle(playerX, playerY, playerRadius);
 
         for (Rectangle rectangle : goodObjectsRectangles) {
             if (Intersector.overlaps(playerCircle, rectangle)) {
