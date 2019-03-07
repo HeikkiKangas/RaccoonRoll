@@ -24,7 +24,9 @@ public class RaccoonRoll extends Game {
     private OrthographicCamera textCamera;
     private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
-    private BitmapFont font;
+    private BitmapFont buttonFont;
+    private BitmapFont titleFont;
+    private BitmapFont textFont;
 
 	@Override
 	public void create () {
@@ -69,21 +71,27 @@ public class RaccoonRoll extends Game {
     }
 
     private void generateFonts() {
-	    /*
-        float textScale = Gdx.graphics.getHeight() / 1080f;
-
-        int fullHDfontSize = 55;
-        int fontSize = (int) (fullHDfontSize * textScale);
-        Color fontColor = Color.BLACK;
-        String fontFilename = "fonts/fontFilename.ttf";
+        String fontFilename = "fonts/joystix monospace.ttf";
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.size = fontSize;
-        fontParameter.color = fontColor;
-        font = fontGenerator.generateFont(fontParameter);
+        fontParameter.color = Color.BLACK;
+
+        fontParameter.size = scaleFont(20);
+        textFont = fontGenerator.generateFont(fontParameter);
+
+        fontParameter.size = scaleFont(100);
+        buttonFont = fontGenerator.generateFont(fontParameter);
+
+        fontParameter.size = scaleFont(180);
+        titleFont = fontGenerator.generateFont(fontParameter);
+
         fontGenerator.dispose();
-        */
+    }
+
+    private int scaleFont(int fullHDfontSize) {
+        float textScale = Gdx.graphics.getHeight() / 1080f;
+        return (int) (fullHDfontSize * textScale);
     }
 
     public OrthographicCamera getWorldCamera() {
@@ -113,5 +121,17 @@ public class RaccoonRoll extends Game {
     public void setupCameras() {
         worldCamera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
         textCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public BitmapFont getButtonFont() {
+        return buttonFont;
+    }
+
+    public BitmapFont getTitleFont() {
+        return titleFont;
+    }
+
+    public BitmapFont getTextFont() {
+        return textFont;
     }
 }

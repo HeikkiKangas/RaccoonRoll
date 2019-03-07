@@ -6,14 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.Locale;
@@ -31,12 +34,26 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Locale locale;
     I18NBundle menuBundle;
     Label title;
+    float buttonHeight;
+
     /*
-    Use scaled FreeTypeFonts instead of BitmapFonts from ui?
+    old json:
+    com.badlogic.gdx.graphics.g2d.BitmapFont: {
+        button: {
+            file: font-button-export.fnt
+        }
+        font: {
+            file: font-export.fnt
+        }
+        title: {
+            file: font-title-export.fnt
+        }
+    }
      */
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
+        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
@@ -45,7 +62,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         //for testing purposes
-        // Locale could be moved to RaccoonRoll class to save a bit of memory
+        // Locale could be moved to RaccoonRoll class?
         //locale = new Locale("fi", "FI");
         locale = Locale.getDefault();
         menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), locale);
@@ -55,24 +72,37 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
+        Table buttonTable = new Table();
         //gives me the grid
         //table.setDebug(true);
+        //buttonTable.setDebug(true);
         stage.addActor(table);
 
-        skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"));
-        title = new Label(menuBundle.get("title"), skin);
+        //skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"));
+
+        skin = new Skin();
+
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTextFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+
+        title = new Label(menuBundle.get("title"), skin, "title");
         play = new TextButton(menuBundle.get("playButton"), skin);
         options = new TextButton(menuBundle.get("optionsButton"), skin);
         about = new TextButton(menuBundle.get("aboutButton"), skin);
 
         //fill ja uniform laittaa muotoonsa
-        table.add(title).uniformX();
+        table.add(title);
         table.row().pad(75, 0, 0, 0);
-        table.add(play).fillX().uniformX();
-        table.row().pad(25, 0, 0, 0);
-        table.add(options).fillX().uniformX();
-        table.row().pad(25, 0, 0, 0);
-        table.add(about).fillX().uniformX();
+        table.add(buttonTable);
+        buttonTable.add(play).width(Value.percentWidth(0.5f, table)).height(buttonHeight);
+        buttonTable.row().padTop(25);
+        buttonTable.add(options).uniformX().fillX().height(buttonHeight);
+        buttonTable.row().padTop(25);
+        buttonTable.add(about).uniformX().fillX().height(buttonHeight);
 
         play.addListener(new ClickListener(){
             @Override
