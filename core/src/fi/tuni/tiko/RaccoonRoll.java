@@ -2,10 +2,12 @@ package fi.tuni.tiko;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 
 /*
@@ -20,10 +22,9 @@ public class RaccoonRoll extends Game {
     private float WORLD_HEIGHT;
     private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
-    //private final float scale = 1/48f;
     private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
-
+    private BitmapFont font;
 
 	@Override
 	public void create () {
@@ -35,6 +36,7 @@ public class RaccoonRoll extends Game {
 
 		updateWorldDimensions();
 		setupCameras();
+        generateFonts();
 
 		setScreen(new MenuScreen(this));
 	}
@@ -64,6 +66,24 @@ public class RaccoonRoll extends Game {
     public Vector2 getTextSize(BitmapFont font, String text) {
         glyphLayout.setText(font, text);
         return new Vector2(glyphLayout.width, glyphLayout.height);
+    }
+
+    private void generateFonts() {
+	    /*
+        float textScale = Gdx.graphics.getHeight() / 1080f;
+
+        int fullHDfontSize = 55;
+        int fontSize = (int) (fullHDfontSize * textScale);
+        Color fontColor = Color.BLACK;
+        String fontFilename = "fonts/fontFilename.ttf";
+
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.size = fontSize;
+        fontParameter.color = fontColor;
+        font = fontGenerator.generateFont(fontParameter);
+        fontGenerator.dispose();
+        */
     }
 
     public OrthographicCamera getWorldCamera() {

@@ -31,6 +31,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Locale locale;
     I18NBundle menuBundle;
     Label title;
+    /*
+    Use scaled FreeTypeFonts instead of BitmapFonts from ui?
+     */
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
