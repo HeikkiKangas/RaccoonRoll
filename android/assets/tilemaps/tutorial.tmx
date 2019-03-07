@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="2">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="14">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="5" columns="5">
   <image source="tileset.png" width="80" height="16"/>
  </tileset>
@@ -72,7 +72,20 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="5" name="wall_objects"/>
+ <objectgroup id="5" name="wall_objects">
+  <object id="2" x="0" y="432" width="640" height="16"/>
+  <object id="3" x="624" y="0" width="16" height="432"/>
+  <object id="4" x="0" y="0" width="624" height="16"/>
+  <object id="5" x="0" y="16" width="16" height="416"/>
+  <object id="6" x="16" y="384" width="576" height="16"/>
+  <object id="7" x="48" y="336" width="576" height="16"/>
+  <object id="8" x="16" y="288" width="576" height="16"/>
+  <object id="9" x="48" y="240" width="576" height="16"/>
+  <object id="10" x="16" y="192" width="576" height="16"/>
+  <object id="11" x="48" y="144" width="576" height="16"/>
+  <object id="12" x="16" y="96" width="576" height="16"/>
+  <object id="13" x="48" y="48" width="576" height="16"/>
+ </objectgroup>
  <objectgroup id="6" name="good_objects"/>
  <objectgroup id="7" name="bad_objects"/>
 </map>
