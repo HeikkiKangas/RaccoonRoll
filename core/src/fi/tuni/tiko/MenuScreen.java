@@ -53,7 +53,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Play button clicked");
+                Gdx.app.log("Play", "Button clicked");
                 game.setScreen(new Level1Screen(game));
             }
         });
@@ -61,7 +61,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         options.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Here we have options");
+                Gdx.app.log("Options", "Should be here");
             }
         });
     }
