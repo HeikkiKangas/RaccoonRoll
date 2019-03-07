@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -29,6 +30,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Stage stage;
     Locale locale;
     I18NBundle menuBundle;
+    Label title;
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
@@ -49,15 +51,19 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
+        //gives me the grid
+        //table.setDebug(true);
         stage.addActor(table);
 
         skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"));
+        title = new Label(menuBundle.get("title"), skin);
         play = new TextButton(menuBundle.get("playButton"), skin);
         options = new TextButton(menuBundle.get("optionsButton"), skin);
         about = new TextButton(menuBundle.get("aboutButton"), skin);
 
         //fill ja uniform laittaa muotoonsa
+        table.add(title).uniformX();
+        table.row().pad(75, 0, 0, 0);
         table.add(play).fillX().uniformX();
         table.row().pad(25, 0, 0, 0);
         table.add(options).fillX().uniformX();
