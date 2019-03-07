@@ -79,4 +79,16 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     public void hide() {
 
     }
+
+    @Override
+    public void resize(int width, int height) {
+        // change the stage's viewport when teh screen size is changed
+        stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void dispose() {
+        // dispose of assets when not needed anymore
+        stage.dispose();
+    }
 }
