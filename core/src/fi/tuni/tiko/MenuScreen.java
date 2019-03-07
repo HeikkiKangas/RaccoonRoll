@@ -6,12 +6,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen extends ApplicationAdapter implements Screen {
     RaccoonRoll game;
@@ -22,7 +24,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     TextButton play;
     TextButton options;
     Stage stage;
-    TextureAtlas atlas;
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
@@ -30,21 +31,31 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
 
-        atlas = new TextureAtlas("uiskin/comic-ui.atlas");
-        skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"), atlas);
-        play = new TextButton("Play", skin);
-        options = new TextButton("options", skin);
-        stage = new Stage();
-
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
-    public void create() {
-        int buttonOffset = 20;
+    public void show() {
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(true);
+        stage.addActor(table);
 
-        Gdx.input.setInputProcessor(stage);
-
+        skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"));
+        play = new TextButton("Play", skin);
+        play.setWidth(0.1f);
+        play.setHeight(0.1f);
         play.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2);
+        options = new TextButton("options", skin);
+        options.setWidth(0.1f);
+        options.setHeight(0.1f);
+        options.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2 - (options.getHeight() + 20));
+
+        table.add(play).fillX().uniformX();
+        table.row().pad(10, 0, 10, 0);
+        table.add(options).fillX().uniformX();
+
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -52,26 +63,18 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 game.setScreen(new Level1Screen(game));
             }
         });
-        stage.addActor(play);
 
-        options.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2 - (options.getHeight() + buttonOffset));
         options.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Here we have options");
             }
         });
-        stage.addActor(options);
-    }
-
-    @Override
-    public void show() {
-
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(Gdx.graphics.getDeltaTime());
