@@ -18,7 +18,7 @@ public class RaccoonRoll extends Game {
     private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
     //private final float scale = 1/48f;
-    private final float scale = 0.5f / 48f;
+    private final float scale = 1f / 48f;
 
 	@Override
 	public void create () {
@@ -46,6 +46,7 @@ public class RaccoonRoll extends Game {
     @Override
     public void resize(int width, int height) {
         updateWorldDimensions();
+        // Gdx.app.log("RaccoonRoll", "Resize happened");
     }
 
     public void updateWorldDimensions() {
