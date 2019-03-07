@@ -35,7 +35,7 @@ TO-DO
 - Refactor world step to adapt sub 60 fps
  */
 
-public class Level1Screen extends LevelScreen {
+public class Level1Screen extends MazeScreen {
     float tiledMapHeight;
     float tiledMapWidth;
     float tileSize = 16f;

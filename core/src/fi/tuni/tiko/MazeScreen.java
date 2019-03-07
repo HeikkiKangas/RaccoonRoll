@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
-public abstract class LevelScreen implements Screen {
+public abstract class MazeScreen implements Screen {
     RaccoonRoll game;
     SpriteBatch batch;
     OrthographicCamera worldCamera;
@@ -23,7 +23,7 @@ public abstract class LevelScreen implements Screen {
     TiledMap tiledMap;
     TiledMapRenderer tiledMapRenderer;
 
-    public LevelScreen(RaccoonRoll game) {
+    public MazeScreen(RaccoonRoll game) {
         this.game = game;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
@@ -32,6 +32,8 @@ public abstract class LevelScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
 
         debugRenderer = new Box2DDebugRenderer();
+
+
     }
 
     public void clearScreen() {
