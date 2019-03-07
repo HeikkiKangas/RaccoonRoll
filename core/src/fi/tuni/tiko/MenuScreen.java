@@ -12,7 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import java.util.Locale;
 
 public class MenuScreen extends ApplicationAdapter implements Screen {
     RaccoonRoll game;
@@ -24,6 +27,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     TextButton options;
     TextButton about;
     Stage stage;
+    Locale locale;
+    I18NBundle menuBundle;
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
@@ -33,6 +38,11 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        //for testing purposes
+        //locale = new Locale("fi", "FI");
+        locale = Locale.getDefault();
+        menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), locale);
     }
 
     @Override
@@ -43,9 +53,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         stage.addActor(table);
 
         skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"));
-        play = new TextButton("Play", skin);
-        options = new TextButton("Options", skin);
-        about = new TextButton("About", skin);
+        play = new TextButton(menuBundle.get("playButton"), skin);
+        options = new TextButton(menuBundle.get("optionsButton"), skin);
+        about = new TextButton(menuBundle.get("aboutButton"), skin);
 
         //fill ja uniform laittaa muotoonsa
         table.add(play).fillX().uniformX();
