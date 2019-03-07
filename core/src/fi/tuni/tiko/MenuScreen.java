@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen extends ApplicationAdapter implements Screen {
@@ -44,16 +43,11 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         skin = new Skin (Gdx.files.internal("uiskin/comic-ui.json"));
         play = new TextButton("Play", skin);
-        play.setWidth(0.1f);
-        play.setHeight(0.1f);
-        play.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2);
         options = new TextButton("options", skin);
-        options.setWidth(0.1f);
-        options.setHeight(0.1f);
-        options.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2 - (options.getHeight() + 20));
 
+        //fill ja uniform laittaa muotoonsa
         table.add(play).fillX().uniformX();
-        table.row().pad(10, 0, 10, 0);
+        table.row().pad(10, 0, 0, 0);
         table.add(options).fillX().uniformX();
 
         play.addListener(new ClickListener(){
