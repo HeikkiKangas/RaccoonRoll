@@ -103,9 +103,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         options = new TextButton(menuBundle.get("optionsButton"), skin);
         about = new TextButton(menuBundle.get("aboutButton"), skin);
 
-        // nappien koon asetus, muuta lukua 200 tarpeen mukaan
-        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
-
         //fill ja uniform laittaa muotoonsa
         table.add(title);
         table.row().pad(75, 0, 0, 0);
@@ -113,10 +110,12 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         // lisätään buttonTable tableen jotta napit eivät olisi titlen levyiset
         table.add(buttonTable);
 
+        // nappien koon asetus, muuta lukua 200 tarpeen mukaan
+        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
+
         /*
         .width(Value.percentWidth(0.5f, table) = puolet parent tablen leveydestä
-        lisäillään napit buttoonTableen ihan samallailla kun ennen tableen
-        button height 200px fullHD resoluutiolla, puolet pienemmällä resoluutiolla automaattisesti 100px jne.
+        lisäillään napit ja paddingit buttoonTableen ihan samallailla kun ennen tableen
         */
         buttonTable.add(play).width(Value.percentWidth(0.5f, table)).height(buttonHeight);
         buttonTable.row().padTop(25);
