@@ -67,14 +67,17 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
 
-        title = new Label(menuBundle.get("title"), skin);
+        title = new Label(menuBundle.get("title"), skin, "title");
         play = new TextButton(menuBundle.get("playButton"), skin);
         options = new TextButton(menuBundle.get("optionsButton"), skin);
         about = new TextButton(menuBundle.get("aboutButton"), skin);
 
         //fill ja uniform laittaa muotoonsa
-        table.add(title).uniformX();
+        table.add(title);
         table.row().pad(75, 0, 0, 0);
+        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
+        
+        table.add(buttonTable);
         table.add(play).fillX().uniformX();
         table.row().pad(25, 0, 0, 0);
         table.add(options).fillX().uniformX();
