@@ -68,7 +68,7 @@ public class Player {
         return playerRadius;
     }
 
-    public void movePlayer(float deltatime) {
+    public void movePlayer2(float deltatime) {
         float x = 0;
         float y = 0;
 
@@ -106,24 +106,24 @@ public class Player {
         playerBody.setLinearVelocity(x, y);
     }
 
-    public void movePlayer2(float deltatime) {
+    public void movePlayer(float deltatime) {
         float x = 0;
         float y = 0;
 
         if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                x = 150f * deltatime;
+                x = 30f * deltatime;
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                x = -150f * deltatime;
+                x = -30f * deltatime;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                y = 150f * deltatime;
+                y = 30f * deltatime;
             } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                y = -150f * deltatime;
+                y = -30f * deltatime;
             }
         } else if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            x = Gdx.input.getAccelerometerY() * 100 * deltatime;
-            y = Gdx.input.getAccelerometerX() * 100 * deltatime;
+            x = Gdx.input.getAccelerometerY() * 5 * deltatime;
+            y = Gdx.input.getAccelerometerX() * 5 * deltatime;
             if (x < 0.2 && x > -0.2) {
                 x = 0;
             }
@@ -136,12 +136,14 @@ public class Player {
                 y = Math.abs(y);
             }
         }
-        /*
         playerBody.applyForceToCenter(
                 new Vector2(x, y),
                 true);
-        */
-        playerBody.setLinearVelocity(x, y);
+        //playerBody.setLinearVelocity(x, y);
+        Vector2 playerVelocity = playerBody.getLinearVelocity();
+        playerVelocity.x = -(playerVelocity.x * 0.3f * deltatime);
+        playerVelocity.y = -(playerVelocity.y * 0.3f * deltatime);
+        playerBody.applyForceToCenter(playerVelocity, true);
     }
 
     private BodyDef getPlayerBodyDef(float x, float y) {

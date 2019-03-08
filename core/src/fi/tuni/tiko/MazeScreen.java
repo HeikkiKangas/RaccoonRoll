@@ -109,7 +109,7 @@ public class MazeScreen implements Screen {
         player.draw(batch, delta);
         //drawGoodObjectsRemaining();
         batch.end();
-        debugRenderer.render(world, worldCamera.combined);
+        //debugRenderer.render(world, worldCamera.combined);
         world.step(1 / 60f, 6, 2);
     }
 
