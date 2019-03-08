@@ -31,7 +31,8 @@ public class Player {
                 atlas.findRegions("racc_roll")
         );
         playerRotation = 90;
-        playerRadius = 12 * game.getScale();
+        // 16px tileset scaling: playerRadius = 12 * game.getScale();
+        playerRadius = 48 * game.getScale();
     }
 
     public void draw(SpriteBatch batch, float delta) {
@@ -105,6 +106,44 @@ public class Player {
         playerBody.setLinearVelocity(x, y);
     }
 
+    public void movePlayer2(float deltatime) {
+        float x = 0;
+        float y = 0;
+
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                x = 150f * deltatime;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                x = -150f * deltatime;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                y = 150f * deltatime;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                y = -150f * deltatime;
+            }
+        } else if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            x = Gdx.input.getAccelerometerY() * 100 * deltatime;
+            y = Gdx.input.getAccelerometerX() * 100 * deltatime;
+            if (x < 0.2 && x > -0.2) {
+                x = 0;
+            }
+            if (y < 0.2 && y > -0.2) {
+                y = 0;
+            }
+            if (y > 0) {
+                y = -y;
+            } else {
+                y = Math.abs(y);
+            }
+        }
+        /*
+        playerBody.applyForceToCenter(
+                new Vector2(x, y),
+                true);
+        */
+        playerBody.setLinearVelocity(x, y);
+    }
+
     private BodyDef getPlayerBodyDef(float x, float y) {
         float scale = game.getScale();
         BodyDef playerBodyDef = new BodyDef();
@@ -120,7 +159,7 @@ public class Player {
         playerFixtureDef.friction = 0.75f;
 
         CircleShape playerCircle = new CircleShape();
-        playerCircle.setRadius(12 * game.getScale());
+        playerCircle.setRadius(playerRadius * 0.9f);
 
         playerFixtureDef.shape = playerCircle;
 

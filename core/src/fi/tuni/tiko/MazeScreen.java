@@ -41,7 +41,7 @@ public class MazeScreen implements Screen {
 
     float tiledMapHeight;
     float tiledMapWidth;
-    float tileSize = 16f;
+    float tileSize = 64f;
     ArrayList<Rectangle> goodObjectsRectangles;
     Player player;
 
@@ -63,7 +63,7 @@ public class MazeScreen implements Screen {
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.textureMinFilter = Texture.TextureFilter.Nearest;
         parameters.textureMagFilter = Texture.TextureFilter.Nearest;
-        tiledMap = new TmxMapLoader().load("tilemaps/" + levelName + ".tmx", parameters);
+        tiledMap = new TmxMapLoader().load("tilemaps/tutorial_64/" + levelName + ".tmx", parameters);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
 
         MapProperties mapProps = tiledMap.getProperties();
@@ -104,12 +104,12 @@ public class MazeScreen implements Screen {
 
         tiledMapRenderer.setView(worldCamera);
         tiledMapRenderer.render();
-        //debugRenderer.render(world, worldCamera.combined);
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         player.draw(batch, delta);
         //drawGoodObjectsRemaining();
         batch.end();
+        debugRenderer.render(world, worldCamera.combined);
         world.step(1 / 60f, 6, 2);
     }
 

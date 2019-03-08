@@ -73,9 +73,12 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         about = new TextButton(menuBundle.get("aboutButton"), skin);
 
         //table.add(title);
-        table.row().pad(300, 0, 0, 0);
+
+        // table's top and right padding size scaled
+        float padding = game.scaleFromFHD(300);
+        table.row().pad(padding, 0, 0, 0);
         table.right();
-        table.padRight(300f);
+        table.padRight(padding);
         buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
 
         //fill ja uniform laittaa muotoonsa

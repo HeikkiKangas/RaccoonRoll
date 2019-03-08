@@ -22,7 +22,8 @@ public class RaccoonRoll extends Game {
     private float WORLD_HEIGHT;
     private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
-    private final float scale = 1f / 48f;
+    private final float scale = 1f / 96f;
+    // 16px tile scaling: private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
     private BitmapFont textFont;
     private BitmapFont titleFont;
