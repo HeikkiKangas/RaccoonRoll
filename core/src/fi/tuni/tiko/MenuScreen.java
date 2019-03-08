@@ -55,10 +55,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
-        Table buttonTable = new Table();
         //gives me the grid
-        table.setDebug(true);
-        buttonTable.setDebug(true);
+        //table.setDebug(true);
         stage.addActor(table);
 
         skin = new Skin();
@@ -76,17 +74,16 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         //table.add(title);
         table.row().pad(300, 0, 0, 0);
-        table.add(buttonTable);
         table.right();
         table.padRight(300f);
         buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
 
         //fill ja uniform laittaa muotoonsa
-        buttonTable.add(play).width(Value.percentWidth(0.25f, table)).height(buttonHeight);;
-        buttonTable.row().pad(25, 0, 0, 0);
-        buttonTable.add(options).uniformX().fillX().height(buttonHeight);
-        buttonTable.row().pad(25, 0, 0, 0);
-        buttonTable.add(about).uniformX().fillX().height(buttonHeight);
+        table.add(play).width(Value.percentWidth(0.25f, table)).height(buttonHeight);;
+        table.row().pad(25, 0, 0, 0);
+        table.add(options).uniformX().fillX().height(buttonHeight);
+        table.row().pad(25, 0, 0, 0);
+        table.add(about).uniformX().fillX().height(buttonHeight);
 
 
         play.addListener(new ClickListener(){
