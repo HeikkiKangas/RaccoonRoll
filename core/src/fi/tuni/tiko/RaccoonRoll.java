@@ -79,9 +79,9 @@ public class RaccoonRoll extends Game {
         fontParameter.size = scaleTextFromFHD(55);
         fontParameter.color = fontColor;
         textFont = fontGenerator.generateFont(fontParameter);
-        //muuta koko
+
         titleFont = fontGenerator.generateFont(fontParameter);
-        //muuta koko
+
         buttonFont = fontGenerator.generateFont(fontParameter);
         fontGenerator.dispose();
     }
