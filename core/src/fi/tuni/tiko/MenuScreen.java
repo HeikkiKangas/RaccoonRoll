@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -75,14 +76,14 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         //fill ja uniform laittaa muotoonsa
         table.add(title);
         table.row().pad(75, 0, 0, 0);
-        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
-        
         table.add(buttonTable);
-        table.add(play).fillX().uniformX();
-        table.row().pad(25, 0, 0, 0);
-        table.add(options).fillX().uniformX();
-        table.row().pad(25, 0, 0, 0);
-        table.add(about).fillX().uniformX();
+        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
+
+        buttonTable.add(play).width(Value.percentWidth(0.5f, table)).height(buttonHeight);;
+        buttonTable.row().pad(25, 0, 0, 0);
+        buttonTable.add(options).uniformX().fillX().height(buttonHeight);
+        buttonTable.row().pad(25, 0, 0, 0);
+        buttonTable.add(about).uniformX().fillX().height(buttonHeight);
 
         play.addListener(new ClickListener(){
             @Override
