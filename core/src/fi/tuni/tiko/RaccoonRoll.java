@@ -24,7 +24,7 @@ public class RaccoonRoll extends Game {
     private OrthographicCamera textCamera;
     private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
-    private BitmapFont font;
+    private BitmapFont textFont;
 
 	@Override
 	public void create () {
@@ -69,21 +69,25 @@ public class RaccoonRoll extends Game {
     }
 
     private void generateFonts() {
-	    /*
-        float textScale = Gdx.graphics.getHeight() / 1080f;
-
-        int fullHDfontSize = 55;
-        int fontSize = (int) (fullHDfontSize * textScale);
         Color fontColor = Color.BLACK;
         String fontFilename = "fonts/fontFilename.ttf";
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.size = fontSize;
+        fontParameter.size = scaleTextFromFHD(55);
         fontParameter.color = fontColor;
-        font = fontGenerator.generateFont(fontParameter);
+        textFont = fontGenerator.generateFont(fontParameter);
         fontGenerator.dispose();
-        */
+    }
+
+    public float scaleFromFHD(float num) {
+        float aspectRatio = Gdx.graphics.getHeight() / 1080f;
+        return aspectRatio * num;
+    }
+
+    public int scaleTextFromFHD(int num) {
+        float aspectRatio = Gdx.graphics.getHeight() / 1080f;
+        return (int) (num * aspectRatio);
     }
 
     public OrthographicCamera getWorldCamera() {

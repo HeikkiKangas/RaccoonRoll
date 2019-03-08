@@ -83,8 +83,8 @@ public class Player {
                 y = -150f * deltatime;
             }
         } else if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            x = Gdx.input.getAccelerometerY() * 50 * deltatime;
-            y = Gdx.input.getAccelerometerX() * 50 * deltatime;
+            x = Gdx.input.getAccelerometerY() * 100 * deltatime;
+            y = Gdx.input.getAccelerometerX() * 100 * deltatime;
             if (x < 0.2 && x > -0.2) {
                 x = 0;
             }
