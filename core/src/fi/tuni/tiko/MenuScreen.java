@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -31,6 +32,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Locale locale;
     I18NBundle menuBundle;
     Label title;
+    float buttonHeight;
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
@@ -52,11 +54,19 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
+        Table buttonTable = new Table();
         //gives me the grid
         //table.setDebug(true);
         stage.addActor(table);
 
-        skin = new Skin(Gdx.files.internal("uiskin/comic-ui.json"));
+        skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTextFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+
         title = new Label(menuBundle.get("title"), skin);
         play = new TextButton(menuBundle.get("playButton"), skin);
         options = new TextButton(menuBundle.get("optionsButton"), skin);

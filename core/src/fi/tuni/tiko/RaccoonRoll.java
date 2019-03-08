@@ -25,6 +25,8 @@ public class RaccoonRoll extends Game {
     private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
     private BitmapFont textFont;
+    private BitmapFont titleFont;
+    private BitmapFont buttonFont;
 
 	@Override
 	public void create () {
@@ -70,14 +72,30 @@ public class RaccoonRoll extends Game {
 
     private void generateFonts() {
         Color fontColor = Color.BLACK;
-        String fontFilename = "fonts/fontFilename.ttf";
+        String fontFilename = "fonts/Medel.ttf";
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.size = scaleTextFromFHD(55);
         fontParameter.color = fontColor;
         textFont = fontGenerator.generateFont(fontParameter);
+        //muuta koko
+        titleFont = fontGenerator.generateFont(fontParameter);
+        //muuta koko
+        buttonFont = fontGenerator.generateFont(fontParameter);
         fontGenerator.dispose();
+    }
+
+    public BitmapFont getTextFont() {
+        return textFont;
+    }
+
+    public BitmapFont getTitleFont() {
+        return titleFont;
+    }
+
+    public BitmapFont getButtonFont() {
+	    return buttonFont;
     }
 
     public float scaleFromFHD(float num) {
