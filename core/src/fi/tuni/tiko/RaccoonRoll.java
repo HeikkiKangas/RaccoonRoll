@@ -67,7 +67,7 @@ public class RaccoonRoll extends Game {
         setupCameras();
     }
 
-    public Vector2 getTextSize(BitmapFont font, String text) {
+    public Vector2 getTextDimensions(BitmapFont font, String text) {
         glyphLayout.setText(font, text);
         return new Vector2(glyphLayout.width, glyphLayout.height);
     }
