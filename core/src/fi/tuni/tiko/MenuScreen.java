@@ -79,13 +79,14 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         table.row().pad(padding, 0, 0, 0);
         table.right();
         table.padRight(padding);
-        buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
-
+        //buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
+        buttonHeight = game.scaleFromFHD(200f);
         //fill ja uniform laittaa muotoonsa
+        float scaledButtonPadding = game.scaleFromFHD(25f);
         table.add(play).width(Value.percentWidth(0.25f, table)).height(buttonHeight);;
-        table.row().pad(25, 0, 0, 0);
+        table.row().padTop(scaledButtonPadding);
         table.add(options).uniformX().fillX().height(buttonHeight);
-        table.row().pad(25, 0, 0, 0);
+        table.row().padTop(scaledButtonPadding);
         table.add(about).uniformX().fillX().height(buttonHeight);
 
 
