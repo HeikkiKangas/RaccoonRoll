@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -109,9 +110,9 @@ public class Player {
 
     public void applyDebuff() {
         if (debuffTimeLeft > 0) {
-            debuffTimeLeft += 15f;
+            debuffTimeLeft += 10f;
         } else {
-            debuffTimeLeft = 15f;
+            debuffTimeLeft = 10f;
         }
     }
 
@@ -153,22 +154,17 @@ public class Player {
         debuffTimeLeft -= deltatime;
 
         if (debuffTimeLeft > 0) {
-            /*
             Vector2 playerVelocity = playerBody.getLinearVelocity();
-            playerVelocity.x /= 10f;
-            playerVelocity.y /= 10f;
+            playerVelocity.x = MathUtils.clamp(playerVelocity.x, -3f, 3f);
+            playerVelocity.y = MathUtils.clamp(playerVelocity.y, -3f, 3f);
             playerBody.setLinearVelocity(playerVelocity);
-            */
-            playerBody.getFixtureList().get(0).setDensity(0.8f);
-            playerBody.resetMassData();
+
             Gdx.app.log("Debuff", "Time left: " + debuffTimeLeft);
-        } else {
-            playerBody.getFixtureList().get(0).setDensity(0.1f);
-            playerBody.resetMassData();
         }
 
         //playerBody.setLinearVelocity(x, y);
         Vector2 playerVelocity = playerBody.getLinearVelocity();
+        Gdx.app.log("Current velocity", "" + playerVelocity);
         playerVelocity.x = -(playerVelocity.x * 0.3f * deltatime);
         playerVelocity.y = -(playerVelocity.y * 0.3f * deltatime);
         playerBody.applyForceToCenter(playerVelocity, true);
@@ -198,5 +194,9 @@ public class Player {
 
     public void dispose() {
         atlas.dispose();
+    }
+
+    public void setGoalReached() {
+        playerBody.setType(BodyDef.BodyType.StaticBody);
     }
 }

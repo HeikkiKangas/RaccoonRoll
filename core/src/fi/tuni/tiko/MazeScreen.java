@@ -46,6 +46,7 @@ public class MazeScreen implements Screen {
     private ArrayList<Rectangle> badObjectRectangles;
     private Rectangle goalRectangle;
     private Player player;
+    private boolean goalReached;
 
     private int goodObjectsRemaining;
     private float timeSpent;
@@ -107,6 +108,7 @@ public class MazeScreen implements Screen {
         updateCameraPosition();
         checkGoodObjectOverlaps();
         checkBadObjectOverlaps();
+        checkGoalOverlap();
 
         tiledMapRenderer.setView(worldCamera);
         tiledMapRenderer.render();
@@ -164,6 +166,16 @@ public class MazeScreen implements Screen {
         }
         goodObjectRectangles.removeAll(rectanglesToRemove);
         goodObjectsRemaining = goodObjectRectangles.size();
+    }
+
+    private void checkGoalOverlap() {
+        Vector2 playerPos = player.getPosition();
+        Circle playerCircle = new Circle(playerPos.x, playerPos.y, player.getBodyRadius());
+
+        if (Intersector.overlaps(playerCircle, goalRectangle)) {
+            player.setGoalReached();
+            goalReached = true;
+        }
     }
 
     private void checkBadObjectOverlaps() {
