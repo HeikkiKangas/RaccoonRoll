@@ -159,14 +159,18 @@ public class Player {
             playerVelocity.y = MathUtils.clamp(playerVelocity.y, -3f, 3f);
             playerBody.setLinearVelocity(playerVelocity);
 
-            Gdx.app.log("Debuff", "Time left: " + debuffTimeLeft);
+            if (game.DEBUGGING()) {
+                Gdx.app.log("Debuff", "Time left: " + debuffTimeLeft);
+            }
         }
 
         //playerBody.setLinearVelocity(x, y);
         Vector2 playerVelocity = playerBody.getLinearVelocity();
-        Gdx.app.log("Current velocity", "" + playerVelocity);
-        playerVelocity.x = -(playerVelocity.x * 0.3f * deltatime);
-        playerVelocity.y = -(playerVelocity.y * 0.3f * deltatime);
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Current velocity", "" + playerVelocity);
+        }
+        playerVelocity.x = -(playerVelocity.x * 2 * deltatime);
+        playerVelocity.y = -(playerVelocity.y * 2 * deltatime);
         playerBody.applyForceToCenter(playerVelocity, true);
     }
 

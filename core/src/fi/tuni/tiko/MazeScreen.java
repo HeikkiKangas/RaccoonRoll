@@ -98,7 +98,9 @@ public class MazeScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        Gdx.app.log("Resize", "happened");
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Resize", "happened");
+        }
     }
 
     @Override
@@ -191,7 +193,9 @@ public class MazeScreen implements Screen {
                         getRectangleTileIndex(rectangle)
                 );
                 player.applyDebuff();
-                Gdx.app.log("Debuff", "applied");
+                if (game.DEBUGGING()) {
+                    Gdx.app.log("Debuff", "applied");
+                }
             }
         }
         badObjectRectangles.removeAll(rectanglesToRemove);

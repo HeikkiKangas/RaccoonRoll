@@ -17,6 +17,7 @@ Show tiles: 30
 16px -> 64px on FHD scale = 1/48f
  */
 public class RaccoonRoll extends Game {
+    private final boolean DEBUGGING = false;
     private SpriteBatch batch;
     private final float WORLD_WIDTH = 10f;
     private float WORLD_HEIGHT;
@@ -136,5 +137,9 @@ public class RaccoonRoll extends Game {
     public void setupCameras() {
         worldCamera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
         textCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public boolean DEBUGGING() {
+        return DEBUGGING;
     }
 }
