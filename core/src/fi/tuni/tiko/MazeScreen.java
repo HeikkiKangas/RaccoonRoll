@@ -30,22 +30,25 @@ import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 
 public class MazeScreen implements Screen {
-    RaccoonRoll game;
-    SpriteBatch batch;
-    OrthographicCamera worldCamera;
-    OrthographicCamera textCamera;
-    World world;
-    Box2DDebugRenderer debugRenderer;
-    TiledMap tiledMap;
-    TiledMapRenderer tiledMapRenderer;
+    private RaccoonRoll game;
+    private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private OrthographicCamera textCamera;
+    private World world;
+    private Box2DDebugRenderer debugRenderer;
+    private TiledMap tiledMap;
+    private TiledMapRenderer tiledMapRenderer;
 
-    float tiledMapHeight;
-    float tiledMapWidth;
-    float tileSize = 64f;
-    ArrayList<Rectangle> goodObjectsRectangles;
-    Player player;
+    private float tiledMapHeight;
+    private float tiledMapWidth;
+    private float tileSize = 64f;
+    private ArrayList<Rectangle> goodObjectRectangles;
+    private ArrayList<Rectangle> badObjectRectangles;
+    private Rectangle goalRectangle;
+    private Player player;
 
-    int goodObjectsRemaining;
+    private int goodObjectsRemaining;
+    private float timeSpent;
 
     public MazeScreen(RaccoonRoll game, String levelName) {
         this.game = game;
@@ -63,7 +66,7 @@ public class MazeScreen implements Screen {
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.textureMinFilter = Texture.TextureFilter.Nearest;
         parameters.textureMagFilter = Texture.TextureFilter.Nearest;
-        tiledMap = new TmxMapLoader().load("tilemaps/tutorial_64/" + levelName + ".tmx", parameters);
+        tiledMap = new TmxMapLoader().load("tilemaps/" + levelName + "/maze.tmx", parameters);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
 
         MapProperties mapProps = tiledMap.getProperties();
@@ -71,8 +74,10 @@ public class MazeScreen implements Screen {
         tiledMapHeight = mapProps.get("height", Integer.class) * tileSize * game.getScale();
 
         player.createPlayerBody(world, getPlayerStartPos());
-        goodObjectsRectangles = getGoodRectangles();
-        goodObjectsRemaining = goodObjectsRectangles.size();
+        goodObjectRectangles = getGoodRectangles();
+        goodObjectsRemaining = goodObjectRectangles.size();
+        badObjectRectangles = getBadRectangles();
+        getGoalRectangle();
 
         createWalls();
     }
@@ -101,6 +106,7 @@ public class MazeScreen implements Screen {
         player.movePlayer(delta);
         updateCameraPosition();
         checkGoodObjectOverlaps();
+        checkBadObjectOverlaps();
 
         tiledMapRenderer.setView(worldCamera);
         tiledMapRenderer.render();
@@ -147,7 +153,7 @@ public class MazeScreen implements Screen {
         Vector2 playerPos = player.getPosition();
         Circle playerCircle = new Circle(playerPos.x, playerPos.y, player.getBodyRadius());
 
-        for (Rectangle rectangle : goodObjectsRectangles) {
+        for (Rectangle rectangle : goodObjectRectangles) {
             if (Intersector.overlaps(playerCircle, rectangle)) {
                 rectanglesToRemove.add(rectangle);
                 clearTile(
@@ -156,8 +162,27 @@ public class MazeScreen implements Screen {
                 );
             }
         }
-        goodObjectsRectangles.removeAll(rectanglesToRemove);
-        goodObjectsRemaining = goodObjectsRectangles.size();
+        goodObjectRectangles.removeAll(rectanglesToRemove);
+        goodObjectsRemaining = goodObjectRectangles.size();
+    }
+
+    private void checkBadObjectOverlaps() {
+        ArrayList<Rectangle> rectanglesToRemove = new ArrayList<Rectangle>();
+        Vector2 playerPos = player.getPosition();
+        Circle playerCircle = new Circle(playerPos.x, playerPos.y, player.getBodyRadius());
+
+        for (Rectangle rectangle : badObjectRectangles) {
+            if (Intersector.overlaps(playerCircle, rectangle)) {
+                rectanglesToRemove.add(rectangle);
+                clearTile(
+                        (TiledMapTileLayer) tiledMap.getLayers().get("bad_tiles"),
+                        getRectangleTileIndex(rectangle)
+                );
+                player.applyDebuff();
+                Gdx.app.log("Debuff", "applied");
+            }
+        }
+        badObjectRectangles.removeAll(rectanglesToRemove);
     }
 
     private Vector2 getRectangleTileIndex(Rectangle rectangle) {
@@ -211,6 +236,34 @@ public class MazeScreen implements Screen {
         return rectangles;
     }
 
+    private ArrayList<Rectangle> getBadRectangles() {
+        ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+        MapLayer badLayer = tiledMap.getLayers().get("bad_objects");
+        MapObjects mapObjects = badLayer.getObjects();
+        Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
+
+        float scale = game.getScale();
+        for (RectangleMapObject rectangleMapObject : rectangleObjects) {
+            Rectangle tempRect = rectangleMapObject.getRectangle();
+            Rectangle scaledRect = scaleRectangle(tempRect, scale);
+            rectangles.add(scaledRect);
+        }
+        return rectangles;
+    }
+
+    private void getGoalRectangle() {
+        MapLayer goalLayer = tiledMap.getLayers().get("goal_object");
+        MapObjects mapObjects = goalLayer.getObjects();
+        RectangleMapObject rectangleObject = mapObjects.getByType(RectangleMapObject.class).get(0);
+
+        float scale = game.getScale();
+
+        Rectangle tempRect = rectangleObject.getRectangle();
+        Rectangle scaledRect = scaleRectangle(tempRect, scale);
+
+        goalRectangle = scaledRect;
+    }
+
     private BodyDef getWallBodyDef(Rectangle wallRect) {
         BodyDef wallBodyDef = new BodyDef();
         wallBodyDef.type = BodyDef.BodyType.StaticBody;
@@ -261,6 +314,6 @@ public class MazeScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        player.dispose();
     }
 }

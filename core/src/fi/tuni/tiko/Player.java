@@ -15,22 +15,23 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Player {
-    Body playerBody;
-    float playerRotation;
-    float playerRadius;
-    Animation<TextureRegion> playerAnimation;
-    float statetime;
-    RaccoonRoll game;
-    TextureAtlas atlas;
+    private Body playerBody;
+    private float playerRotation;
+    private float playerRadius;
+    private Animation<TextureRegion> playerAnimation;
+    private float statetime;
+    private RaccoonRoll game;
+    private TextureAtlas atlas;
+    private float debuffTimeLeft;
 
     public Player(RaccoonRoll game) {
         this.game = game;
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("graphics/player/roll_animation/racc_roll.txt"));
+        atlas = new TextureAtlas(Gdx.files.internal("graphics/player/roll_animation/racc_roll.txt"));
         playerAnimation = new Animation<TextureRegion>(
                 1 / 30f,
                 atlas.findRegions("racc_roll")
         );
-        playerRotation = 90;
+        playerRotation = 0;
         // 16px tileset scaling: playerRadius = 12 * game.getScale();
         playerRadius = 48 * game.getScale();
     }
@@ -106,6 +107,14 @@ public class Player {
         playerBody.setLinearVelocity(x, y);
     }
 
+    public void applyDebuff() {
+        if (debuffTimeLeft > 0) {
+            debuffTimeLeft += 15f;
+        } else {
+            debuffTimeLeft = 15f;
+        }
+    }
+
     public void movePlayer(float deltatime) {
         float x = 0;
         float y = 0;
@@ -136,9 +145,28 @@ public class Player {
                 y = Math.abs(y);
             }
         }
+
         playerBody.applyForceToCenter(
                 new Vector2(x, y),
                 true);
+
+        debuffTimeLeft -= deltatime;
+
+        if (debuffTimeLeft > 0) {
+            /*
+            Vector2 playerVelocity = playerBody.getLinearVelocity();
+            playerVelocity.x /= 10f;
+            playerVelocity.y /= 10f;
+            playerBody.setLinearVelocity(playerVelocity);
+            */
+            playerBody.getFixtureList().get(0).setDensity(0.8f);
+            playerBody.resetMassData();
+            Gdx.app.log("Debuff", "Time left: " + debuffTimeLeft);
+        } else {
+            playerBody.getFixtureList().get(0).setDensity(0.1f);
+            playerBody.resetMassData();
+        }
+
         //playerBody.setLinearVelocity(x, y);
         Vector2 playerVelocity = playerBody.getLinearVelocity();
         playerVelocity.x = -(playerVelocity.x * 0.3f * deltatime);
