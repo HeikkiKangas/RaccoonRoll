@@ -18,8 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.util.Locale;
-
 public class AboutScreen extends ApplicationAdapter implements Screen {
 
     RaccoonRoll game;
@@ -30,8 +28,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     TextButton back;
     Stage stage;
     float buttonHeight;
-    Label credits;
-    Locale locale;
+    Label creditTitle;
     I18NBundle aboutBundle;
 
     public AboutScreen(RaccoonRoll game) {
@@ -43,8 +40,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        locale = Locale.getDefault();
-        aboutBundle = I18NBundle.createBundle(Gdx.files.internal("localization/AboutBundle"), locale);
+        aboutBundle = I18NBundle.createBundle(Gdx.files.internal("localization/AboutBundle"), game.getLocale());
     }
 
     @Override
@@ -65,11 +61,13 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
         back = new TextButton(aboutBundle.get("backButton"), skin);
 
-        credits = new Label(aboutBundle.get("title"), skin, "title");
+        creditTitle = new Label(aboutBundle.get("title"), skin, "title");
+        //automaattinen rivinvaihto mittojen mukaan
+        //credits.setWrap(true);
 
         float padding = game.scaleFromFHD(50);
         table.row().pad(0, 0, padding * 11, 0);
-        table.add(credits);
+        table.add(creditTitle);
         table.row();
 
         buttonTable.row();
