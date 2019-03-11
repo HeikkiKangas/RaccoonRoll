@@ -26,6 +26,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.ArrayList;
 
@@ -48,7 +49,9 @@ public class MazeScreen implements Screen {
     private Player player;
     private boolean goalReached;
 
+    private I18NBundle mazeBundle;
     private int goodObjectsRemaining;
+    private int points;
     private float timeSpent;
 
     public MazeScreen(RaccoonRoll game, String levelName) {
@@ -62,7 +65,7 @@ public class MazeScreen implements Screen {
 
         debugRenderer = new Box2DDebugRenderer();
 
-
+        mazeBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MazeBundle"), game.getLocale());
 
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.textureMinFilter = Texture.TextureFilter.Nearest;
@@ -105,6 +108,10 @@ public class MazeScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if (!goalReached) {
+            timeSpent += delta;
+        }
+
         clearScreen();
         player.movePlayer(delta);
         updateCameraPosition();
@@ -117,12 +124,17 @@ public class MazeScreen implements Screen {
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         player.draw(batch, delta);
-        //drawGoodObjectsRemaining();
+        batch.setProjectionMatrix(textCamera.combined);
+        //drawHud();
         batch.end();
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
         }
         world.step(1 / 60f, 6, 2);
+    }
+
+    private void drawHud() {
+
     }
 
     private void updateCameraPosition() {
@@ -166,6 +178,7 @@ public class MazeScreen implements Screen {
                         (TiledMapTileLayer) tiledMap.getLayers().get("good_tiles"),
                         getRectangleTileIndex(rectangle)
                 );
+                points++;
             }
         }
         goodObjectRectangles.removeAll(rectanglesToRemove);
@@ -198,6 +211,7 @@ public class MazeScreen implements Screen {
                 if (game.DEBUGGING()) {
                     Gdx.app.log("Debuff", "applied");
                 }
+                points--;
             }
         }
         badObjectRectangles.removeAll(rectanglesToRemove);
@@ -213,8 +227,6 @@ public class MazeScreen implements Screen {
         int y = (int) tileIndex.y;
         tileLayer.setCell(x, y, null);
     }
-
-
 
     private void createWalls() {
         ArrayList<Rectangle> wallRectangles = getWallRectangles();

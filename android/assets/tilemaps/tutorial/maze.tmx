@@ -8,7 +8,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="15" name="goal_object">
+ <objectgroup id="15" name="goal_object" visible="0">
   <object id="43" x="2528.33" y="64" width="31.6667" height="128"/>
  </objectgroup>
  <layer id="12" name="ground" width="40" height="31">
@@ -182,7 +182,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="9" name="bad_objects" visible="0">
+ <objectgroup id="9" name="bad_objects">
   <object id="35" x="640" y="1088" width="64" height="64"/>
   <object id="36" x="512" y="512" width="64" height="64"/>
   <object id="42" x="2112" y="1088" width="64" height="64"/>

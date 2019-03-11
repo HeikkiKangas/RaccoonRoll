@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Locale;
+
 /*
 Tile width: 16
 Resolution: 1920
@@ -17,7 +19,7 @@ Show tiles: 30
 16px -> 64px on FHD scale = 1/48f
  */
 public class RaccoonRoll extends Game {
-    private final boolean DEBUGGING = false;
+    private final boolean DEBUGGING = true;
     private SpriteBatch batch;
     private final float WORLD_WIDTH = 10f;
     private float WORLD_HEIGHT;
@@ -29,9 +31,15 @@ public class RaccoonRoll extends Game {
     private BitmapFont textFont;
     private BitmapFont titleFont;
     private BitmapFont buttonFont;
+    private Locale locale;
 
 	@Override
 	public void create () {
+        //for testing purposes
+        // Locale could be moved to RaccoonRoll class to save a bit of memory
+        //locale = new Locale("fi", "FI");
+        locale = Locale.getDefault();
+
 		batch = new SpriteBatch();
 
         worldCamera = new OrthographicCamera();
@@ -137,6 +145,10 @@ public class RaccoonRoll extends Game {
     public void setupCameras() {
         worldCamera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
         textCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 
     public boolean DEBUGGING() {

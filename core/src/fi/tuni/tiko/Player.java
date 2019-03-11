@@ -70,44 +70,6 @@ public class Player {
         return playerRadius;
     }
 
-    public void movePlayer2(float deltatime) {
-        float x = 0;
-        float y = 0;
-
-        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                x = 150f * deltatime;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                x = -150f * deltatime;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                y = 150f * deltatime;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                y = -150f * deltatime;
-            }
-        } else if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            x = Gdx.input.getAccelerometerY() * 100 * deltatime;
-            y = Gdx.input.getAccelerometerX() * 100 * deltatime;
-            if (x < 0.2 && x > -0.2) {
-                x = 0;
-            }
-            if (y < 0.2 && y > -0.2) {
-                y = 0;
-            }
-            if (y > 0) {
-                y = -y;
-            } else {
-                y = Math.abs(y);
-            }
-        }
-        /*
-        playerBody.applyForceToCenter(
-                new Vector2(x, y),
-                true);
-        */
-        playerBody.setLinearVelocity(x, y);
-    }
-
     public void applyDebuff() {
         if (debuffTimeLeft > 0) {
             debuffTimeLeft += 10f;
@@ -132,8 +94,11 @@ public class Player {
                 y = -30f * deltatime;
             }
         } else if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            x = Gdx.input.getAccelerometerY() * 5 * deltatime;
-            y = Gdx.input.getAccelerometerX() * 5 * deltatime;
+            x = MathUtils.clamp(Gdx.input.getAccelerometerY() * 15, -100f, 100f) * deltatime;
+            y = MathUtils.clamp(Gdx.input.getAccelerometerX() * 15, -100f, 100f) * deltatime;
+            if (game.DEBUGGING()) {
+                Gdx.app.log("Accelerometer", "X: " + x / deltatime + " Y: " + y / deltatime);
+            }
             if (x < 0.2 && x > -0.2) {
                 x = 0;
             }

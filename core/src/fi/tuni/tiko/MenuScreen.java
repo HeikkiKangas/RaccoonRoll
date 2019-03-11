@@ -31,7 +31,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     TextButton options;
     TextButton about;
     Stage stage;
-    Locale locale;
     I18NBundle menuBundle;
     //Label title;
     float buttonHeight;
@@ -49,11 +48,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        //for testing purposes
-        // Locale could be moved to RaccoonRoll class to save a bit of memory
-        //locale = new Locale("fi", "FI");
-        locale = Locale.getDefault();
-        menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), locale);
+        menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), game.getLocale());
         titleWidth = game.scaleFromFHD(title.getWidth());
         titleHeight = game.scaleFromFHD(title.getHeight());
     }
