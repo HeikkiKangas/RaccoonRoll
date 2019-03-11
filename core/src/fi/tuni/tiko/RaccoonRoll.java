@@ -41,6 +41,9 @@ public class RaccoonRoll extends Game {
     private BitmapFont hudFont;
     private Locale locale;
 
+    private float effectsVolume;
+    private float musicVolume;
+
     /**
      * Creates variables used in most of the classes.
      * Updates world height according to screen's aspect ratio
@@ -61,6 +64,9 @@ public class RaccoonRoll extends Game {
         updateWorldDimensions();
         setupCameras();
         generateFonts();
+
+        effectsVolume = 1f;
+        musicVolume = 1f;
 
         setScreen(new MenuScreen(this));
     }
@@ -248,6 +254,14 @@ public class RaccoonRoll extends Game {
      */
     public Locale getLocale() {
         return locale;
+    }
+
+    public float getEffectsVolume() {
+        return effectsVolume;
+    }
+
+    public float getMusicVolume() {
+        return musicVolume;
     }
 
     /**

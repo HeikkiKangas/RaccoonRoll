@@ -2,6 +2,7 @@ package fi.tuni.tiko;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,11 +20,16 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -31,6 +37,11 @@ import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.ArrayList;
 
+/**
+ * Screen for displaying mazes
+ *
+ * @author Heikki Kangas
+ */
 public class MazeScreen implements Screen {
     private RaccoonRoll game;
     private SpriteBatch batch;
@@ -40,6 +51,11 @@ public class MazeScreen implements Screen {
     private Box2DDebugRenderer debugRenderer;
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
+
+    private ArrayList<Sound> wallHitSounds;
+    private Sound badSound;
+    private Sound goodSound;
+    private Sound victorySound;
 
     private float tiledMapHeight;
     private float tiledMapWidth;
@@ -62,6 +78,12 @@ public class MazeScreen implements Screen {
     private BitmapFont textFont;
     private BitmapFont hudFont;
 
+    /**
+     * Sets up the selected maze
+     *
+     * @param game      main game class
+     * @param levelName name of the level that will be loaded and shown
+     */
     public MazeScreen(RaccoonRoll game, String levelName) {
         this.game = game;
         batch = game.getBatch();
@@ -79,6 +101,7 @@ public class MazeScreen implements Screen {
         createLabels();
 
         loadTileMap(levelName);
+        loadSounds();
 
         player.createPlayerBody(world, getPlayerStartPos());
         goodObjectRectangles = getGoodRectangles();
@@ -87,8 +110,55 @@ public class MazeScreen implements Screen {
         getGoalRectangle();
 
         createWalls();
+        createGoalBlockBody();
+        addContactListener();
     }
 
+    /**
+     * Add contact listener for playing sounds when player hits a wall
+     */
+    private void addContactListener() {
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                wallHitSounds.get(MathUtils.random(wallHitSounds.size() - 1)).play(game.getEffectsVolume());
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
+    }
+
+    /**
+     * Loads sound effects
+     */
+    private void loadSounds() {
+        wallHitSounds = new ArrayList<Sound>();
+        for (int i = 1; i < 6; i++) {
+            String filePath = String.format("sounds/wallHit/WALL_HIT_0%d.wav", i);
+            wallHitSounds.add(Gdx.audio.newSound(Gdx.files.internal(filePath)));
+        }
+        badSound = Gdx.audio.newSound(Gdx.files.internal("sounds/badObject/BAD_01.wav"));
+        goodSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goodObject/GOOD_01.wav"));
+        victorySound = Gdx.audio.newSound(Gdx.files.internal("sounds/victory/VICTORY_01.wav"));
+    }
+
+    /**
+     * Loads tilemap, sets up TiledMapRenderer and TiledMap dimensions in meters
+     * @param levelName
+     */
     private void loadTileMap(String levelName) {
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.textureMinFilter = Texture.TextureFilter.Nearest;
@@ -97,34 +167,52 @@ public class MazeScreen implements Screen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
 
         MapProperties mapProps = tiledMap.getProperties();
+
+        // TiledMap dimensions in meters
         tiledMapWidth = mapProps.get("width", Integer.class) * tileSize * game.getScale();
         tiledMapHeight = mapProps.get("height", Integer.class) * tileSize * game.getScale();
 
         hideGoal();
     }
 
+    /**
+     * Hides the goal on tilemap
+     */
     private void hideGoal() {
         tiledMap.getLayers().get("goal").setVisible(false);
         tiledMap.getLayers().get("goal_ground").setVisible(false);
     }
 
+    /**
+     * Reveals the goal on tilemap
+     */
     private void showGoal() {
         tiledMap.getLayers().get("goal").setVisible(true);
         tiledMap.getLayers().get("goal_ground").setVisible(true);
         world.destroyBody(goalBlock);
     }
 
+    /**
+     * Gets localized labels for HUD from bundle
+     */
     private void createLabels() {
         goodObjectsRemainingLabel = mazeBundle.get("goodObjectsRemaining");
         timeSpentLabel = mazeBundle.get("time");
         pointsLabel = mazeBundle.get("points");
     }
 
+    /**
+     * Clears the screen with black color
+     */
     public void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Gets player starting position from tilemap
+     * @return vector of player start position
+     */
     private Vector2 getPlayerStartPos() {
         MapLayer startPosLayer = tiledMap.getLayers().get("startpos");
         MapObject startPos = startPosLayer.getObjects().get(0);
@@ -133,6 +221,11 @@ public class MazeScreen implements Screen {
         return new Vector2(startPosX, startPosY);
     }
 
+    /**
+     * Should be called when window resizes but doesn't
+     * @param width not used
+     * @param height not used
+     */
     @Override
     public void resize(int width, int height) {
         if (game.DEBUGGING()) {
@@ -140,6 +233,11 @@ public class MazeScreen implements Screen {
         }
     }
 
+    /**
+     * Moves player, checks if player overlaps with objects, updates camera position and draws
+     * tilemap and player
+     * @param delta time since last frame was drawn
+     */
     @Override
     public void render(float delta) {
         if (!goalReached) {
@@ -170,6 +268,9 @@ public class MazeScreen implements Screen {
         world.step(1 / 60f, 6, 2);
     }
 
+    /**
+     * Draws time, objects left and points to upper edge of the screen
+     */
     private void drawHud() {
         int padding = game.scaleTextFromFHD(20);
         int textY = Gdx.graphics.getHeight() - padding;
@@ -200,6 +301,10 @@ public class MazeScreen implements Screen {
         );
     }
 
+    /**
+     * Formats time from float seconds
+     * @return time in m:ss
+     */
     private String formatTime() {
         int time = (int) timeSpent;
         int minutes = time / 60;
@@ -207,6 +312,9 @@ public class MazeScreen implements Screen {
         return String.format("%d:%02d", minutes, seconds);
     }
 
+    /**
+     * Updates camera's position so there's no black background color shown outside tilemap
+     */
     private void updateCameraPosition() {
         Vector2 playerPos = player.getPosition();
         float playerX = playerPos.x;
@@ -236,6 +344,9 @@ public class MazeScreen implements Screen {
         worldCamera.update();
     }
 
+    /**
+     * Checks if player overlaps with any good objects
+     */
     private void checkGoodObjectOverlaps() {
         ArrayList<Rectangle> rectanglesToRemove = new ArrayList<Rectangle>();
         Vector2 playerPos = player.getPosition();
@@ -249,6 +360,7 @@ public class MazeScreen implements Screen {
                         getRectangleTileIndex(rectangle)
                 );
                 points++;
+                goodSound.play(game.getEffectsVolume());
                 if (goodObjectsRemaining == 1) {
                     showGoal();
                 }
@@ -258,16 +370,23 @@ public class MazeScreen implements Screen {
         goodObjectsRemaining = goodObjectRectangles.size();
     }
 
+    /**
+     * Checks if player overlaps with goal
+     */
     private void checkGoalOverlap() {
         Vector2 playerPos = player.getPosition();
         Circle playerCircle = new Circle(playerPos.x, playerPos.y, player.getBodyRadius());
 
-        if (Intersector.overlaps(playerCircle, goalRectangle)) {
+        if (Intersector.overlaps(playerCircle, goalRectangle) && !goalReached) {
             player.setGoalReached();
             goalReached = true;
+            victorySound.play(game.getEffectsVolume());
         }
     }
 
+    /**
+     * Checks if player overlaps with any bad objects
+     */
     private void checkBadObjectOverlaps() {
         ArrayList<Rectangle> rectanglesToRemove = new ArrayList<Rectangle>();
         Vector2 playerPos = player.getPosition();
@@ -285,31 +404,47 @@ public class MazeScreen implements Screen {
                     Gdx.app.log("Debuff", "applied");
                 }
                 points--;
+                badSound.play(game.getEffectsVolume());
             }
         }
         badObjectRectangles.removeAll(rectanglesToRemove);
     }
 
+    /**
+     * Checks given rectangles x and y index in tilemap
+     * @param rectangle which tile index should be returned
+     * @return vector of given rectangle's x and y indexes
+     */
     private Vector2 getRectangleTileIndex(Rectangle rectangle) {
         float scale = game.getScale();
         return new Vector2(rectangle.x / scale / tileSize, rectangle.y / scale / tileSize);
     }
 
+    /**
+     * Clears given TileLayer's tile at given x and y index
+     * @param tileLayer on which layer the tile should be cleared
+     * @param tileIndex coordinates of the tile to be cleared
+     */
     private void clearTile(TiledMapTileLayer tileLayer, Vector2 tileIndex) {
         int x = (int) tileIndex.x;
         int y = (int) tileIndex.y;
         tileLayer.setCell(x, y, null);
     }
 
+    /**
+     * Creates world bodies from wall rectangles
+     */
     private void createWalls() {
         ArrayList<Rectangle> wallRectangles = getWallRectangles();
         for (Rectangle wallRectangle : wallRectangles) {
             Body wallBody = world.createBody(getWallBodyDef(wallRectangle));
             wallBody.createFixture(getWallShape(wallRectangle), 0.0f);
         }
-        createGoalBlockBody();
     }
 
+    /**
+     * Creates body for blocking the goal while there's good objects remaining in tilemap
+     */
     public void createGoalBlockBody() {
         MapLayer goalBlockLayer = tiledMap.getLayers().get("goal_blocking_object");
         RectangleMapObject goalBlockObject = goalBlockLayer.getObjects().getByType(RectangleMapObject.class).get(0);
@@ -318,6 +453,10 @@ public class MazeScreen implements Screen {
         goalBlock.createFixture(getWallShape(goalBlockRectangle), 0.0f);
     }
 
+    /**
+     * Creates Rectangles scaled to world units from RectangleMapObjects on wall objects layer of the tilemap
+     * @return ArrayList of the Rectangles scaled to meters
+     */
     private ArrayList<Rectangle> getWallRectangles() {
         ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
         MapLayer wallsLayer = tiledMap.getLayers().get("wall_objects");
@@ -333,6 +472,10 @@ public class MazeScreen implements Screen {
         return rectangles;
     }
 
+    /**
+     * Creates Rectangles scaled to world units from RectangleMapObjects on good objects layer of the tilemap
+     * @return ArrayList of the Rectangles scaled to meters
+     */
     private ArrayList<Rectangle> getGoodRectangles() {
         ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
         MapLayer goodLayer = tiledMap.getLayers().get("good_objects");
@@ -348,6 +491,10 @@ public class MazeScreen implements Screen {
         return rectangles;
     }
 
+    /**
+     * Creates Rectangles scaled to world units from RectangleMapObjects on bad objects layer of the tilemap
+     * @return ArrayList of the Rectangles scaled to meters
+     */
     private ArrayList<Rectangle> getBadRectangles() {
         ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
         MapLayer badLayer = tiledMap.getLayers().get("bad_objects");
@@ -363,6 +510,9 @@ public class MazeScreen implements Screen {
         return rectangles;
     }
 
+    /**
+     * Creates Rectangle scaled to world units from RectangleMapObject on goal object layer of the tilemap
+     */
     private void getGoalRectangle() {
         MapLayer goalLayer = tiledMap.getLayers().get("goal_object");
         MapObjects mapObjects = goalLayer.getObjects();
@@ -376,6 +526,11 @@ public class MazeScreen implements Screen {
         goalRectangle = scaledRect;
     }
 
+    /**
+     * Creates BodyDef for wall bodies
+     * @param wallRect dimensions of the body to create
+     * @return BodyDef of the wall
+     */
     private BodyDef getWallBodyDef(Rectangle wallRect) {
         BodyDef wallBodyDef = new BodyDef();
         wallBodyDef.type = BodyDef.BodyType.StaticBody;
@@ -386,6 +541,11 @@ public class MazeScreen implements Screen {
         return wallBodyDef;
     }
 
+    /**
+     * Creates PolygonShape of the scaled wall Rectangle
+     * @param wallRect dimensions of the shape to create
+     * @return PolygonShape of the given wall rectangle
+     */
     private PolygonShape getWallShape(Rectangle wallRect) {
         PolygonShape wallShape = new PolygonShape();
         wallShape.setAsBox(
@@ -395,6 +555,12 @@ public class MazeScreen implements Screen {
         return wallShape;
     }
 
+    /**
+     * Scales given rectangle from pixels to meters
+     * @param r Rectangle to scale
+     * @param scale scaling to use
+     * @return scaled Rectangle
+     */
     private Rectangle scaleRectangle(Rectangle r, float scale) {
         Rectangle rr = new Rectangle();
         rr.x = r.x * scale;
@@ -424,8 +590,14 @@ public class MazeScreen implements Screen {
 
     }
 
+    /**
+     * Disposes used assets
+     */
     @Override
     public void dispose() {
         player.dispose();
+        for (Sound wallHitSound : wallHitSounds) {
+            wallHitSound.dispose();
+        }
     }
 }
