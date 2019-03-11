@@ -152,11 +152,29 @@ public class MazeScreen implements Screen {
     }
 
     private void drawHud() {
+        int padding = game.scaleTextFromFHD(15);
+        int textY = Gdx.graphics.getHeight() - padding;
+        String timeSpentText = String.format("%s %s", timeSpentLabel, formatTime());
         textFont.draw(
                 batch,
-                timeSpentLabel + " " + formatTime(),
-                game.scaleTextFromFHD(10),
-                Gdx.graphics.getHeight() - game.scaleTextFromFHD(10)
+                timeSpentText,
+                padding,
+                textY
+        );
+        String pointsText = String.format("%s %d", pointsLabel, points);
+        textFont.draw(
+                batch,
+                pointsText,
+                Gdx.graphics.getWidth() - game.getTextDimensions(textFont, pointsText).x - padding,
+                textY
+        );
+        String goodObjectsRemainingText = String.format("%s %d", goodObjectsRemainingLabel, goodObjectsRemaining);
+        Vector2 goodObjectsRemainingTextDimensions = game.getTextDimensions(textFont, goodObjectsRemainingText);
+        textFont.draw(
+                batch,
+                goodObjectsRemainingText,
+                Gdx.graphics.getWidth() / 2 - goodObjectsRemainingTextDimensions.x / 2,
+                textY
         );
     }
 
@@ -164,7 +182,7 @@ public class MazeScreen implements Screen {
         int time = (int) timeSpent;
         int minutes = time / 60;
         int seconds = time % 60;
-        return String.format("%02d:%02d", minutes, seconds);
+        return String.format("%d:%02d", minutes, seconds);
     }
 
     private void updateCameraPosition() {
