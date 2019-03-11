@@ -59,6 +59,7 @@ public class MazeScreen implements Screen {
     private float timeSpent;
 
     private BitmapFont textFont;
+    private BitmapFont hudFont;
 
     public MazeScreen(RaccoonRoll game, String levelName) {
         this.game = game;
@@ -66,6 +67,7 @@ public class MazeScreen implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         textFont = game.getTextFont();
+        hudFont = game.getHudFont();
 
         world = new World(new Vector2(0, 0), true);
         player = new Player(game);
@@ -152,25 +154,25 @@ public class MazeScreen implements Screen {
     }
 
     private void drawHud() {
-        int padding = game.scaleTextFromFHD(15);
+        int padding = game.scaleTextFromFHD(20);
         int textY = Gdx.graphics.getHeight() - padding;
         String timeSpentText = String.format("%s %s", timeSpentLabel, formatTime());
-        textFont.draw(
+        hudFont.draw(
                 batch,
                 timeSpentText,
                 padding,
                 textY
         );
         String pointsText = String.format("%s %d", pointsLabel, points);
-        textFont.draw(
+        hudFont.draw(
                 batch,
                 pointsText,
-                Gdx.graphics.getWidth() - game.getTextDimensions(textFont, pointsText).x - padding,
+                Gdx.graphics.getWidth() - game.getTextDimensions(hudFont, pointsText).x - padding,
                 textY
         );
         String goodObjectsRemainingText = String.format("%s %d", goodObjectsRemainingLabel, goodObjectsRemaining);
-        Vector2 goodObjectsRemainingTextDimensions = game.getTextDimensions(textFont, goodObjectsRemainingText);
-        textFont.draw(
+        Vector2 goodObjectsRemainingTextDimensions = game.getTextDimensions(hudFont, goodObjectsRemainingText);
+        hudFont.draw(
                 batch,
                 goodObjectsRemainingText,
                 Gdx.graphics.getWidth() / 2 - goodObjectsRemainingTextDimensions.x / 2,

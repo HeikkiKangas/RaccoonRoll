@@ -19,7 +19,7 @@ Show tiles: 30
 16px -> 64px on FHD scale = 1/48f
  */
 public class RaccoonRoll extends Game {
-    private final boolean DEBUGGING = true;
+    private final boolean DEBUGGING = false;
     private SpriteBatch batch;
     private final float WORLD_WIDTH = 10f;
     private float WORLD_HEIGHT;
@@ -31,6 +31,7 @@ public class RaccoonRoll extends Game {
     private BitmapFont textFont;
     private BitmapFont titleFont;
     private BitmapFont buttonFont;
+    private BitmapFont hudFont;
     private Locale locale;
 
 	@Override
@@ -93,7 +94,13 @@ public class RaccoonRoll extends Game {
         titleFont = fontGenerator.generateFont(fontParameter);
         fontParameter.size = scaleTextFromFHD(55);
         buttonFont = fontGenerator.generateFont(fontParameter);
+        fontParameter.size = scaleTextFromFHD(70);
+        hudFont = fontGenerator.generateFont(fontParameter);
         fontGenerator.dispose();
+    }
+
+    public BitmapFont getHudFont() {
+        return hudFont;
     }
 
     public BitmapFont getTextFont() {
