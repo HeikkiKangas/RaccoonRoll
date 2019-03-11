@@ -80,7 +80,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.add(musicTitle);
         table.row();
         table.add(music);
-        table.row().pad(padding * 11, 0, 0, 0);
+        table.row().pad(padding * 10, 0, 0, 0);
 
         buttonTable.row();
         buttonTable.padRight(padding * 26);
