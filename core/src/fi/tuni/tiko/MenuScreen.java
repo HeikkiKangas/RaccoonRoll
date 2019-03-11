@@ -35,6 +35,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     I18NBundle menuBundle;
     //Label title;
     float buttonHeight;
+    float titleWidth;
+    float titleHeight;
     Texture title;
 
     public MenuScreen(RaccoonRoll game) {
@@ -52,6 +54,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         //locale = new Locale("fi", "FI");
         locale = Locale.getDefault();
         menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), locale);
+        titleWidth = game.scaleFromFHD(title.getWidth());
+        titleHeight = game.scaleFromFHD(title.getHeight());
     }
 
     @Override
@@ -127,7 +131,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
-        batch.draw(title, 10, 10);
+        batch.draw(title, 10, 10, titleWidth, titleHeight);
         batch.end();
     }
 
