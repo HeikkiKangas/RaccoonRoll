@@ -31,7 +31,6 @@ public class Player {
 
     /**
      * Creates TextureAtlas of the player animation and sets the size of the player
-     *
      * @param game Main game class for scaling the player texture
      */
     public Player(RaccoonRoll game) {
@@ -72,7 +71,7 @@ public class Player {
     }
 
     /**
-     *
+     * Creates player body to given world
      * @param world to which world to add the player body
      * @param startPos player starting coordinates
      */
@@ -83,7 +82,7 @@ public class Player {
 
     /**
      * Getter for player's current position
-     * @return
+     * @return player's current position
      */
     public Vector2 getPosition() {
         return playerBody.getPosition();
@@ -198,10 +197,16 @@ public class Player {
         return playerFixtureDef;
     }
 
+    /**
+     * Disposes used assets
+     */
     public void dispose() {
         atlas.dispose();
     }
 
+    /**
+     * Stops player movement when he reaches the goal
+     */
     public void setGoalReached() {
         playerBody.setType(BodyDef.BodyType.StaticBody);
     }
