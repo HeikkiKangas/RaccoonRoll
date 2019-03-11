@@ -126,7 +126,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
-        batch.draw(title, 10, 10, titleWidth, titleHeight);
+        batch.draw(title, Gdx.graphics.getWidth() / 2 - titleWidth / 2, Gdx.graphics.getHeight() - titleHeight, titleWidth, titleHeight);
         batch.end();
     }
 
