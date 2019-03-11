@@ -52,12 +52,11 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
         back = new TextButton("Back", skin);
 
-        float padding = game.scaleFromFHD(300);
-        table.row().pad(padding, 0, 0, 0);
+        float padding = game.scaleFromFHD(50);
+        table.row().pad(padding * 15, 0, 0, 0);
         table.left();
         table.padLeft(padding);
         buttonHeight = game.scaleFromFHD(200f);
-        float scaledButtonPadding = game.scaleFromFHD(25f);
         table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
         back.addListener(new ClickListener(){

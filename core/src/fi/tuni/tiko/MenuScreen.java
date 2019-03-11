@@ -32,7 +32,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Stage stage;
     Locale locale;
     I18NBundle menuBundle;
-    Label title; //EI KÄYTÖSSÄ
+    //Label title;
     float buttonHeight;
 
     public MenuScreen(RaccoonRoll game) {
@@ -67,7 +67,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
 
-        title = new Label(menuBundle.get("title"), skin, "title");
+        //title = new Label(menuBundle.get("title"), skin, "title");
         play = new TextButton(menuBundle.get("playButton"), skin);
         options = new TextButton(menuBundle.get("optionsButton"), skin);
         about = new TextButton(menuBundle.get("aboutButton"), skin);
