@@ -9,12 +9,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import java.util.Locale;
 
 public class AboutScreen extends ApplicationAdapter implements Screen {
 
@@ -26,6 +30,9 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     TextButton back;
     Stage stage;
     float buttonHeight;
+    Label credits;
+    Locale locale;
+    I18NBundle aboutBundle;
 
     public AboutScreen(RaccoonRoll game) {
         this.game = game;
@@ -35,13 +42,19 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        locale = Locale.getDefault();
+        aboutBundle = I18NBundle.createBundle(Gdx.files.internal("localization/AboutBundle"), locale);
     }
 
     @Override
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
+        Table buttonTable = new Table();
         stage.addActor(table);
+        //table.setDebug(true);
+        //buttonTable.setDebug(true);
 
         skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
@@ -50,14 +63,21 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         skin.add("font", game.getTextFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        back = new TextButton("Back", skin);
+        back = new TextButton(aboutBundle.get("backButton"), skin);
+
+        credits = new Label(aboutBundle.get("title"), skin, "title");
 
         float padding = game.scaleFromFHD(50);
-        table.row().pad(padding * 15, 0, 0, 0);
-        table.left();
-        table.padLeft(padding);
+        table.row().pad(0, 0, padding * 11, 0);
+        table.add(credits);
+        table.row();
+
+        buttonTable.row();
+        buttonTable.padRight(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
-        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        table.add(buttonTable);
+        buttonTable.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+
 
         back.addListener(new ClickListener(){
             @Override
