@@ -18,6 +18,8 @@ import com.badlogic.gdx.physics.box2d.World;
 /**
  * Controls creation of player's box2d body, animation creation and drawing, movement
  * and keeps track of player's (de)buffs
+ *
+ * @author Heikki Kangas
  */
 public class Player {
     private Body playerBody;
