@@ -37,8 +37,9 @@ public class RaccoonRoll extends Game {
 	public void create () {
         //for testing purposes
         // Locale could be moved to RaccoonRoll class to save a bit of memory
-        //locale = new Locale("fi", "FI");
-        locale = Locale.getDefault();
+        locale = new Locale("fi", "FI");
+        System.out.println(locale.getLanguage());
+        //locale = Locale.getDefault();
 
 		batch = new SpriteBatch();
 

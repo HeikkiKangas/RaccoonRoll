@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -50,15 +51,21 @@ public class MazeScreen implements Screen {
     private boolean goalReached;
 
     private I18NBundle mazeBundle;
+    private String goodObjectsRemainingLabel;
+    private String pointsLabel;
+    private String timeSpentLabel;
     private int goodObjectsRemaining;
     private int points;
     private float timeSpent;
+
+    private BitmapFont textFont;
 
     public MazeScreen(RaccoonRoll game, String levelName) {
         this.game = game;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
+        textFont = game.getTextFont();
 
         world = new World(new Vector2(0, 0), true);
         player = new Player(game);
@@ -66,7 +73,20 @@ public class MazeScreen implements Screen {
         debugRenderer = new Box2DDebugRenderer();
 
         mazeBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MazeBundle"), game.getLocale());
+        createLabels();
 
+        loadTileMap(levelName);
+
+        player.createPlayerBody(world, getPlayerStartPos());
+        goodObjectRectangles = getGoodRectangles();
+        goodObjectsRemaining = goodObjectRectangles.size();
+        badObjectRectangles = getBadRectangles();
+        getGoalRectangle();
+
+        createWalls();
+    }
+
+    private void loadTileMap(String levelName) {
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
         parameters.textureMinFilter = Texture.TextureFilter.Nearest;
         parameters.textureMagFilter = Texture.TextureFilter.Nearest;
@@ -76,14 +96,12 @@ public class MazeScreen implements Screen {
         MapProperties mapProps = tiledMap.getProperties();
         tiledMapWidth = mapProps.get("width", Integer.class) * tileSize * game.getScale();
         tiledMapHeight = mapProps.get("height", Integer.class) * tileSize * game.getScale();
+    }
 
-        player.createPlayerBody(world, getPlayerStartPos());
-        goodObjectRectangles = getGoodRectangles();
-        goodObjectsRemaining = goodObjectRectangles.size();
-        badObjectRectangles = getBadRectangles();
-        getGoalRectangle();
-
-        createWalls();
+    private void createLabels() {
+        goodObjectsRemainingLabel = mazeBundle.get("goodObjectsRemaining");
+        timeSpentLabel = mazeBundle.get("time");
+        pointsLabel = mazeBundle.get("points");
     }
 
     public void clearScreen() {
@@ -125,7 +143,7 @@ public class MazeScreen implements Screen {
         batch.begin();
         player.draw(batch, delta);
         batch.setProjectionMatrix(textCamera.combined);
-        //drawHud();
+        drawHud();
         batch.end();
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
@@ -134,7 +152,19 @@ public class MazeScreen implements Screen {
     }
 
     private void drawHud() {
+        textFont.draw(
+                batch,
+                timeSpentLabel + " " + formatTime(),
+                game.scaleTextFromFHD(10),
+                Gdx.graphics.getHeight() - game.scaleTextFromFHD(10)
+        );
+    }
 
+    private String formatTime() {
+        int time = (int) timeSpent;
+        int minutes = time / 60;
+        int seconds = time % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
     private void updateCameraPosition() {

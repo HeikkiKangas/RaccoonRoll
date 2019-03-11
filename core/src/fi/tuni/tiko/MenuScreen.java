@@ -49,6 +49,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), game.getLocale());
+
         titleWidth = game.scaleFromFHD(title.getWidth());
         titleHeight = game.scaleFromFHD(title.getHeight());
     }
