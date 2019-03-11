@@ -11,7 +11,7 @@
  <objectgroup id="15" name="goal_object" visible="0">
   <object id="43" x="2552.66" y="64" width="7.33337" height="128"/>
  </objectgroup>
- <objectgroup id="16" name="goal_blocking" visible="0">
+ <objectgroup id="16" name="goal_blocking_object" visible="0">
   <object id="44" x="2496" y="64" width="64" height="128"/>
  </objectgroup>
  <layer id="12" name="ground" width="40" height="31">

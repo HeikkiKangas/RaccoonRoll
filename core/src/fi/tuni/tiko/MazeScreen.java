@@ -111,6 +111,7 @@ public class MazeScreen implements Screen {
     private void showGoal() {
         tiledMap.getLayers().get("goal").setVisible(true);
         tiledMap.getLayers().get("goal_ground").setVisible(true);
+        world.destroyBody(goalBlock);
     }
 
     private void createLabels() {
@@ -248,13 +249,13 @@ public class MazeScreen implements Screen {
                         getRectangleTileIndex(rectangle)
                 );
                 points++;
+                if (goodObjectsRemaining == 1) {
+                    showGoal();
+                }
             }
         }
         goodObjectRectangles.removeAll(rectanglesToRemove);
         goodObjectsRemaining = goodObjectRectangles.size();
-        if (goodObjectsRemaining == 0) {
-            showGoal();
-        }
     }
 
     private void checkGoalOverlap() {
@@ -310,7 +311,7 @@ public class MazeScreen implements Screen {
     }
 
     public void createGoalBlockBody() {
-        MapLayer goalBlockLayer = tiledMap.getLayers().get("goal_block");
+        MapLayer goalBlockLayer = tiledMap.getLayers().get("goal_blocking_object");
         RectangleMapObject goalBlockObject = goalBlockLayer.getObjects().getByType(RectangleMapObject.class).get(0);
         Rectangle goalBlockRectangle = scaleRectangle(goalBlockObject.getRectangle(), game.getScale());
         goalBlock = world.createBody(getWallBodyDef(goalBlockRectangle));
