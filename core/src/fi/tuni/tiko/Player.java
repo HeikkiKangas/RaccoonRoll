@@ -15,6 +15,10 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
+/**
+ * Controls creation of player's box2d body, animation creation and drawing, movement
+ * and keeps track of player's (de)buffs
+ */
 public class Player {
     private Body playerBody;
     private float playerRotation;
@@ -25,6 +29,11 @@ public class Player {
     private TextureAtlas atlas;
     private float debuffTimeLeft;
 
+    /**
+     * Creates TextureAtlas of the player animation and sets the size of the player
+     *
+     * @param game Main game class for scaling the player texture
+     */
     public Player(RaccoonRoll game) {
         this.game = game;
         atlas = new TextureAtlas(Gdx.files.internal("graphics/player/roll_animation/racc_roll.txt"));
@@ -37,6 +46,11 @@ public class Player {
         playerRadius = 48 * game.getScale();
     }
 
+    /**
+     * Draws the player texture facing to movement direction
+     * @param batch SpriteBatch to draw the texture
+     * @param delta How much time has passed since last frame
+     */
     public void draw(SpriteBatch batch, float delta) {
         Vector2 playerVelocity = playerBody.getLinearVelocity();
         if (playerVelocity.x != 0 || playerVelocity.y != 0) {
@@ -57,6 +71,11 @@ public class Player {
                 playerRotation - 90);
     }
 
+    /**
+     *
+     * @param world to which world to add the player body
+     * @param startPos player starting coordinates
+     */
     public void createPlayerBody(World world, Vector2 startPos) {
         playerBody = world.createBody(getPlayerBodyDef(startPos.x, startPos.y));
         playerBody.createFixture(getPlayerFixtureDef());
