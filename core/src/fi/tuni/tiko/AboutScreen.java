@@ -9,33 +9,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.util.Locale;
+public class AboutScreen extends ApplicationAdapter implements Screen {
 
-public class MenuScreen extends ApplicationAdapter implements Screen {
     RaccoonRoll game;
     SpriteBatch batch;
     OrthographicCamera worldCamera;
     OrthographicCamera textCamera;
     Skin skin;
-    TextButton play;
-    TextButton options;
-    TextButton about;
+    TextButton back;
     Stage stage;
-    Locale locale;
-    I18NBundle menuBundle;
-    Label title; //EI KÄYTÖSSÄ
     float buttonHeight;
 
-    public MenuScreen(RaccoonRoll game) {
+    public AboutScreen(RaccoonRoll game) {
         this.game = game;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
@@ -43,20 +35,12 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
-        //for testing purposes
-        // Locale could be moved to RaccoonRoll class to save a bit of memory
-        //locale = new Locale("fi", "FI");
-        locale = Locale.getDefault();
-        menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), locale);
     }
 
     @Override
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
-        //gives me the grid
-        //table.setDebug(true);
         stage.addActor(table);
 
         skin = new Skin();
@@ -66,50 +50,21 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         skin.add("font", game.getTextFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+        back = new TextButton("Back", skin);
 
-        title = new Label(menuBundle.get("title"), skin, "title");
-        play = new TextButton(menuBundle.get("playButton"), skin);
-        options = new TextButton(menuBundle.get("optionsButton"), skin);
-        about = new TextButton(menuBundle.get("aboutButton"), skin);
-
-        //table.add(title);
-
-        // table's top and right padding size scaled
         float padding = game.scaleFromFHD(300);
         table.row().pad(padding, 0, 0, 0);
-        table.right();
-        table.padRight(padding);
-        //buttonHeight = Gdx.graphics.getHeight() / 1080f * 200;
+        table.left();
+        table.padLeft(padding);
         buttonHeight = game.scaleFromFHD(200f);
-        //fill ja uniform laittaa muotoonsa
         float scaledButtonPadding = game.scaleFromFHD(25f);
-        table.add(play).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
-        table.row().padTop(scaledButtonPadding);
-        table.add(options).uniformX().fillX().height(buttonHeight);
-        table.row().padTop(scaledButtonPadding);
-        table.add(about).uniformX().fillX().height(buttonHeight);
+        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
-
-        play.addListener(new ClickListener(){
+        back.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Play", "Button clicked");
-                game.setScreen(new MazeScreen(game, "tutorial"));
-            }
-        });
-
-        options.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Options", "Should be here");
-            }
-        });
-
-        about.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("About", "Button clicked");
-                game.setScreen(new AboutScreen(game));
+                Gdx.app.log("Back", "Button clicked");
+                game.setScreen(new MenuScreen(game));
             }
         });
     }
