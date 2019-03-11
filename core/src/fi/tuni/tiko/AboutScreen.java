@@ -29,6 +29,9 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     Stage stage;
     float buttonHeight;
     Label creditTitle;
+    Label credits;
+    Label musicTitle;
+    Label music;
     I18NBundle aboutBundle;
 
     public AboutScreen(RaccoonRoll game) {
@@ -49,8 +52,8 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.setFillParent(true);
         Table buttonTable = new Table();
         stage.addActor(table);
-        //table.setDebug(true);
-        //buttonTable.setDebug(true);
+        table.setDebug(true);
+        buttonTable.setDebug(true);
 
         skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
@@ -62,13 +65,22 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         back = new TextButton(aboutBundle.get("backButton"), skin);
 
         creditTitle = new Label(aboutBundle.get("title"), skin, "title");
+        credits = new Label(aboutBundle.get("credits"), skin);
+        musicTitle = new Label(aboutBundle.get("musicTitle"), skin, "title");
+        music = new Label(aboutBundle.get("music"), skin);
         //automaattinen rivinvaihto mittojen mukaan
         //credits.setWrap(true);
 
         float padding = game.scaleFromFHD(50);
-        table.row().pad(0, 0, padding * 11, 0);
+        table.row();
         table.add(creditTitle);
         table.row();
+        table.add(credits);
+        table.row();
+        table.add(musicTitle);
+        table.row();
+        table.add(music);
+        table.row().pad(padding * 11, 0, 0, 0);
 
         buttonTable.row();
         buttonTable.padRight(padding * 26);
