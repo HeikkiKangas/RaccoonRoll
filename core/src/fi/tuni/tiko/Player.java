@@ -81,6 +81,10 @@ public class Player {
         playerBody.createFixture(getPlayerFixtureDef());
     }
 
+    /**
+     * Getter for player's current position
+     * @return
+     */
     public Vector2 getPosition() {
         return playerBody.getPosition();
     }
@@ -97,6 +101,11 @@ public class Player {
         }
     }
 
+    /**
+     * Moves player according to keys pressed (desktop) or accelerometer values (android).
+     * Applies friction so player will not roll indefinately
+     * @param deltatime
+     */
     public void movePlayer(float deltatime) {
         float x = 0;
         float y = 0;
@@ -148,7 +157,6 @@ public class Player {
             }
         }
 
-        //playerBody.setLinearVelocity(x, y);
         Vector2 playerVelocity = playerBody.getLinearVelocity();
         if (game.DEBUGGING()) {
             Gdx.app.log("Current velocity", "" + playerVelocity);
@@ -158,6 +166,12 @@ public class Player {
         playerBody.applyForceToCenter(playerVelocity, true);
     }
 
+    /**
+     * Creates body definition for player body
+     * @param x player start x coordinate
+     * @param y player start y coordinate
+     * @return player body definition
+     */
     private BodyDef getPlayerBodyDef(float x, float y) {
         float scale = game.getScale();
         BodyDef playerBodyDef = new BodyDef();
@@ -166,6 +180,10 @@ public class Player {
         return playerBodyDef;
     }
 
+    /**
+     * Creates circular fixture definition for player
+     * @return created player fixture
+     */
     private FixtureDef getPlayerFixtureDef() {
         FixtureDef playerFixtureDef = new FixtureDef();
         playerFixtureDef.density = 0.1f;

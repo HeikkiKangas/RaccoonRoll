@@ -125,7 +125,7 @@ public class MazeScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
-    public Vector2 getPlayerStartPos() {
+    private Vector2 getPlayerStartPos() {
         MapLayer startPosLayer = tiledMap.getLayers().get("startpos");
         MapObject startPos = startPosLayer.getObjects().get(0);
         float startPosX = startPos.getProperties().get("x", Float.class);
