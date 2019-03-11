@@ -47,6 +47,7 @@ public class MazeScreen implements Screen {
     private ArrayList<Rectangle> goodObjectRectangles;
     private ArrayList<Rectangle> badObjectRectangles;
     private Rectangle goalRectangle;
+    private Body goalBlock;
     private Player player;
     private boolean goalReached;
 
@@ -98,6 +99,18 @@ public class MazeScreen implements Screen {
         MapProperties mapProps = tiledMap.getProperties();
         tiledMapWidth = mapProps.get("width", Integer.class) * tileSize * game.getScale();
         tiledMapHeight = mapProps.get("height", Integer.class) * tileSize * game.getScale();
+
+        hideGoal();
+    }
+
+    private void hideGoal() {
+        tiledMap.getLayers().get("goal").setVisible(false);
+        tiledMap.getLayers().get("goal_ground").setVisible(false);
+    }
+
+    private void showGoal() {
+        tiledMap.getLayers().get("goal").setVisible(true);
+        tiledMap.getLayers().get("goal_ground").setVisible(true);
     }
 
     private void createLabels() {
@@ -137,7 +150,10 @@ public class MazeScreen implements Screen {
         updateCameraPosition();
         checkGoodObjectOverlaps();
         checkBadObjectOverlaps();
-        checkGoalOverlap();
+
+        if (goodObjectsRemaining == 0) {
+            checkGoalOverlap();
+        }
 
         tiledMapRenderer.setView(worldCamera);
         tiledMapRenderer.render();
@@ -156,6 +172,7 @@ public class MazeScreen implements Screen {
     private void drawHud() {
         int padding = game.scaleTextFromFHD(20);
         int textY = Gdx.graphics.getHeight() - padding;
+
         String timeSpentText = String.format("%s %s", timeSpentLabel, formatTime());
         hudFont.draw(
                 batch,
@@ -163,6 +180,7 @@ public class MazeScreen implements Screen {
                 padding,
                 textY
         );
+
         String pointsText = String.format("%s %d", pointsLabel, points);
         hudFont.draw(
                 batch,
@@ -170,6 +188,7 @@ public class MazeScreen implements Screen {
                 Gdx.graphics.getWidth() - game.getTextDimensions(hudFont, pointsText).x - padding,
                 textY
         );
+
         String goodObjectsRemainingText = String.format("%s %d", goodObjectsRemainingLabel, goodObjectsRemaining);
         Vector2 goodObjectsRemainingTextDimensions = game.getTextDimensions(hudFont, goodObjectsRemainingText);
         hudFont.draw(
@@ -233,6 +252,9 @@ public class MazeScreen implements Screen {
         }
         goodObjectRectangles.removeAll(rectanglesToRemove);
         goodObjectsRemaining = goodObjectRectangles.size();
+        if (goodObjectsRemaining == 0) {
+            showGoal();
+        }
     }
 
     private void checkGoalOverlap() {
@@ -284,6 +306,15 @@ public class MazeScreen implements Screen {
             Body wallBody = world.createBody(getWallBodyDef(wallRectangle));
             wallBody.createFixture(getWallShape(wallRectangle), 0.0f);
         }
+        createGoalBlockBody();
+    }
+
+    public void createGoalBlockBody() {
+        MapLayer goalBlockLayer = tiledMap.getLayers().get("goal_block");
+        RectangleMapObject goalBlockObject = goalBlockLayer.getObjects().getByType(RectangleMapObject.class).get(0);
+        Rectangle goalBlockRectangle = scaleRectangle(goalBlockObject.getRectangle(), game.getScale());
+        goalBlock = world.createBody(getWallBodyDef(goalBlockRectangle));
+        goalBlock.createFixture(getWallShape(goalBlockRectangle), 0.0f);
     }
 
     private ArrayList<Rectangle> getWallRectangles() {
