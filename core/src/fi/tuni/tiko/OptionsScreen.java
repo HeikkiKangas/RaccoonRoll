@@ -83,20 +83,22 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             }
         });
 
-        titleLabel = new Label( "Options", skin );
+        titleLabel = new Label( "Options", skin, "title" );
         volumeMusicLabel = new Label( "Music", skin );
         volumeEffectsLabel = new Label( "Effects", skin );
 
+        float padding = game.scaleFromFHD(50);
+        buttonHeight = game.scaleFromFHD(200f);
 
         table.add(titleLabel);
-        table.row();
+        table.row().pad(padding * 2, 0, 0, 0);
         table.add(volumeMusicLabel);
         table.add(volumeMusicSlider);
-        table.row();
+        table.row().pad(padding, 0, 0, 0);
         table.add(volumeEffectsLabel);
         table.add(volumeEffectsSlider);
-        table.row();
-        table.add(back);
+        table.row().pad(padding * 4, 0, 0, 0);
+        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
 /*
         float padding = game.scaleFromFHD(800);
