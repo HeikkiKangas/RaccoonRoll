@@ -39,7 +39,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        title = new Texture("graphics/mainmenu/Logo1.png");
+        title = new Texture("graphics/mainmenu/Logo1iso.png");
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -92,7 +92,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         options.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Options", "Should be here");
+                Gdx.app.log("Options", "Button clicked");
+                game.setScreen(new OptionsScreen(game));
             }
         });
 
