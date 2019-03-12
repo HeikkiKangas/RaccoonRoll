@@ -40,6 +40,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     @Override
     public void show() {
         Table table = new Table();
+        if (game.DEBUGGING()) {
+            table.setDebug(true);
+        }
         table.setFillParent(true);
         stage.addActor(table);
 

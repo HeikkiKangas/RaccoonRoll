@@ -50,7 +50,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(true);
+        if (game.DEBUGGING()) {
+            table.setDebug(true);
+        }
 
         skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
