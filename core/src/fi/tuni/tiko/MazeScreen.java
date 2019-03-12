@@ -167,7 +167,7 @@ public class MazeScreen implements Screen {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/" + levelName + ".mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(game.getMusicVolume());
-        backgroundMusic.play();
+        //backgroundMusic.play();
     }
 
     /**
