@@ -264,6 +264,14 @@ public class RaccoonRoll extends Game {
         return musicVolume;
     }
 
+    public void setEffectsVolume(float effectsVolume) {
+        this.effectsVolume = effectsVolume;
+    }
+
+    public void setMusicVolume(float musicVolume) {
+        this.musicVolume = musicVolume;
+    }
+
     /**
      * Should debugging messages and debug renderers be used
      * @return true if debugging is enabled
