@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,46 +14,33 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MenuScreen extends ApplicationAdapter implements Screen {
+public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
+
     RaccoonRoll game;
     SpriteBatch batch;
     OrthographicCamera worldCamera;
     OrthographicCamera textCamera;
     Skin skin;
-    TextButton play;
-    TextButton options;
-    TextButton about;
+    TextButton ok;
     Stage stage;
-    I18NBundle menuBundle;
     float buttonHeight;
-    float titleWidth;
-    float titleHeight;
-    Texture title;
 
-    public MenuScreen(RaccoonRoll game) {
+    public LevelCompletedScreen(RaccoonRoll game) {
         this.game = game;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        title = new Texture("graphics/mainmenu/Logo1.png");
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
-        menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), game.getLocale());
-
-        titleWidth = game.scaleFromFHD(title.getWidth());
-        titleHeight = game.scaleFromFHD(title.getHeight());
     }
 
     @Override
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
-        //table.setDebug(true);
         stage.addActor(table);
 
         skin = new Skin();
@@ -64,43 +50,19 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         skin.add("font", game.getTextFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+        ok = new TextButton("Continue", skin);
 
-        play = new TextButton(menuBundle.get("playButton"), skin);
-        options = new TextButton(menuBundle.get("optionsButton"), skin);
-        about = new TextButton(menuBundle.get("aboutButton"), skin);
-
-        float padding = game.scaleFromFHD(300);
-        table.row().pad(padding, 0, 0, 0);
-        table.right();
-        table.padRight(padding);
+        float padding = game.scaleFromFHD(50);
+        table.row().pad(padding * 10, 0, 0, 0);
+        table.padLeft(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
-        float scaledButtonPadding = game.scaleFromFHD(25f);
-        table.add(play).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
-        table.row().padTop(scaledButtonPadding);
-        table.add(options).uniformX().fillX().height(buttonHeight);
-        table.row().padTop(scaledButtonPadding);
-        table.add(about).uniformX().fillX().height(buttonHeight);
+        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
-        play.addListener(new ClickListener(){
+        ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Play", "Button clicked");
-                game.setScreen(new MazeScreen(game, "tutorial"));
-            }
-        });
-
-        options.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Options", "Should be here");
-            }
-        });
-
-        about.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("About", "Button clicked");
-                game.setScreen(new AboutScreen(game));
+                Gdx.app.log("Continue", "Button clicked");
+                game.setScreen(new MenuScreen(game));
             }
         });
     }
@@ -112,11 +74,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
-        batch.setProjectionMatrix(textCamera.combined);
-        batch.begin();
-        batch.draw(title, Gdx.graphics.getWidth() / 2 - titleWidth / 2, Gdx.graphics.getHeight() - titleHeight, titleWidth, titleHeight);
-        batch.end();
     }
 
     @Override

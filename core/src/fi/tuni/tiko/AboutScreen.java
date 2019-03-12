@@ -68,8 +68,6 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         credits = new Label(aboutBundle.get("credits"), skin);
         musicTitle = new Label(aboutBundle.get("musicTitle"), skin, "title");
         music = new Label(aboutBundle.get("music"), skin);
-        //automaattinen rivinvaihto mittojen mukaan
-        //credits.setWrap(true);
 
         float padding = game.scaleFromFHD(50);
         table.row();
