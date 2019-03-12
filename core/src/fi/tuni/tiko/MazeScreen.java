@@ -2,6 +2,7 @@ package fi.tuni.tiko;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -56,6 +57,7 @@ public class MazeScreen implements Screen {
     private Sound badSound;
     private Sound goodSound;
     private Sound victorySound;
+    private Music backgroundMusic;
 
     private float tiledMapHeight;
     private float tiledMapWidth;
@@ -102,6 +104,9 @@ public class MazeScreen implements Screen {
 
         loadTileMap(levelName);
         loadSounds();
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/" + levelName + ".mp3"));
+        backgroundMusic.setVolume(game.getMusicVolume());
+        backgroundMusic.play();
 
         player.createPlayerBody(world, getPlayerStartPos());
         goodObjectRectangles = getGoodRectangles();
@@ -599,5 +604,14 @@ public class MazeScreen implements Screen {
         for (Sound wallHitSound : wallHitSounds) {
             wallHitSound.dispose();
         }
+        backgroundMusic.stop();
+        backgroundMusic.dispose();
+        victorySound.dispose();
+        goodSound.dispose();
+        badSound.dispose();
+
+        tiledMap.dispose();
+        world.dispose();
+        debugRenderer.dispose();
     }
 }
