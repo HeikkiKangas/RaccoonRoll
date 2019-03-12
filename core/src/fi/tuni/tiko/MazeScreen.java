@@ -81,7 +81,7 @@ public class MazeScreen implements Screen {
     private BitmapFont hudFont;
 
     private float levelFinishedTime;
-    private final float levelCompletedScreenDelay = 1000;
+    private final float levelCompletedScreenDelay = 1500;
 
     /**
      * Sets up the selected maze
