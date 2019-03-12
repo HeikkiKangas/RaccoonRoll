@@ -3,6 +3,7 @@ package fi.tuni.tiko;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -33,6 +34,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     float titleWidth;
     float titleHeight;
     Texture title;
+    private Music backgroundMusic;
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
@@ -48,6 +50,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         titleWidth = game.scaleFromFHD(title.getWidth());
         titleHeight = game.scaleFromFHD(title.getHeight());
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/main_menu_loop.mp3"));
+        backgroundMusic.setVolume(game.getMusicVolume());
+        backgroundMusic.play();
     }
 
     @Override
@@ -86,6 +92,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Play", "Button clicked");
                 game.setScreen(new MazeScreen(game, "tutorial"));
+                backgroundMusic.stop();
             }
         });
 
@@ -94,6 +101,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Options", "Button clicked");
                 game.setScreen(new OptionsScreen(game));
+                backgroundMusic.stop();
             }
         });
 
@@ -102,6 +110,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("About", "Button clicked");
                 game.setScreen(new AboutScreen(game));
+                backgroundMusic.stop();
             }
         });
     }
