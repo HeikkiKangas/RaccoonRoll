@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class OptionsScreen extends ApplicationAdapter implements Screen {
@@ -32,8 +33,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private Label titleLabel;
     private Label volumeMusicLabel;
     private Label volumeEffectsLabel;
-    private Label musicOnOffLabel;
-    private Label soundOnOffLabel;
+    I18NBundle optionsBundle;
 
     public OptionsScreen(RaccoonRoll game) {
         this.game = game;
@@ -43,6 +43,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), game.getLocale());
     }
 
     @Override
@@ -61,7 +63,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         skin.add("font", game.getTextFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        back = new TextButton("Back", skin);
+        back = new TextButton(optionsBundle.get("backButton"), skin);
 
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
 
@@ -85,9 +87,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             }
         });
 
-        titleLabel = new Label( "Options", skin, "title" );
-        volumeMusicLabel = new Label( "Music", skin );
-        volumeEffectsLabel = new Label( "Effects", skin );
+        titleLabel = new Label(optionsBundle.get("title"), skin, "title" );
+        volumeMusicLabel = new Label(optionsBundle.get("musicSlider"), skin );
+        volumeEffectsLabel = new Label(optionsBundle.get("effectsSlider"), skin );
 
         float padding = game.scaleFromFHD(50);
         buttonHeight = game.scaleFromFHD(200f);
@@ -101,14 +103,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         table.add(volumeEffectsSlider);
         table.row().pad(padding * 4, 0, 0, 0);
         table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
-
-/*
-        float padding = game.scaleFromFHD(800);
-        table.row().pad(padding, 0, 0, 0);
-        table.padRight(padding);
-        buttonHeight = game.scaleFromFHD(200f);
-        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
-*/
 
         back.addListener(new ClickListener(){
             @Override
