@@ -53,7 +53,9 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         Table buttonTable = new Table();
         stage.addActor(table);
         table.setDebug(true);
-        buttonTable.setDebug(true);
+        if (game.DEBUGGING()) {
+            buttonTable.setDebug(true);
+        }
 
         skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
