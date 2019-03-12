@@ -150,12 +150,12 @@ public class MazeScreen implements Screen {
     private void loadSounds() {
         wallHitSounds = new ArrayList<Sound>();
         for (int i = 1; i < 6; i++) {
-            String filePath = String.format("sounds/wallHit/WALL_HIT_0%d.wav", i);
+            String filePath = String.format("sounds/wallHit/WALL_HIT_0%d.mp3", i);
             wallHitSounds.add(Gdx.audio.newSound(Gdx.files.internal(filePath)));
         }
-        badSound = Gdx.audio.newSound(Gdx.files.internal("sounds/badObject/BAD_01.wav"));
-        goodSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goodObject/GOOD_01.wav"));
-        victorySound = Gdx.audio.newSound(Gdx.files.internal("sounds/victory/VICTORY_01.wav"));
+        badSound = Gdx.audio.newSound(Gdx.files.internal("sounds/badObject/BAD_01.mp3"));
+        goodSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goodObject/GOOD_01.mp3"));
+        victorySound = Gdx.audio.newSound(Gdx.files.internal("sounds/victory/VICTORY_01.mp3"));
     }
 
     /**
