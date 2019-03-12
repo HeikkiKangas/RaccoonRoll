@@ -31,7 +31,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     float buttonHeight;
     private Label titleLabel;
     private Label volumeMusicLabel;
-    private Label volumeSoundLabel;
+    private Label volumeEffectsLabel;
     private Label musicOnOffLabel;
     private Label soundOnOffLabel;
 
@@ -72,11 +72,20 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             }
         });
 
+        final Slider volumeEffectsSlider = new Slider( 0f, 1f, 0.1f,false, skin );
+
+        volumeEffectsSlider.setValue(1);
+        volumeEffectsSlider.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                game.setEffectsVolume( volumeEffectsSlider.getValue() );
+                return false;
+            }
+        });
+
         titleLabel = new Label( "Options", skin );
-        volumeMusicLabel = new Label( "Volume", skin );
-        volumeSoundLabel = new Label( null, skin );
-        musicOnOffLabel = new Label( null, skin );
-        soundOnOffLabel = new Label( null, skin );
+        volumeMusicLabel = new Label( "Music", skin );
+        volumeEffectsLabel = new Label( "Effects", skin );
 
 
         table.add(titleLabel);
@@ -84,26 +93,18 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         table.add(volumeMusicLabel);
         table.add(volumeMusicSlider);
         table.row();
-        /*
-        table.add(musicOnOffLabel);
-        table.add(musicCheckbox);
-        table.row();
-        table.add(volumeSoundLabel);
-        table.add(soundMusicSlider);
-        table.row();
-        table.add(soundOnOffLabel);
-        table.add(soundEffectsCheckbox);
+        table.add(volumeEffectsLabel);
+        table.add(volumeEffectsSlider);
         table.row();
         table.add(back);
 
-         */
-
+/*
         float padding = game.scaleFromFHD(800);
         table.row().pad(padding, 0, 0, 0);
         table.padRight(padding);
         buttonHeight = game.scaleFromFHD(200f);
         table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
-
+*/
 
         back.addListener(new ClickListener(){
             @Override

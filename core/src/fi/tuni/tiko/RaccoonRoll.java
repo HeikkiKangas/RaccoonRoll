@@ -66,7 +66,7 @@ public class RaccoonRoll extends Game {
         generateFonts();
 
         effectsVolume = 1f;
-        musicVolume = 0.1f;
+        musicVolume = 1f;
 
         setScreen(new MenuScreen(this));
     }
