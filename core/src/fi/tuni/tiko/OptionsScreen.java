@@ -63,7 +63,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
 
-        volumeMusicSlider.setValue(1);
+        volumeMusicSlider.setValue(game.getMusicVolume());
         volumeMusicSlider.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -74,7 +74,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         final Slider volumeEffectsSlider = new Slider( 0f, 1f, 0.1f,false, skin );
 
-        volumeEffectsSlider.setValue(1);
+        volumeEffectsSlider.setValue(game.getEffectsVolume());
         volumeEffectsSlider.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
