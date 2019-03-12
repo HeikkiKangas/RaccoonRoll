@@ -172,6 +172,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Loads tilemap, sets up TiledMapRenderer and TiledMap dimensions in meters
+     *
      * @param levelName
      */
     private void loadTileMap(String levelName) {
@@ -219,13 +220,14 @@ public class MazeScreen implements Screen {
     /**
      * Clears the screen with black color
      */
-    public void clearScreen() {
+    private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     /**
      * Gets player starting position from tilemap
+     *
      * @return vector of player start position
      */
     private Vector2 getPlayerStartPos() {
@@ -238,7 +240,8 @@ public class MazeScreen implements Screen {
 
     /**
      * Should be called when window resizes but doesn't
-     * @param width not used
+     *
+     * @param width  not used
      * @param height not used
      */
     @Override
@@ -251,6 +254,7 @@ public class MazeScreen implements Screen {
     /**
      * Moves player, checks if player overlaps with objects, updates camera position and draws
      * tilemap and player
+     *
      * @param delta time since last frame was drawn
      */
     @Override
@@ -318,6 +322,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Formats time from float seconds
+     *
      * @return time in m:ss
      */
     private String formatTime() {
@@ -427,6 +432,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Checks given rectangles x and y index in tilemap
+     *
      * @param rectangle which tile index should be returned
      * @return vector of given rectangle's x and y indexes
      */
@@ -437,6 +443,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Clears given TileLayer's tile at given x and y index
+     *
      * @param tileLayer on which layer the tile should be cleared
      * @param tileIndex coordinates of the tile to be cleared
      */
@@ -460,7 +467,7 @@ public class MazeScreen implements Screen {
     /**
      * Creates body for blocking the goal while there's good objects remaining in tilemap
      */
-    public void createGoalBlockBody() {
+    private void createGoalBlockBody() {
         MapLayer goalBlockLayer = tiledMap.getLayers().get("goal_blocking_object");
         RectangleMapObject goalBlockObject = goalBlockLayer.getObjects().getByType(RectangleMapObject.class).get(0);
         Rectangle goalBlockRectangle = scaleRectangle(goalBlockObject.getRectangle(), game.getScale());
@@ -470,6 +477,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Creates Rectangles scaled to world units from RectangleMapObjects on wall objects layer of the tilemap
+     *
      * @return ArrayList of the Rectangles scaled to meters
      */
     private ArrayList<Rectangle> getWallRectangles() {
@@ -489,6 +497,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Creates Rectangles scaled to world units from RectangleMapObjects on good objects layer of the tilemap
+     *
      * @return ArrayList of the Rectangles scaled to meters
      */
     private ArrayList<Rectangle> getGoodRectangles() {
@@ -508,6 +517,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Creates Rectangles scaled to world units from RectangleMapObjects on bad objects layer of the tilemap
+     *
      * @return ArrayList of the Rectangles scaled to meters
      */
     private ArrayList<Rectangle> getBadRectangles() {
@@ -543,6 +553,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Creates BodyDef for wall bodies
+     *
      * @param wallRect dimensions of the body to create
      * @return BodyDef of the wall
      */
@@ -558,6 +569,7 @@ public class MazeScreen implements Screen {
 
     /**
      * Creates PolygonShape of the scaled wall Rectangle
+     *
      * @param wallRect dimensions of the shape to create
      * @return PolygonShape of the given wall rectangle
      */
@@ -572,7 +584,8 @@ public class MazeScreen implements Screen {
 
     /**
      * Scales given rectangle from pixels to meters
-     * @param r Rectangle to scale
+     *
+     * @param r     Rectangle to scale
      * @param scale scaling to use
      * @return scaled Rectangle
      */
