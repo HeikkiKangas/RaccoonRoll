@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -43,29 +45,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
-    /*
-    Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
-        volumeMusicSlider.setValue( parent.getPreferences().getMusicVolume() );
-        volumeMusicSlider.addListener( new EventListener() {
-        @Override
-        public boolean handle(Event event) {
-            parent.getPreferences().setMusicVolume( volumeMusicSlider.getValue() );
-            return false;
-        }
-    });
-
-    CheckBox musicCheckbox = new CheckBox(null, skin);
-    musicCheckbox.setChecked( parent.getPreferences().isMusicEnabled() );
-    musicCheckbox.addListener( new EventListener() {
-        @Override
-        public boolean handle(Event event) {
-            boolean enabled = musicCheckbox.isChecked();
-            parent.getPreferences().setMusicEnabled( enabled );
-            return false;
-        }
-    });
-    */
-
     @Override
     public void show() {
         Table table = new Table();
@@ -82,18 +61,30 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
         back = new TextButton("Back", skin);
 
+        final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
+
+        volumeMusicSlider.setValue(1);
+        volumeMusicSlider.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                game.setMusicVolume( volumeMusicSlider.getValue() );
+                return false;
+            }
+        });
+
         titleLabel = new Label( "Options", skin );
-        volumeMusicLabel = new Label( null, skin );
+        volumeMusicLabel = new Label( "Volume", skin );
         volumeSoundLabel = new Label( null, skin );
         musicOnOffLabel = new Label( null, skin );
         soundOnOffLabel = new Label( null, skin );
 
-        /*
+
         table.add(titleLabel);
         table.row();
         table.add(volumeMusicLabel);
         table.add(volumeMusicSlider);
         table.row();
+        /*
         table.add(musicOnOffLabel);
         table.add(musicCheckbox);
         table.row();
