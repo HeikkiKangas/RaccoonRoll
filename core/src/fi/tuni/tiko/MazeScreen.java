@@ -104,9 +104,7 @@ public class MazeScreen implements Screen {
 
         loadTileMap(levelName);
         loadSounds();
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/" + levelName + ".mp3"));
-        backgroundMusic.setVolume(game.getMusicVolume());
-        backgroundMusic.play();
+        loadBackgroundMusic(levelName);
 
         player.createPlayerBody(world, getPlayerStartPos());
         goodObjectRectangles = getGoodRectangles();
@@ -158,6 +156,18 @@ public class MazeScreen implements Screen {
         badSound = Gdx.audio.newSound(Gdx.files.internal("sounds/badObject/BAD_01.wav"));
         goodSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goodObject/GOOD_01.wav"));
         victorySound = Gdx.audio.newSound(Gdx.files.internal("sounds/victory/VICTORY_01.wav"));
+    }
+
+    /**
+     * Loads levels background music, sets looping and volume and starts playing the music.
+     *
+     * @param levelName name of the level which music we want to load
+     */
+    private void loadBackgroundMusic(String levelName) {
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/" + levelName + ".mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(game.getMusicVolume());
+        backgroundMusic.play();
     }
 
     /**
