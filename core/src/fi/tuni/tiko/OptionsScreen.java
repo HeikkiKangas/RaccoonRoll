@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,7 +31,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     float buttonHeight;
     private Label titleLabel;
     private Label volumeMusicLabel;
-    private Label volumeSoundLabel;
+    private Label volumeEffectsLabel;
     private Label musicOnOffLabel;
     private Label soundOnOffLabel;
 
@@ -42,29 +44,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
     }
-
-    /*
-    Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
-        volumeMusicSlider.setValue( parent.getPreferences().getMusicVolume() );
-        volumeMusicSlider.addListener( new EventListener() {
-        @Override
-        public boolean handle(Event event) {
-            parent.getPreferences().setMusicVolume( volumeMusicSlider.getValue() );
-            return false;
-        }
-    });
-
-    CheckBox musicCheckbox = new CheckBox(null, skin);
-    musicCheckbox.setChecked( parent.getPreferences().isMusicEnabled() );
-    musicCheckbox.addListener( new EventListener() {
-        @Override
-        public boolean handle(Event event) {
-            boolean enabled = musicCheckbox.isChecked();
-            parent.getPreferences().setMusicEnabled( enabled );
-            return false;
-        }
-    });
-    */
 
     @Override
     public void show() {
@@ -82,37 +61,50 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
         back = new TextButton("Back", skin);
 
-        titleLabel = new Label( "Options", skin );
-        volumeMusicLabel = new Label( null, skin );
-        volumeSoundLabel = new Label( null, skin );
-        musicOnOffLabel = new Label( null, skin );
-        soundOnOffLabel = new Label( null, skin );
+        final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
 
-        /*
+        volumeMusicSlider.setValue(1);
+        volumeMusicSlider.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                game.setMusicVolume( volumeMusicSlider.getValue() );
+                return false;
+            }
+        });
+
+        final Slider volumeEffectsSlider = new Slider( 0f, 1f, 0.1f,false, skin );
+
+        volumeEffectsSlider.setValue(1);
+        volumeEffectsSlider.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                game.setEffectsVolume( volumeEffectsSlider.getValue() );
+                return false;
+            }
+        });
+
+        titleLabel = new Label( "Options", skin );
+        volumeMusicLabel = new Label( "Music", skin );
+        volumeEffectsLabel = new Label( "Effects", skin );
+
+
         table.add(titleLabel);
         table.row();
         table.add(volumeMusicLabel);
         table.add(volumeMusicSlider);
         table.row();
-        table.add(musicOnOffLabel);
-        table.add(musicCheckbox);
-        table.row();
-        table.add(volumeSoundLabel);
-        table.add(soundMusicSlider);
-        table.row();
-        table.add(soundOnOffLabel);
-        table.add(soundEffectsCheckbox);
+        table.add(volumeEffectsLabel);
+        table.add(volumeEffectsSlider);
         table.row();
         table.add(back);
 
-         */
-
+/*
         float padding = game.scaleFromFHD(800);
         table.row().pad(padding, 0, 0, 0);
         table.padRight(padding);
         buttonHeight = game.scaleFromFHD(200f);
         table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
-
+*/
 
         back.addListener(new ClickListener(){
             @Override
