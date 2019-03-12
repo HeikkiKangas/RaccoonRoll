@@ -80,6 +80,9 @@ public class MazeScreen implements Screen {
     private BitmapFont textFont;
     private BitmapFont hudFont;
 
+    private float levelFinishedTime;
+    private final float levelCompletedScreenDelay = 1000;
+
     /**
      * Sets up the selected maze
      *
@@ -259,6 +262,10 @@ public class MazeScreen implements Screen {
      */
     @Override
     public void render(float delta) {
+        if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
+            game.setScreen(new LevelCompletedScreen(game));
+            dispose();
+        }
         if (!goalReached) {
             timeSpent += delta;
         }
@@ -401,6 +408,7 @@ public class MazeScreen implements Screen {
             player.setGoalReached();
             goalReached = true;
             victorySound.play(game.getEffectsVolume());
+            levelFinishedTime = System.currentTimeMillis();
         }
     }
 
