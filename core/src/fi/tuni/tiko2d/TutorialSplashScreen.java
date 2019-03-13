@@ -1,4 +1,4 @@
-package fi.tuni.tiko;
+package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Screen;
 

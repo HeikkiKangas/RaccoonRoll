@@ -1,4 +1,4 @@
-package fi.tuni.tiko;
+package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -80,8 +80,8 @@ public class MazeScreen implements Screen {
     private BitmapFont textFont;
     private BitmapFont hudFont;
 
-    private float levelFinishedTime;
-    private final float levelCompletedScreenDelay = 1500;
+    private long levelFinishedTime;
+    private final long levelCompletedScreenDelay = 1500;
 
     /**
      * Sets up the selected maze
