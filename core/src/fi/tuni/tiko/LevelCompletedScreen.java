@@ -9,11 +9,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
@@ -26,6 +30,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     TextButton ok;
     Stage stage;
     float buttonHeight;
+    Label raunoTalk;
 
     public LevelCompletedScreen(RaccoonRoll game) {
         this.game = game;
@@ -55,7 +60,14 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
         ok = new TextButton("Continue", skin);
 
+        Table speechBubble = new Table(skin);
+        speechBubble.background("bubble-lower-left");
+        raunoTalk = new Label("This is positive", skin);
+        raunoTalk.setAlignment(Align.center);
+        speechBubble.add(raunoTalk);
+
         float padding = game.scaleFromFHD(50);
+        table.add(speechBubble);
         table.row().pad(padding * 10, 0, 0, 0);
         table.padLeft(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
