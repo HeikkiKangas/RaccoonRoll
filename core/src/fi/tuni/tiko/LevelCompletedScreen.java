@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -31,12 +32,14 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     Stage stage;
     float buttonHeight;
     Label raunoTalk;
+    Texture rauno;
 
     public LevelCompletedScreen(RaccoonRoll game) {
         this.game = game;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
+        rauno = new Texture("graphics/positiveRauno.png");
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -89,6 +92,11 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        batch.setProjectionMatrix(textCamera.combined);
+        batch.begin();
+        batch.draw(rauno, 0, 0, rauno.getWidth()/2, rauno.getHeight()/2);
+        batch.end();
     }
 
     @Override
