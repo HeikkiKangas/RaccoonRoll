@@ -44,7 +44,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        title = new Texture("graphics/mainmenu/Logo1iso.png");
+        title = new Texture("graphics/mainmenu/Logoiso2.png");
         background = new Texture("graphics/mainmenu/Valikontausta.png");
 
         stage = new Stage(new ScreenViewport());

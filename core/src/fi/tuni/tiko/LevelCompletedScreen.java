@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -72,7 +73,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         Table speechBubble = new Table(skin);
         speechBubble.background("bubble-lower-left");
-        raunoTalk = new Label(positiveBundle.get("pos1"), skin);
+        raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         raunoTalk.setAlignment(Align.center);
         speechBubble.add(raunoTalk);
 
@@ -124,6 +125,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     }
 
     public int getRandomPositive() {
-        return 1;
+        int number = MathUtils.random(0, 3);
+        return number;
     }
 }
