@@ -35,6 +35,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     Label raunoTalk;
     Texture rauno;
     I18NBundle positiveBundle;
+    int posNum;
 
     public LevelCompletedScreen(RaccoonRoll game) {
         this.game = game;
@@ -66,6 +67,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
         ok = new TextButton(positiveBundle.get("ok"), skin);
+
+        posNum = getRandomPositive();
 
         Table speechBubble = new Table(skin);
         speechBubble.background("bubble-lower-left");
@@ -118,5 +121,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     public void dispose() {
         // dispose of assets when not needed anymore
         stage.dispose();
+    }
+
+    public int getRandomPositive() {
+        return 1;
     }
 }
