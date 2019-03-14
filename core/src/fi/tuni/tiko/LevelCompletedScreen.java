@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
@@ -33,6 +34,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     float buttonHeight;
     Label raunoTalk;
     Texture rauno;
+    I18NBundle positiveBundle;
 
     public LevelCompletedScreen(RaccoonRoll game) {
         this.game = game;
@@ -40,6 +42,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         rauno = new Texture("graphics/positiveRauno.png");
+
+        positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), game.getLocale());
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -61,11 +65,11 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         skin.add("font", game.getTextFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        ok = new TextButton("Continue", skin);
+        ok = new TextButton(positiveBundle.get("ok"), skin);
 
         Table speechBubble = new Table(skin);
         speechBubble.background("bubble-lower-left");
-        raunoTalk = new Label("This is positive", skin);
+        raunoTalk = new Label(positiveBundle.get("pos1"), skin);
         raunoTalk.setAlignment(Align.center);
         speechBubble.add(raunoTalk);
 
