@@ -76,11 +76,11 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.add(creditTitle);
         table.row();
         table.add(credits);
-        table.row();
+        table.row().pad(padding, 0, 0, 0);
         table.add(musicTitle);
         table.row();
         table.add(music);
-        table.row().pad(padding * 10, 0, 0, 0);
+        table.row().pad(padding * 9, 0, 0, 0);
 
         buttonTable.row();
         buttonTable.padRight(padding * 26);

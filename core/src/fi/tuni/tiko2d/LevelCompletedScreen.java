@@ -5,8 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -16,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
@@ -29,12 +32,23 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     Stage stage;
     float buttonHeight;
     Label raunoTalk;
+    float raunoHeight;
+    float raunoWidth;
+    Texture rauno;
+    I18NBundle positiveBundle;
+    int posNum;
 
     public LevelCompletedScreen(RaccoonRoll game) {
         this.game = game;
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
+        rauno = new Texture("graphics/positiveRauno.png");
+
+        positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), game.getLocale());
+
+        raunoWidth = game.scaleFromFHD(rauno.getWidth());
+        raunoHeight = game.scaleFromFHD(rauno.getHeight());
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -56,16 +70,18 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         skin.add("font", game.getTextFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        ok = new TextButton("Continue", skin);
+        ok = new TextButton(positiveBundle.get("ok"), skin);
+
+        posNum = getRandomPositive();
 
         Table speechBubble = new Table(skin);
         speechBubble.background("bubble-lower-left");
-        raunoTalk = new Label("This is positive", skin);
+        raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         raunoTalk.setAlignment(Align.center);
         speechBubble.add(raunoTalk);
 
         float padding = game.scaleFromFHD(50);
-        table.add(speechBubble);
+        table.add(speechBubble).padRight(padding * 15);
         table.row().pad(padding * 10, 0, 0, 0);
         table.padLeft(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
@@ -87,6 +103,11 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        batch.setProjectionMatrix(textCamera.combined);
+        batch.begin();
+        batch.draw(rauno, 0, 0, raunoWidth, raunoHeight);
+        batch.end();
     }
 
     @Override
@@ -104,5 +125,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     public void dispose() {
         // dispose of assets when not needed anymore
         stage.dispose();
+    }
+
+    public int getRandomPositive() {
+        int number = MathUtils.random(0, 3);
+        return number;
     }
 }

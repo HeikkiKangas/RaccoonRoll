@@ -33,7 +33,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     float buttonHeight;
     float titleWidth;
     float titleHeight;
+    float bgWidth;
+    float bgHeight;
     Texture title;
+    Texture background;
     private Music backgroundMusic;
 
     public MenuScreen(RaccoonRoll game) {
@@ -41,7 +44,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        title = new Texture("graphics/mainmenu/Logo1iso.png");
+        title = new Texture("graphics/mainmenu/Logoiso2.png");
+        background = new Texture("graphics/mainmenu/Valikontausta.png");
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -50,6 +54,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         titleWidth = game.scaleFromFHD(title.getWidth());
         titleHeight = game.scaleFromFHD(title.getHeight());
+
+        bgWidth = game.scaleFromFHD(background.getWidth());
+        bgHeight = game.scaleFromFHD(background.getHeight());
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/main_menu_loop.mp3"));
         backgroundMusic.setVolume(game.getMusicVolume());
@@ -110,6 +117,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("About", "Button clicked");
                 game.setScreen(new AboutScreen(game));
+                //for testing purposes
+                //game.setScreen(new LevelCompletedScreen(game));
                 backgroundMusic.stop();
             }
         });
@@ -120,13 +129,14 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
-
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
+        batch.draw(background, 0, 0, bgWidth, bgHeight);
         batch.draw(title, Gdx.graphics.getWidth() / 2 - titleWidth / 2, Gdx.graphics.getHeight() - titleHeight, titleWidth, titleHeight);
         batch.end();
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     @Override
