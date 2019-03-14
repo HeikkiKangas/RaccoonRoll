@@ -70,7 +70,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         speechBubble.add(raunoTalk);
 
         float padding = game.scaleFromFHD(50);
-        table.add(speechBubble);
+        table.add(speechBubble).padRight(padding * 20);
         table.row().pad(padding * 10, 0, 0, 0);
         table.padLeft(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
