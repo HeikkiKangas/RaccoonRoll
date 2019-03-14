@@ -101,8 +101,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         table.row().pad(padding, 0, 0, 0);
         table.add(volumeEffectsLabel);
         table.add(volumeEffectsSlider);
-        table.row().pad(padding * 4, 0, 0, 0);
-        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        table.row().pad(padding * 5, 0, 0, 0);
+        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding * 10);
 
         back.addListener(new ClickListener(){
             @Override
