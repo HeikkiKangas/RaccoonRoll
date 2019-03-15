@@ -135,6 +135,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Disposed", "MazeScreen");
+        }
         // dispose of assets when not needed anymore
         stage.dispose();
     }

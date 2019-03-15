@@ -120,6 +120,9 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Disposed", "AboutScreen");
+        }
         // dispose of assets when not needed anymore
         stage.dispose();
     }

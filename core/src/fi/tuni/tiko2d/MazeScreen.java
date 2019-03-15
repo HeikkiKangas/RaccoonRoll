@@ -262,10 +262,7 @@ public class MazeScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
-            game.setScreen(new LevelCompletedScreen(game));
-            dispose();
-        }
+
         if (!goalReached) {
             timeSpent += delta;
         }
@@ -292,6 +289,10 @@ public class MazeScreen implements Screen {
             debugRenderer.render(world, worldCamera.combined);
         }
         world.step(1 / 60f, 6, 2);
+        if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
+            game.setScreen(new LevelCompletedScreen(game));
+            dispose();
+        }
     }
 
     /**
@@ -631,6 +632,9 @@ public class MazeScreen implements Screen {
      */
     @Override
     public void dispose() {
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Starting dispose", "MazeScreen");
+        }
         player.dispose();
         for (Sound wallHitSound : wallHitSounds) {
             wallHitSound.dispose();
@@ -644,5 +648,8 @@ public class MazeScreen implements Screen {
         tiledMap.dispose();
         world.dispose();
         debugRenderer.dispose();
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Finished dispose", "MazeScreen");
+        }
     }
 }

@@ -52,6 +52,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Constructor ran", "LevelCompletedScreen");
+        }
     }
 
     @Override
@@ -85,8 +88,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         table.row().pad(padding * 10, 0, 0, 0);
         table.padLeft(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
-        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
+        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -94,6 +97,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
+
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Show ran", "LevelCompletedScreen");
+        }
     }
 
     @Override
@@ -123,6 +130,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Disposed", "LevelCompletedScreen");
+        }
         // dispose of assets when not needed anymore
         stage.dispose();
     }
