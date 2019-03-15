@@ -208,6 +208,28 @@ public class RaccoonRoll extends Game {
     }
 
     /**
+     * Scales numbers to smaller screens
+     *
+     * @param num float to scale
+     * @return scaled float
+     */
+    public float scaleHorizontal(float num) {
+        float aspectRatio = Gdx.graphics.getWidth() / 1920f;
+        return aspectRatio * num;
+    }
+
+    /**
+     * Scales numbers to smaller screens
+     *
+     * @param num float to scale
+     * @return scaled float
+     */
+    public float scaleVertical(float num) {
+        float aspectRatio = Gdx.graphics.getHeight() / 1080f;
+        return aspectRatio * num;
+    }
+
+    /**
      * Scales numbers for smaller screens
      * @param num int to scale
      * @return scaled int
