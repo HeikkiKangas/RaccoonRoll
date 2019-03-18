@@ -1,0 +1,19 @@
+Layer name		Layer type	Layer function
+
+good_objects		ObjectLayer	Rectangles for good objects
+good_tiles		TileLayer	Good objects tiles
+
+bad_objects		ObjectLayer	Rectangles for bad objects
+bad_tiles		TileLayer	Bad objects tiles
+
+goal			TileLayer	Goal tiles and different wall tiles
+goal_ground		TileLayer	Ground below goal and different wall tiles
+goal_object		ObjectLayer	Rectangle for reaching the goal
+goal_blocking_object	ObjectLayer	Rectangle blocking route to goal before all good objects are gathered
+
+wall_objects		ObjectLayer	Rectangles for walls except where goal will be opened
+wall_tiles 		TileLayer	Walls tiles
+
+ground			TileLayer	Ground tiles
+
+startpos		ObjectLayer	Player start position, center of the player

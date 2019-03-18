@@ -1,4 +1,4 @@
-package fi.tuni.tiko;
+package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -14,9 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -54,6 +52,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Constructor ran", "LevelCompletedScreen");
+        }
     }
 
     @Override
@@ -87,8 +88,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         table.row().pad(padding * 10, 0, 0, 0);
         table.padLeft(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
-        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
+        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -96,6 +97,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
+
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Show ran", "LevelCompletedScreen");
+        }
     }
 
     @Override
@@ -125,6 +130,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Disposed", "LevelCompletedScreen");
+        }
         // dispose of assets when not needed anymore
         stage.dispose();
     }

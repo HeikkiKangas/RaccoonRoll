@@ -1,9 +1,13 @@
-package fi.tuni.tiko;
+package fi.tuni.tiko2d;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
-public class TutorialSplashScreen implements Screen {
-    public TutorialSplashScreen() {
+public class TutorialScreen implements Screen {
+    RaccoonRoll game;
+
+    public TutorialScreen(RaccoonRoll game) {
+        this.game = game;
     }
 
     @Override
@@ -38,6 +42,8 @@ public class TutorialSplashScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Disposed", "TutorialScreen");
+        }
     }
 }

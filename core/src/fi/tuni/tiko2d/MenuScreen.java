@@ -1,4 +1,4 @@
-package fi.tuni.tiko;
+package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -110,7 +110,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Play", "Button clicked");
-                game.setScreen(new MazeScreen(game, "tutorial"));
+                game.setScreen(new MazeScreen(game, "london"));
                 backgroundMusic.stop();
             }
         });
@@ -181,6 +181,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Disposed", "MenuScreen");
+        }
         // dispose of assets when not needed anymore
         stage.dispose();
     }

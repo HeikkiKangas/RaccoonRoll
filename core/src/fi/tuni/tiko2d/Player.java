@@ -1,4 +1,4 @@
-package fi.tuni.tiko;
+package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -31,11 +31,15 @@ public class Player {
     private TextureAtlas atlas;
     private float debuffTimeLeft;
 
+    private boolean logVelocity;
+
     /**
      * Creates TextureAtlas of the player animation and sets the size of the player
      * @param game Main game class for scaling the player texture
      */
     public Player(RaccoonRoll game) {
+        logVelocity = false;
+
         this.game = game;
         atlas = new TextureAtlas(Gdx.files.internal("graphics/player/roll_animation/racc_roll.txt"));
         playerAnimation = new Animation<TextureRegion>(
@@ -159,7 +163,7 @@ public class Player {
         }
 
         Vector2 playerVelocity = playerBody.getLinearVelocity();
-        if (game.DEBUGGING()) {
+        if (game.DEBUGGING() && logVelocity) {
             Gdx.app.log("Current velocity", "" + playerVelocity);
         }
         playerVelocity.x = -(playerVelocity.x * 2 * deltatime);
@@ -203,7 +207,11 @@ public class Player {
      * Disposes used assets
      */
     public void dispose() {
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Disposed", "Player");
+        }
         atlas.dispose();
+        //playerBody.destroyFixture(playerBody.getFixtureList().get(0));
     }
 
     /**

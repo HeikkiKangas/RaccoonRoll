@@ -1,10 +1,9 @@
-package fi.tuni.tiko;
+package fi.tuni.tiko2d;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import fi.tuni.tiko.RaccoonRoll;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

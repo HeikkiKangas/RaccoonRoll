@@ -1,4 +1,4 @@
-package fi.tuni.tiko;
+package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -27,6 +27,7 @@ Show tiles: 30
  */
 public class RaccoonRoll extends Game {
     private final boolean DEBUGGING = false;
+
     private SpriteBatch batch;
     private final float WORLD_WIDTH = 10f;
     private float WORLD_HEIGHT;
@@ -40,6 +41,7 @@ public class RaccoonRoll extends Game {
     private BitmapFont buttonFont;
     private BitmapFont hudFont;
     private Locale locale;
+    private boolean scaleHorizontal;
 
     private float effectsVolume;
     private float musicVolume;
@@ -54,6 +56,17 @@ public class RaccoonRoll extends Game {
         // Locale could be moved to RaccoonRoll class to save a bit of memory
         locale = new Locale("fi", "FI");
         //locale = Locale.getDefault();
+
+        if ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth() <= 0.5625f) {
+            scaleHorizontal = true;
+        }
+
+        if (DEBUGGING) {
+            Gdx.app.log("Window width", "" + Gdx.graphics.getWidth());
+            Gdx.app.log("Window height", "" + Gdx.graphics.getHeight());
+            Gdx.app.log("Horizontal scaling", "" + scaleHorizontal);
+            Gdx.app.log("Aspect ratio", "" + ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth()));
+        }
 
         batch = new SpriteBatch();
 
@@ -84,7 +97,14 @@ public class RaccoonRoll extends Game {
      */
     @Override
     public void dispose () {
+        if (DEBUGGING) {
+            Gdx.app.log("Disposed", "RaccoonRoll");
+        }
         batch.dispose();
+        buttonFont.dispose();
+        hudFont.dispose();
+        textFont.dispose();
+        titleFont.dispose();
     }
 
     /**
@@ -178,6 +198,33 @@ public class RaccoonRoll extends Game {
      * @return scaled float
      */
     public float scaleFromFHD(float num) {
+        float aspectRatio;
+        if (scaleHorizontal) {
+            aspectRatio = Gdx.graphics.getWidth() / 1920f;
+        } else {
+            aspectRatio = Gdx.graphics.getHeight() / 1080f;
+        }
+        return aspectRatio * num;
+    }
+
+    /**
+     * Scales numbers to smaller screens
+     *
+     * @param num float to scale
+     * @return scaled float
+     */
+    public float scaleHorizontal(float num) {
+        float aspectRatio = Gdx.graphics.getWidth() / 1920f;
+        return aspectRatio * num;
+    }
+
+    /**
+     * Scales numbers to smaller screens
+     *
+     * @param num float to scale
+     * @return scaled float
+     */
+    public float scaleVertical(float num) {
         float aspectRatio = Gdx.graphics.getHeight() / 1080f;
         return aspectRatio * num;
     }
@@ -188,7 +235,12 @@ public class RaccoonRoll extends Game {
      * @return scaled int
      */
     public int scaleTextFromFHD(int num) {
-        float aspectRatio = Gdx.graphics.getHeight() / 1080f;
+        float aspectRatio;
+        if (scaleHorizontal) {
+            aspectRatio = Gdx.graphics.getWidth() / 1920f;
+        } else {
+            aspectRatio = Gdx.graphics.getHeight() / 1080f;
+        }
         return (int) (num * aspectRatio);
     }
 
