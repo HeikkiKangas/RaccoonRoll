@@ -68,13 +68,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             table.setDebug(true);
         }
 
-        skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTextFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+        createSkin();
         back = new TextButton(optionsBundle.get("backButton"), skin);
 
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
@@ -99,9 +93,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             }
         });
 
-        titleLabel = new Label(optionsBundle.get("title"), skin, "title" );
-        volumeMusicLabel = new Label(optionsBundle.get("musicSlider"), skin );
-        volumeEffectsLabel = new Label(optionsBundle.get("effectsSlider"), skin );
+        createLabels();
 
         float padding = game.scaleFromFHD(50);
         buttonHeight = game.scaleFromFHD(200f);
@@ -123,6 +115,22 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
+    }
+
+    private void createSkin() {
+        skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTextFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+    }
+
+    private void createLabels() {
+        titleLabel = new Label(optionsBundle.get("title"), skin, "title" );
+        volumeMusicLabel = new Label(optionsBundle.get("musicSlider"), skin );
+        volumeEffectsLabel = new Label(optionsBundle.get("effectsSlider"), skin );
     }
 
     /**

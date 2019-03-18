@@ -82,17 +82,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         //table.setDebug(true);
         stage.addActor(table);
 
-        skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTextFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-
-        play = new TextButton(menuBundle.get("playButton"), skin);
-        options = new TextButton(menuBundle.get("optionsButton"), skin);
-        about = new TextButton(menuBundle.get("aboutButton"), skin);
+        createSkin();
+        createButtons();
 
         float padding = game.scaleFromFHD(300);
         table.row().pad(padding, 0, 0, 0);
@@ -106,6 +97,26 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         table.row().padTop(scaledButtonPadding);
         table.add(about).uniformX().fillX().height(buttonHeight);
 
+        addListeners();
+    }
+
+    private void createSkin() {
+        skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTextFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+    }
+
+    private void createButtons() {
+        play = new TextButton(menuBundle.get("playButton"), skin);
+        options = new TextButton(menuBundle.get("optionsButton"), skin);
+        about = new TextButton(menuBundle.get("aboutButton"), skin);
+    }
+
+    private void addListeners() {
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

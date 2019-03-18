@@ -66,13 +66,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTextFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+        createSkin();
         ok = new TextButton(positiveBundle.get("ok"), skin);
 
         posNum = getRandomPositive();
@@ -101,6 +95,16 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         if (game.DEBUGGING()) {
             Gdx.app.log("Show ran", "LevelCompletedScreen");
         }
+    }
+
+    private void createSkin() {
+        skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTextFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
     }
 
     @Override

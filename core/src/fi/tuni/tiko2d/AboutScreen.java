@@ -69,19 +69,9 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
             buttonTable.setDebug(true);
         }
 
-        skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTextFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+        createSkin();
         back = new TextButton(aboutBundle.get("backButton"), skin);
-
-        creditTitle = new Label(aboutBundle.get("title"), skin, "title");
-        credits = new Label(aboutBundle.get("credits"), skin);
-        musicTitle = new Label(aboutBundle.get("musicTitle"), skin, "title");
-        music = new Label(aboutBundle.get("music"), skin);
+        createLabels();
 
         float padding = game.scaleFromFHD(50);
         table.row();
@@ -100,7 +90,6 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.add(buttonTable);
         buttonTable.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
-
         back.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -108,6 +97,23 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
+    }
+
+    private void createSkin() {
+        skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTextFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+    }
+
+    private void createLabels() {
+        creditTitle = new Label(aboutBundle.get("title"), skin, "title");
+        credits = new Label(aboutBundle.get("credits"), skin);
+        musicTitle = new Label(aboutBundle.get("musicTitle"), skin, "title");
+        music = new Label(aboutBundle.get("music"), skin);
     }
 
     /**
