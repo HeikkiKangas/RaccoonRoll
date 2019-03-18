@@ -18,6 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * Screen for displaying information
+ *
+ * @author Laura Kanerva
+ */
+
 public class AboutScreen extends ApplicationAdapter implements Screen {
 
     RaccoonRoll game;
@@ -33,6 +39,12 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     Label musicTitle;
     Label music;
     I18NBundle aboutBundle;
+
+    /**
+     * Sets up the information screen
+     *
+     * @param game  main game class
+     */
 
     public AboutScreen(RaccoonRoll game) {
         this.game = game;
@@ -97,6 +109,12 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
             }
         });
     }
+
+    /**
+     * Draws the information and a button
+     *
+     * @param delta time since last frame was drawn
+     */
 
     @Override
     public void render(float delta) {

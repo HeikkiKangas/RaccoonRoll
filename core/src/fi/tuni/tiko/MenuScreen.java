@@ -19,6 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * Screen for displaying main menu
+ *
+ * @author Laura Kanerva
+ */
+
 public class MenuScreen extends ApplicationAdapter implements Screen {
     RaccoonRoll game;
     SpriteBatch batch;
@@ -38,6 +44,12 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Texture title;
     Texture background;
     private Music backgroundMusic;
+
+    /**
+     * Sets up the main menu
+     *
+     * @param game  main game class
+     */
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
@@ -124,6 +136,12 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         });
     }
 
+    /**
+     * Draws the background, title and buttons
+     *
+     * @param delta time since last frame was drawn
+     */
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -144,11 +162,22 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     }
 
+    /**
+     * Should be called when window resizes but doesn't
+     *
+     * @param width  not used
+     * @param height not used
+     */
+
     @Override
     public void resize(int width, int height) {
         // change the stage's viewport when the screen size is changed
         stage.getViewport().update(width, height, true);
     }
+
+    /**
+     * Disposes used assets
+     */
 
     @Override
     public void dispose() {

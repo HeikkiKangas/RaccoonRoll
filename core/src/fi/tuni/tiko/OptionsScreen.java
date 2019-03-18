@@ -21,6 +21,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * Screen for displaying options
+ *
+ * @author Laura Kanerva
+ */
+
 public class OptionsScreen extends ApplicationAdapter implements Screen {
     RaccoonRoll game;
     SpriteBatch batch;
@@ -34,6 +40,12 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private Label volumeMusicLabel;
     private Label volumeEffectsLabel;
     I18NBundle optionsBundle;
+
+    /**
+     * Sets up the options screen
+     *
+     * @param game  main game class
+     */
 
     public OptionsScreen(RaccoonRoll game) {
         this.game = game;
@@ -112,6 +124,12 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             }
         });
     }
+
+    /**
+     * Draws the buttons
+     *
+     * @param delta time since last frame was drawn
+     */
 
     @Override
     public void render(float delta) {
