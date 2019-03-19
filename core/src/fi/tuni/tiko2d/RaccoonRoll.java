@@ -33,7 +33,8 @@ public class RaccoonRoll extends Game {
     private float WORLD_HEIGHT;
     private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
-    private final float scale = 1f / 96f;
+    private final float scale = 1f / 128f;
+    //private final float scale = 1f / 96f;
     // 16px tile scaling: private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
     private BitmapFont textFont;
@@ -43,6 +44,7 @@ public class RaccoonRoll extends Game {
     private Locale locale;
     private boolean scaleHorizontal;
 
+    private Options options;
     private float effectsVolume;
     private float musicVolume;
 
@@ -52,10 +54,13 @@ public class RaccoonRoll extends Game {
      */
     @Override
     public void create () {
+        options = new Options();
         //for testing purposes
         // Locale could be moved to RaccoonRoll class to save a bit of memory
         //locale = new Locale("fi", "FI");
-        locale = Locale.getDefault();
+        //locale = Locale.getDefault();
+        locale = new Locale("en");
+        System.out.println(locale.getLanguage());
 
         if ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth() <= 0.5625f) {
             scaleHorizontal = true;
@@ -326,6 +331,10 @@ public class RaccoonRoll extends Game {
 
     public void setMusicVolume(float musicVolume) {
         this.musicVolume = musicVolume;
+    }
+
+    public Options getOptions() {
+        return options;
     }
 
     /**

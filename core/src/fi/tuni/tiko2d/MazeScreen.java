@@ -118,6 +118,8 @@ public class MazeScreen implements Screen {
         createWalls();
         createGoalBlockBody();
         addContactListener();
+
+        Gdx.input.setInputProcessor(null);
     }
 
     /**
