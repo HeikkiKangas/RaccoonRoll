@@ -54,8 +54,8 @@ public class RaccoonRoll extends Game {
     public void create () {
         //for testing purposes
         // Locale could be moved to RaccoonRoll class to save a bit of memory
-        locale = new Locale("fi", "FI");
-        //locale = Locale.getDefault();
+        //locale = new Locale("fi", "FI");
+        locale = Locale.getDefault();
 
         if ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth() <= 0.5625f) {
             scaleHorizontal = true;
@@ -306,6 +306,10 @@ public class RaccoonRoll extends Game {
      */
     public Locale getLocale() {
         return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     public float getEffectsVolume() {

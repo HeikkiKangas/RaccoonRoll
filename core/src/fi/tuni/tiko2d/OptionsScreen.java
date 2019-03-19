@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.Locale;
+
 /**
  * Screen for displaying options
  *
@@ -34,11 +36,14 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     OrthographicCamera textCamera;
     Skin skin;
     TextButton back;
+    TextButton english;
+    TextButton finnish;
     Stage stage;
     float buttonHeight;
     private Label titleLabel;
     private Label volumeMusicLabel;
     private Label volumeEffectsLabel;
+    private Label languageLabel;
     I18NBundle optionsBundle;
 
     /**
@@ -70,6 +75,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         createSkin();
         back = new TextButton(optionsBundle.get("backButton"), skin);
+        english = new TextButton("English", skin);
+        finnish = new TextButton("Suomi", skin);
 
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
 
@@ -105,8 +112,16 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         table.row().pad(padding, 0, 0, 0);
         table.add(volumeEffectsLabel);
         table.add(volumeEffectsSlider);
-        table.row().pad(padding * 5, 0, 0, 0);
-        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding * 10);
+
+        table.row().pad(padding * 2, 0, 0, 0);
+
+        table.add(languageLabel);
+        table.row().pad(padding * 2, 0, 0, 0);
+        table.add(english);
+        table.add(finnish);
+
+        table.row().pad(padding * 2, 0, 0, 0);
+        table.add(back).padRight(padding * 10); //.width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
         back.addListener(new ClickListener(){
             @Override
@@ -115,7 +130,14 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
-    }
+
+        english.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("English", "is chosen language");
+                game.setLocale(new Locale("fi", "FI"));
+            }
+        });
 
     private void createSkin() {
         skin = new Skin();
@@ -131,6 +153,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         titleLabel = new Label(optionsBundle.get("title"), skin, "title" );
         volumeMusicLabel = new Label(optionsBundle.get("musicSlider"), skin );
         volumeEffectsLabel = new Label(optionsBundle.get("effectsSlider"), skin );
+        languageLabel = new Label("Choose language", skin, "title");
     }
 
     /**
