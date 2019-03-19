@@ -44,6 +44,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Texture title;
     Texture background;
     private Music backgroundMusic;
+    Boolean screenChanged = false;
 
     /**
      * Sets up the main menu
@@ -123,6 +124,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("Play", "Button clicked");
                 game.setScreen(new MazeScreen(game, "london"));
                 backgroundMusic.stop();
+                screenChanged = true;
             }
         });
 
@@ -166,6 +168,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        if(screenChanged) {
+            dispose();
+        }
     }
 
     @Override

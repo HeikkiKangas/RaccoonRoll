@@ -74,12 +74,12 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         }
 
         createSkin();
-        back = new TextButton(optionsBundle.get("backButton"), skin);
-        english = new TextButton(optionsBundle.get("englishButton"), skin);
-        finnish = new TextButton(optionsBundle.get("finnishButton"), skin);
+        createButtons();
 
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
 
+        //volumeMusicSlider.setHeight(game.scaleVertical(500));
+        //volumeMusicSlider.setWidth(game.scaleHorizontal(500));
         volumeMusicSlider.setValue(game.getMusicVolume());
         volumeMusicSlider.addListener(new EventListener() {
             @Override
@@ -134,6 +134,12 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         skin.add("font", game.getTextFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+    }
+
+    private void createButtons() {
+        back = new TextButton(optionsBundle.get("backButton"), skin);
+        english = new TextButton(optionsBundle.get("englishButton"), skin);
+        finnish = new TextButton(optionsBundle.get("finnishButton"), skin);
     }
 
     private void createLabels() {
