@@ -86,8 +86,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         createButtons();
 
         float padding = game.scaleFromFHD(300);
-        table.row().pad(padding, 0, 0, 0);
         table.right();
+        table.bottom().padBottom(padding / 2);
         table.padRight(padding);
         buttonHeight = game.scaleFromFHD(200f);
         float scaledButtonPadding = game.scaleFromFHD(25f);
