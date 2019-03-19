@@ -122,9 +122,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Play", "Button clicked");
+                screenChanged = true;
                 game.setScreen(new MazeScreen(game, "london"));
                 backgroundMusic.stop();
-                screenChanged = true;
             }
         });
 
@@ -202,6 +202,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             Gdx.app.log("Disposed", "MenuScreen");
         }
         // dispose of assets when not needed anymore
+        //play.clearListeners();
         stage.dispose();
     }
 }
