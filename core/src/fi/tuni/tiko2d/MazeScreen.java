@@ -70,6 +70,8 @@ public class MazeScreen implements Screen {
     private boolean goalReached;
 
     private I18NBundle mazeBundle;
+    private Options options;
+
     private String goodObjectsRemainingLabel;
     private String pointsLabel;
     private String timeSpentLabel;
@@ -91,6 +93,7 @@ public class MazeScreen implements Screen {
      */
     public MazeScreen(RaccoonRoll game, String levelName) {
         this.game = game;
+        options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
@@ -102,7 +105,7 @@ public class MazeScreen implements Screen {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        mazeBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MazeBundle"), game.getLocale());
+        mazeBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MazeBundle"), options.getLocale());
         createLabels();
 
         loadTileMap(levelName);
@@ -129,7 +132,7 @@ public class MazeScreen implements Screen {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
-                wallHitSounds.get(MathUtils.random(wallHitSounds.size() - 1)).play(game.getEffectsVolume());
+                wallHitSounds.get(MathUtils.random(wallHitSounds.size() - 1)).play(options.getEffectsVolume());
             }
 
             @Override
@@ -171,7 +174,7 @@ public class MazeScreen implements Screen {
     private void loadBackgroundMusic(String levelName) {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/" + levelName + ".mp3"));
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(game.getMusicVolume());
+        backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
     }
 
@@ -390,7 +393,7 @@ public class MazeScreen implements Screen {
                         getRectangleTileIndex(rectangle)
                 );
                 points++;
-                goodSound.play(game.getEffectsVolume());
+                goodSound.play(options.getEffectsVolume());
                 if (goodObjectsRemaining == 1) {
                     showGoal();
                 }
@@ -410,7 +413,7 @@ public class MazeScreen implements Screen {
         if (Intersector.overlaps(playerCircle, goalRectangle) && !goalReached) {
             player.setGoalReached();
             goalReached = true;
-            victorySound.play(game.getEffectsVolume());
+            victorySound.play(options.getEffectsVolume());
             levelFinishedTime = System.currentTimeMillis();
         }
     }
@@ -435,7 +438,7 @@ public class MazeScreen implements Screen {
                     Gdx.app.log("Debuff", "applied");
                 }
                 points--;
-                badSound.play(game.getEffectsVolume());
+                badSound.play(options.getEffectsVolume());
             }
         }
         badObjectRectangles.removeAll(rectanglesToRemove);
