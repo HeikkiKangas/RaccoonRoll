@@ -90,7 +90,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Continue", "Button clicked");
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MapScreen(game));
             }
         });
 

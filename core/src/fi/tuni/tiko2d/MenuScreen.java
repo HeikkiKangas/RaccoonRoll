@@ -68,11 +68,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), options.getLocale());
 
-        titleWidth = game.scaleFromFHD(title.getWidth());
-        titleHeight = game.scaleFromFHD(title.getHeight());
-
-        bgWidth = game.scaleFromFHD(background.getWidth());
-        bgHeight = game.scaleFromFHD(background.getHeight());
+        scaleObjects();
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/main_menu_loop.mp3"));
         backgroundMusic.setVolume(options.getMusicVolume());
@@ -102,6 +98,14 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         table.add(about).uniformX().fillX().height(buttonHeight);
 
         addListeners();
+    }
+
+    private void scaleObjects() {
+        titleWidth = game.scaleFromFHD(title.getWidth());
+        titleHeight = game.scaleFromFHD(title.getHeight());
+
+        bgWidth = game.scaleFromFHD(background.getWidth());
+        bgHeight = game.scaleFromFHD(background.getHeight());
     }
 
     private void createSkin() {
