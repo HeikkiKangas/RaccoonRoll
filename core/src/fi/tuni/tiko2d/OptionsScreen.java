@@ -49,6 +49,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private float musicVolume;
     private float effectsVolume;
     private String language;
+    TextButton.TextButtonStyle selected;
+    TextButton.TextButtonStyle notSelected;
 
 
     /**
@@ -70,7 +72,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        //optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), game.getLocale());
         optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), options.getLocale());
     }
 
@@ -88,27 +89,22 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
 
-        //volumeMusicSlider.setValue(game.getMusicVolume());
         volumeMusicSlider.setValue(musicVolume);
 
         volumeMusicSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                //game.setMusicVolume(volumeMusicSlider.getValue());
                 musicVolume = volumeMusicSlider.getValue();
                 return false;
             }
         });
 
         final Slider volumeEffectsSlider = new Slider(0f, 1f, 0.1f, false, skin);
-
-        //volumeEffectsSlider.setValue(game.getEffectsVolume());
         volumeEffectsSlider.setValue(effectsVolume);
 
         volumeEffectsSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                //game.setEffectsVolume(volumeEffectsSlider.getValue());
                 effectsVolume = volumeEffectsSlider.getValue();
                 return false;
             }
@@ -149,6 +145,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         skin.add("font", game.getTextFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+
+        selected = skin.get("selected", TextButton.TextButtonStyle.class);
+        notSelected = skin.get("default", TextButton.TextButtonStyle.class);
     }
 
     private void createButtons() {
@@ -156,6 +155,14 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         english = new TextButton(optionsBundle.get("englishButton"), skin);
         finnish = new TextButton(optionsBundle.get("finnishButton"), skin);
         save = new TextButton(optionsBundle.get("saveButton"), skin);
+
+        /* SHOULD keep first language selected
+        if(options.getLocale().equals("en")) {
+            english.setStyle(selected);
+        } else if (options.getLocale().equals("fi")){
+            finnish.setStyle(selected);
+        }
+        */
     }
 
     private void createLabels() {
@@ -178,10 +185,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("English", "is chosen language");
-                //game.setLocale(new Locale("en", "GB"));
                 language = "en";
-                TextButton.TextButtonStyle selected = skin.get("selected", TextButton.TextButtonStyle.class);
                 english.setStyle(selected);
+                finnish.setStyle(notSelected);
             }
         });
 
@@ -189,8 +195,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Finnish", "is chosen language");
-                //game.setLocale(new Locale("fi", "FI"));
                 language = "fi";
+                finnish.setStyle(selected);
+                english.setStyle(notSelected);
             }
         });
 
@@ -199,6 +206,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Save", "Button clicked");
                 saveOptions();
+                game.setScreen(new MenuScreen(game));
             }
         });
     }
