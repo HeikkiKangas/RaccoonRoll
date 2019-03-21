@@ -82,7 +82,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         createLabels();
 
         float padding = game.scaleFromFHD(50);
-        table.row();
+        table.row().padTop(padding);
         table.add(programmerTitle);
         table.row();
         table.add(programmer1);
@@ -100,13 +100,13 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.add(musicTitle);
         table.row();
         table.add(music);
-        table.row().pad(padding * 2, 0, 0, 0);
+        table.row();
 
         buttonTable.row();
         buttonTable.padRight(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
         table.add(buttonTable);
-        buttonTable.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        buttonTable.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight);
 
         back.addListener(new ClickListener(){
             @Override

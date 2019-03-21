@@ -119,25 +119,25 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         createLabels();
 
-        float padding = game.scaleFromFHD(25);
+        float padding = game.scaleFromFHD(50);
         buttonHeight = game.scaleFromFHD(200f);
 
         table.add(titleLabel);
-        table.row().pad(padding * 2, 0, 0, 0);
+        table.row().pad(padding, 0, 0, 0);
         table.add(volumeMusicLabel);
         table.add(musicContainer);
         //table.add(volumeMusicSlider).width(Value.percentWidth(0.25f, table));
-        table.row().pad(padding * 3, 0, 0, 0);
+        table.row().pad(padding * 2, 0, 0, 0);
         table.add(volumeEffectsLabel);
         table.add(effectsContainer);
         //table.add(volumeEffectsSlider).width(Value.percentWidth(0.25f, table));
-        table.row().pad(padding * 2, 0, 0, 0);
+        table.row().pad(padding, 0, 0, 0);
         table.add(languageLabel);
-        table.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        table.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding);
         table.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
         table.row().pad(padding * 2, 0, 0, 0);
-        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);//.padRight(padding * 10);
-        table.add(save).width(Value.percentWidth(0.25f, table)).height(buttonHeight);//.padRight(padding * 10);
+        table.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight).padRight(padding * 2);
+        table.add(save).width(Value.percentWidth(0.20f, table)).height(buttonHeight);
 
         addListeners();
     }
