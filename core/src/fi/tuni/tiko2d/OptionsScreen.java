@@ -36,7 +36,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     TextButton english;
     TextButton finnish;
     TextButton save;
-    //private CheckBox save;
     Stage stage;
     float buttonHeight;
     private Label titleLabel;
