@@ -181,7 +181,7 @@ public class Player {
         float scale = game.getScale();
         BodyDef playerBodyDef = new BodyDef();
         playerBodyDef.type = BodyDef.BodyType.DynamicBody;
-        playerBodyDef.position.set(x * scale, y * scale);
+        playerBodyDef.position.set(x, y);
         return playerBodyDef;
     }
 

@@ -241,8 +241,8 @@ public class MazeScreen implements Screen {
     private Vector2 getPlayerStartPos() {
         MapLayer startPosLayer = tiledMap.getLayers().get("startpos");
         MapObject startPos = startPosLayer.getObjects().get(0);
-        float startPosX = startPos.getProperties().get("x", Float.class);
-        float startPosY = startPos.getProperties().get("y", Float.class);
+        float startPosX = startPos.getProperties().get("x", Float.class) * game.getScale();
+        float startPosY = startPos.getProperties().get("y", Float.class) * game.getScale();
         return new Vector2(startPosX, startPosY);
     }
 
