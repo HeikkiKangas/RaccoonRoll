@@ -180,6 +180,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("English", "is chosen language");
                 //game.setLocale(new Locale("en", "GB"));
                 language = "en";
+                TextButton.TextButtonStyle selected = skin.get("selected", TextButton.TextButtonStyle.class);
+                english.setStyle(selected);
             }
         });
 

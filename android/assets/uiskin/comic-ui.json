@@ -165,6 +165,13 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: button
 		down: button-pressed
 		over: button-highlighted
+    }
+  selected: {
+    font: button
+    fontColor: black
+    up: button-pressed
+    down: button-pressed
+    over: button-highlighted
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
