@@ -11,11 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -50,6 +52,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private String language;
     TextButton.TextButtonStyle selected;
     TextButton.TextButtonStyle notSelected;
+    Container musicContainer;
+    Container effectsContainer;
 
 
     /**
@@ -87,9 +91,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         createButtons();
 
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
-
         volumeMusicSlider.setValue(musicVolume);
-
         volumeMusicSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -100,7 +102,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         final Slider volumeEffectsSlider = new Slider(0f, 1f, 0.1f, false, skin);
         volumeEffectsSlider.setValue(effectsVolume);
-
         volumeEffectsSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -109,29 +110,34 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             }
         });
 
+        musicContainer = new Container(volumeMusicSlider);
+        musicContainer.setTransform(true);
+        musicContainer.scaleBy(3f);
+        effectsContainer = new Container(volumeEffectsSlider);
+        effectsContainer.setTransform(true);
+        effectsContainer.scaleBy(3f);
+
         createLabels();
 
-        float padding = game.scaleFromFHD(50);
+        float padding = game.scaleFromFHD(25);
         buttonHeight = game.scaleFromFHD(200f);
 
         table.add(titleLabel);
         table.row().pad(padding * 2, 0, 0, 0);
         table.add(volumeMusicLabel);
-        table.add(volumeMusicSlider);
-        table.row().pad(padding, 0, 0, 0);
+        table.add(musicContainer);
+        //table.add(volumeMusicSlider).width(Value.percentWidth(0.25f, table));
+        table.row().pad(padding * 3, 0, 0, 0);
         table.add(volumeEffectsLabel);
-        table.add(volumeEffectsSlider);
-
+        table.add(effectsContainer);
+        //table.add(volumeEffectsSlider).width(Value.percentWidth(0.25f, table));
         table.row().pad(padding * 2, 0, 0, 0);
-
         table.add(languageLabel);
+        table.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        table.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
         table.row().pad(padding * 2, 0, 0, 0);
-        table.add(english);
-        table.add(finnish);
-
-        table.row().pad(padding * 2, 0, 0, 0);
-        table.add(back); //.width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding * 10);
-        table.add(save); //.width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding * 10);
+        table.add(back).width(Value.percentWidth(0.25f, table)).height(buttonHeight);//.padRight(padding * 10);
+        table.add(save).width(Value.percentWidth(0.25f, table)).height(buttonHeight);//.padRight(padding * 10);
 
         addListeners();
     }
