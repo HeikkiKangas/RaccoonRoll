@@ -45,6 +45,8 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     Label music;
     I18NBundle aboutBundle;
 
+    private Options options;
+
     /**
      * Sets up the information screen
      *
@@ -53,6 +55,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
     public AboutScreen(RaccoonRoll game) {
         this.game = game;
+        options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
@@ -60,7 +63,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        aboutBundle = I18NBundle.createBundle(Gdx.files.internal("localization/AboutBundle"), game.getLocale());
+        aboutBundle = I18NBundle.createBundle(Gdx.files.internal("localization/AboutBundle"), options.getLocale());
     }
 
     @Override
