@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -20,8 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
-import java.util.Locale;
 
 /**
  * Screen for displaying options
@@ -66,6 +63,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
+        musicVolume = options.getMusicVolume();
+        effectsVolume = options.getEffectsVolume();
+        language = options.getLanguage();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -89,7 +89,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
 
         //volumeMusicSlider.setValue(game.getMusicVolume());
-        volumeMusicSlider.setValue(options.getMusicVolume());
+        volumeMusicSlider.setValue(musicVolume);
 
         volumeMusicSlider.addListener(new EventListener() {
             @Override
@@ -103,7 +103,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         final Slider volumeEffectsSlider = new Slider(0f, 1f, 0.1f, false, skin);
 
         //volumeEffectsSlider.setValue(game.getEffectsVolume());
-        volumeEffectsSlider.setValue(options.getEffectsVolume());
+        volumeEffectsSlider.setValue(effectsVolume);
 
         volumeEffectsSlider.addListener(new EventListener() {
             @Override
