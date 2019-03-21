@@ -48,12 +48,11 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private Label languageLabel;
     I18NBundle optionsBundle;
 
-    /*
     private Options options;
     private float musicVolume;
     private float effectsVolume;
     private String language;
-    */
+
 
     /**
      * Sets up the options screen
@@ -63,7 +62,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
     public OptionsScreen(RaccoonRoll game) {
         this.game = game;
-        //options = game.getOptions();
+        options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
@@ -71,8 +70,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), game.getLocale());
-        //optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), options.getLocale());
+        //optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), game.getLocale());
+        optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), options.getLocale());
     }
 
     @Override
@@ -89,31 +88,28 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
 
-        //volumeMusicSlider.setHeight(game.scaleVertical(500));
-        //volumeMusicSlider.setWidth(game.scaleHorizontal(500));
-
-        volumeMusicSlider.setValue(game.getMusicVolume());
-        //volumeMusicSlider.setValue(options.getMusicVolume());
+        //volumeMusicSlider.setValue(game.getMusicVolume());
+        volumeMusicSlider.setValue(options.getMusicVolume());
 
         volumeMusicSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                game.setMusicVolume(volumeMusicSlider.getValue());
-                //musicVolume = volumeMusicSlider.getValue();
+                //game.setMusicVolume(volumeMusicSlider.getValue());
+                musicVolume = volumeMusicSlider.getValue();
                 return false;
             }
         });
 
         final Slider volumeEffectsSlider = new Slider(0f, 1f, 0.1f, false, skin);
 
-        volumeEffectsSlider.setValue(game.getEffectsVolume());
-        //volumeEffectsSlider.setValue(options.getEffectsVolume());
+        //volumeEffectsSlider.setValue(game.getEffectsVolume());
+        volumeEffectsSlider.setValue(options.getEffectsVolume());
 
         volumeEffectsSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                game.setEffectsVolume(volumeEffectsSlider.getValue());
-                //effectsVolume = volumeEffectsSlider.getValue();
+                //game.setEffectsVolume(volumeEffectsSlider.getValue());
+                effectsVolume = volumeEffectsSlider.getValue();
                 return false;
             }
         });
@@ -139,7 +135,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         table.add(finnish);
 
         table.row().pad(padding * 2, 0, 0, 0);
-        table.add(back).padRight(padding * 10); //.width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        table.add(back); //.width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding * 10);
+        table.add(save); //.width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding * 10);
 
         addListeners();
     }
@@ -158,6 +155,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         back = new TextButton(optionsBundle.get("backButton"), skin);
         english = new TextButton(optionsBundle.get("englishButton"), skin);
         finnish = new TextButton(optionsBundle.get("finnishButton"), skin);
+        save = new TextButton(optionsBundle.get("saveButton"), skin);
     }
 
     private void createLabels() {
@@ -180,8 +178,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("English", "is chosen language");
-                game.setLocale(new Locale("en", "GB"));
-                //language = "en";
+                //game.setLocale(new Locale("en", "GB"));
+                language = "en";
             }
         });
 
@@ -189,8 +187,16 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Finnish", "is chosen language");
-                game.setLocale(new Locale("fi", "FI"));
-                //language = "fi";
+                //game.setLocale(new Locale("fi", "FI"));
+                language = "fi";
+            }
+        });
+
+        save.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Save", "Button clicked");
+                saveOptions();
             }
         });
     }
@@ -233,9 +239,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     /**
      * Called when apply button (the one with checkmark) is pressed
      */
-    /*
+
     private void saveOptions() {
         options.saveOptions(effectsVolume, musicVolume, language);
     }
-    */
+
 }
