@@ -117,6 +117,10 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         });
     }
 
+    /**
+     * Creates skin and assigns fonts to different styles
+     */
+
     private void createSkin() {
         skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
@@ -126,6 +130,10 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
     }
+
+    /**
+     * Creates labels
+     */
 
     private void createLabels() {
         programmerTitle = new Label(aboutBundle.get("programmerTitle"), skin, "title");

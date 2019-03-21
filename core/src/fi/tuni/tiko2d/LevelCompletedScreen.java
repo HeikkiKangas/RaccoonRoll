@@ -99,6 +99,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         }
     }
 
+    /**
+     * Creates skin and assigns fonts to different styles
+     */
+
     private void createSkin() {
         skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
@@ -142,6 +146,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         // dispose of assets when not needed anymore
         stage.dispose();
     }
+
+    /**
+     * Draws a random number between 0 and 3 and returns the number
+     */
 
     public int getRandomPositive() {
         int number = MathUtils.random(0, 3);

@@ -142,6 +142,10 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         addListeners();
     }
 
+    /**
+     * Creates skin and assigns fonts to different styles
+     */
+
     private void createSkin() {
         skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
@@ -154,6 +158,10 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         selected = skin.get("selected", TextButton.TextButtonStyle.class);
         notSelected = skin.get("default", TextButton.TextButtonStyle.class);
     }
+
+    /**
+     * Creates textbuttons
+     */
 
     private void createButtons() {
         back = new TextButton(optionsBundle.get("backButton"), skin);
@@ -170,12 +178,21 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         */
     }
 
+    /**
+     * Creates labels
+     */
+
     private void createLabels() {
         titleLabel = new Label(optionsBundle.get("title"), skin, "title" );
         volumeMusicLabel = new Label(optionsBundle.get("musicSlider"), skin );
         volumeEffectsLabel = new Label(optionsBundle.get("effectsSlider"), skin );
         languageLabel = new Label(optionsBundle.get("languageTitle"), skin, "title");
     }
+
+    /**
+     * Adds listeners to textbuttons
+     * Defines the action upon clicking said button
+     */
 
     private void addListeners() {
         back.addListener(new ClickListener() {
