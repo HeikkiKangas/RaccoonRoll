@@ -32,7 +32,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     OrthographicCamera textCamera;
     Skin skin;
     TextButton play;
-    TextButton options;
+    TextButton optionsButton;
     TextButton about;
     Stage stage;
     I18NBundle menuBundle;
@@ -46,6 +46,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     private Music backgroundMusic;
     Boolean screenChanged = false;
 
+    private Options options;
+
     /**
      * Sets up the main menu
      *
@@ -54,6 +56,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
+        options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
@@ -63,7 +66,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), game.getLocale());
+        menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), options.getLocale());
 
         titleWidth = game.scaleFromFHD(title.getWidth());
         titleHeight = game.scaleFromFHD(title.getHeight());
@@ -72,7 +75,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         bgHeight = game.scaleFromFHD(background.getHeight());
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/main_menu_loop.mp3"));
-        backgroundMusic.setVolume(game.getMusicVolume());
+        backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
     }
 
@@ -94,7 +97,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         float scaledButtonPadding = game.scaleFromFHD(25f);
         table.add(play).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
         table.row().padTop(scaledButtonPadding);
-        table.add(options).uniformX().fillX().height(buttonHeight);
+        table.add(optionsButton).uniformX().fillX().height(buttonHeight);
         table.row().padTop(scaledButtonPadding);
         table.add(about).uniformX().fillX().height(buttonHeight);
 
@@ -113,7 +116,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     private void createButtons() {
         play = new TextButton(menuBundle.get("playButton"), skin);
-        options = new TextButton(menuBundle.get("optionsButton"), skin);
+        optionsButton = new TextButton(menuBundle.get("optionsButton"), skin);
         about = new TextButton(menuBundle.get("aboutButton"), skin);
     }
 
@@ -128,10 +131,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             }
         });
 
-        options.addListener(new ClickListener(){
+        optionsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Options", "Button clicked");
+                Gdx.app.log("optionsButton", "Button clicked");
                 game.setScreen(new OptionsScreen(game));
                 backgroundMusic.stop();
             }
