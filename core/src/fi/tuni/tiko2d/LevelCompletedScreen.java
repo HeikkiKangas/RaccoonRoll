@@ -37,15 +37,17 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     Texture rauno;
     I18NBundle positiveBundle;
     int posNum;
+    private Options options;
 
     public LevelCompletedScreen(RaccoonRoll game) {
         this.game = game;
+        options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         rauno = new Texture("graphics/positiveRauno.png");
 
-        positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), game.getLocale());
+        positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
 
         raunoWidth = game.scaleFromFHD(rauno.getWidth());
         raunoHeight = game.scaleFromFHD(rauno.getHeight());

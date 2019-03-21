@@ -147,6 +147,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 game.setScreen(new AboutScreen(game));
                 //for testing purposes
                 //game.setScreen(new LevelCompletedScreen(game));
+                //game.setScreen(new MapScreen(game));
                 backgroundMusic.stop();
             }
         });
