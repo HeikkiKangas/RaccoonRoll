@@ -34,8 +34,13 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     TextButton back;
     Stage stage;
     float buttonHeight;
-    Label creditTitle;
-    Label credits;
+    Label programmerTitle;
+    Label programmer1;
+    Label programmer2;
+    Label scrumTitle;
+    Label scrum;
+    Label graphicsTitle;
+    Label graphics;
     Label musicTitle;
     Label music;
     I18NBundle aboutBundle;
@@ -75,14 +80,24 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
         float padding = game.scaleFromFHD(50);
         table.row();
-        table.add(creditTitle);
+        table.add(programmerTitle);
         table.row();
-        table.add(credits);
+        table.add(programmer1);
+        table.row();
+        table.add(programmer2);
+        table.row().pad(padding, 0, 0, 0);
+        table.add(graphicsTitle);
+        table.row();
+        table.add(graphics);
+        table.row().pad(padding, 0, 0, 0);
+        table.add(scrumTitle);
+        table.row();
+        table.add(scrum);
         table.row().pad(padding, 0, 0, 0);
         table.add(musicTitle);
         table.row();
         table.add(music);
-        table.row().pad(padding * 9, 0, 0, 0);
+        table.row().pad(padding * 2, 0, 0, 0);
 
         buttonTable.row();
         buttonTable.padRight(padding * 26);
@@ -110,8 +125,13 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     }
 
     private void createLabels() {
-        creditTitle = new Label(aboutBundle.get("title"), skin, "title");
-        credits = new Label(aboutBundle.get("credits"), skin);
+        programmerTitle = new Label(aboutBundle.get("programmerTitle"), skin, "title");
+        programmer1 = new Label(aboutBundle.get("programmer1"), skin);
+        programmer2 = new Label(aboutBundle.get("programmer2"), skin);
+        scrumTitle = new Label(aboutBundle.get("scrumTitle"), skin, "title");
+        scrum = new Label(aboutBundle.get("scrum"), skin);
+        graphicsTitle = new Label(aboutBundle.get("graphicsTitle"), skin, "title");
+        graphics = new Label(aboutBundle.get("graphics"), skin);
         musicTitle = new Label(aboutBundle.get("musicTitle"), skin, "title");
         music = new Label(aboutBundle.get("music"), skin);
     }

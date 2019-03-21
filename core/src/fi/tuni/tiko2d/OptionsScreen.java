@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -37,6 +38,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     TextButton back;
     TextButton english;
     TextButton finnish;
+    TextButton save;
+    //private CheckBox save;
     Stage stage;
     float buttonHeight;
     private Label titleLabel;
