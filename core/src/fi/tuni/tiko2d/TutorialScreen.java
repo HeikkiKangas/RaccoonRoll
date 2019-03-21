@@ -47,7 +47,7 @@ public class TutorialScreen implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         textFont = game.getTextFont();
-
+// testi-muutos, katsotaan huomaako jenkins uuden pushin
         WORLD_HEIGHT = game.getWORLD_HEIGHT();
         WORLD_WIDTH = game.getWORLD_WIDTH();
 
