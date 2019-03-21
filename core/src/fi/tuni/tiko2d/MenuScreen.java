@@ -44,9 +44,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     Texture title;
     Texture background;
     private Music backgroundMusic;
-    Boolean screenChanged = false;
-
     private Options options;
+    Boolean screenChanged = false;
 
     /**
      * Sets up the main menu
@@ -79,8 +78,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
-        //table.setDebug(true);
         stage.addActor(table);
+        if (game.DEBUGGING()) {
+            table.setDebug(true);
+        }
 
         createSkin();
         createButtons();
@@ -100,6 +101,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         addListeners();
     }
 
+    /**
+     * Scales the title and background according to the screen
+     */
+
     private void scaleObjects() {
         titleWidth = game.scaleFromFHD(title.getWidth());
         titleHeight = game.scaleFromFHD(title.getHeight());
@@ -107,6 +112,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         bgWidth = game.scaleFromFHD(background.getWidth());
         bgHeight = game.scaleFromFHD(background.getHeight());
     }
+
+    /**
+     * Creates skin and assigns fonts to different styles
+     */
 
     private void createSkin() {
         skin = new Skin();
@@ -118,11 +127,20 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
     }
 
+    /**
+     * Creates textbuttons
+     */
+
     private void createButtons() {
         play = new TextButton(menuBundle.get("playButton"), skin);
         optionsButton = new TextButton(menuBundle.get("optionsButton"), skin);
         about = new TextButton(menuBundle.get("aboutButton"), skin);
     }
+
+    /**
+     * Adds listeners to textbuttons
+     * Defines the action upon clicking said button
+     */
 
     private void addListeners() {
         play.addListener(new ClickListener(){
