@@ -21,6 +21,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * Screen displayed after each level
+ *
+ * @author Laura Kanerva
+ */
+
 public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     RaccoonRoll game;
