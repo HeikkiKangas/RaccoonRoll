@@ -39,6 +39,7 @@ public class TutorialScreen implements Screen {
 
     float WORLD_WIDTH;
     float WORLD_HEIGHT;
+    private final float TIME_STEP = 1 / 61f;
 
     public TutorialScreen(RaccoonRoll game) {
         this.game = game;
@@ -181,10 +182,30 @@ public class TutorialScreen implements Screen {
         batch.setProjectionMatrix(textCamera.combined);
         //drawTexts();
         batch.end();
-        if (true) {
+        if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
         }
-        world.step(1f / 60f, 6, 2);
+
+        stepWorld(delta);
+        //world.step(1f / 61f, 6, 2);
+        if (game.DEBUGGING()) {
+            Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
+            Gdx.app.log("DeltaTime - TIME_STEP", "" + (delta - TIME_STEP));
+        }
+    }
+
+    private void stepWorld(float delta) {
+        double accumulator;
+        if (delta > 1 / 4f) {
+            accumulator = 1 / 4f;
+        } else {
+            accumulator = delta;
+        }
+
+        while (accumulator >= TIME_STEP) {
+            world.step(TIME_STEP, 6, 2);
+            accumulator -= TIME_STEP;
+        }
     }
 
     /**
