@@ -26,7 +26,7 @@ Show tiles: 30
  * @author Heikki Kangas
  */
 public class RaccoonRoll extends Game {
-    private final boolean DEBUGGING = true;
+    private final boolean DEBUGGING = false;
 
     private SpriteBatch batch;
     private final float WORLD_WIDTH = 10f;
@@ -55,12 +55,6 @@ public class RaccoonRoll extends Game {
     @Override
     public void create () {
         options = new Options();
-        //for testing purposes
-        // Locale could be moved to RaccoonRoll class to save a bit of memory
-        //locale = new Locale("fi", "FI");
-        //locale = Locale.getDefault();
-        locale = new Locale("en");
-        System.out.println(locale.getLanguage());
 
         if ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth() <= 0.5625f) {
             scaleHorizontal = true;
@@ -82,9 +76,6 @@ public class RaccoonRoll extends Game {
         updateWorldDimensions();
         setupCameras();
         generateFonts();
-
-        effectsVolume = 1f;
-        musicVolume = 1f;
 
         setScreen(new MenuScreen(this));
     }
@@ -303,34 +294,6 @@ public class RaccoonRoll extends Game {
     public void setupCameras() {
         worldCamera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
         textCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    }
-
-    /**
-     * Getter for locale used in game
-     * @return locale to use in game
-     */
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
-    public float getEffectsVolume() {
-        return effectsVolume;
-    }
-
-    public float getMusicVolume() {
-        return musicVolume;
-    }
-
-    public void setEffectsVolume(float effectsVolume) {
-        this.effectsVolume = effectsVolume;
-    }
-
-    public void setMusicVolume(float musicVolume) {
-        this.musicVolume = musicVolume;
     }
 
     public Options getOptions() {
