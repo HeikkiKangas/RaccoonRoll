@@ -80,8 +80,8 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.setFillParent(true);
         Table buttonTable = new Table();
         stage.addActor(table);
-        table.setDebug(true);
         if (game.DEBUGGING()) {
+            table.setDebug(true);
             buttonTable.setDebug(true);
         }
 
