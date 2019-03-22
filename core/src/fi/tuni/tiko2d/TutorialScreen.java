@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.I18NBundle;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TutorialScreen implements Screen {
@@ -39,9 +40,14 @@ public class TutorialScreen implements Screen {
 
     float WORLD_WIDTH;
     float WORLD_HEIGHT;
-    private final float TIME_STEP = 1 / 61f;
+    private final float TIME_STEP = 1 / 60f;
+    private final DecimalFormat df = new DecimalFormat("#.#####");
+    private ArrayList<Double> leftovers;
+    private ArrayList<Float> deltaTimes;
 
     public TutorialScreen(RaccoonRoll game) {
+        leftovers = new ArrayList<>();
+        deltaTimes = new ArrayList<>();
         this.game = game;
         options = game.getOptions();
         batch = game.getBatch();
@@ -187,11 +193,14 @@ public class TutorialScreen implements Screen {
         }
 
         stepWorld(delta);
-        //world.step(1f / 61f, 6, 2);
         if (game.DEBUGGING()) {
-            Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
-            Gdx.app.log("DeltaTime - TIME_STEP", "" + (delta - TIME_STEP));
+            deltaTimes.add(delta);
+            Gdx.app.log("Average DeltaTime", df.format(deltaTimes.stream()
+                    .mapToDouble(a -> a)
+                    .average()
+                    .orElse(-1)));
         }
+        //world.step(1f / 61f, 6, 2);
     }
 
     private void stepWorld(float delta) {
@@ -202,9 +211,25 @@ public class TutorialScreen implements Screen {
             accumulator = delta;
         }
 
+        if (game.DEBUGGING()) {
+            Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
+            Gdx.app.log("DeltaTime / 3", "" + delta / 3);
+            Gdx.app.log("TimeStep     ", "" + TIME_STEP);
+        }
+
         while (accumulator >= TIME_STEP) {
+            if (game.DEBUGGING()) {
+                Gdx.app.log("WorldStep Accumulator", "" + accumulator);
+            }
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
+        }
+
+        if (game.DEBUGGING()) {
+            Gdx.app.log("LeftOver", df.format(accumulator));
+            leftovers.add(accumulator);
+            Gdx.app.log("Average leftover",
+                    df.format(leftovers.stream().mapToDouble(a -> a).average().orElse(-1)));
         }
     }
 
