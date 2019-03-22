@@ -158,11 +158,11 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Draws a random number between 0 and 5 and returns the number
+     * Draws a random number between 0 and 14 and returns the number
      */
 
     public int getRandomPositive() {
-        int number = MathUtils.random(0, 5);
+        int number = MathUtils.random(0, 14);
         return number;
     }
 }
