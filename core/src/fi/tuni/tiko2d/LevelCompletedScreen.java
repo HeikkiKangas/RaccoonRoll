@@ -37,6 +37,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     TextButton ok;
     Stage stage;
     float buttonHeight;
+    float bgWidth;
+    float bgHeight;
+    Texture background;
     Label raunoTalk;
     float raunoHeight;
     float raunoWidth;
@@ -52,11 +55,14 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         rauno = new Texture("graphics/positiveRauno.png");
+        background = new Texture("graphics/othermenus/Tausta75.png");
 
         positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
 
         raunoWidth = game.scaleFromFHD(rauno.getWidth());
         raunoHeight = game.scaleFromFHD(rauno.getHeight());
+        bgWidth = game.scaleFromFHD(background.getWidth());
+        bgHeight = game.scaleFromFHD(background.getHeight());
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -129,6 +135,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
+        batch.draw(background, 0, 0, bgWidth, bgHeight);
         batch.draw(rauno, 0, 0, raunoWidth, raunoHeight);
         batch.end();
     }
