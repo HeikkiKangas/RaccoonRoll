@@ -121,7 +121,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(rgbToFloat(255), rgbToFloat(117), rgbToFloat(38), 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(Gdx.graphics.getDeltaTime());
@@ -131,6 +131,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         batch.begin();
         batch.draw(rauno, 0, 0, raunoWidth, raunoHeight);
         batch.end();
+    }
+
+    private float rgbToFloat(float num) {
+        return num / 255;
     }
 
     @Override
@@ -154,11 +158,11 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Draws a random number between 0 and 3 and returns the number
+     * Draws a random number between 0 and 5 and returns the number
      */
 
     public int getRandomPositive() {
-        int number = MathUtils.random(0, 3);
+        int number = MathUtils.random(0, 5);
         return number;
     }
 }
