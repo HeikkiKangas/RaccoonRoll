@@ -41,8 +41,11 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     float titleHeight;
     float bgWidth;
     float bgHeight;
+    float raunoWidth;
+    float raunoHeight;
     Texture title;
     Texture background;
+    Texture rauno;
     private Music backgroundMusic;
     private Options options;
     Boolean screenChanged = false;
@@ -61,6 +64,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         textCamera = game.getTextCamera();
         title = new Texture("graphics/mainmenu/Logoiso2.png");
         background = new Texture("graphics/mainmenu/Valikontausta.png");
+        rauno = new Texture("graphics/mainmenu/Valikkorauno.png");
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -111,6 +115,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         bgWidth = game.scaleFromFHD(background.getWidth());
         bgHeight = game.scaleFromFHD(background.getHeight());
+
+        raunoWidth = game.scaleFromFHD(rauno.getWidth());
+        raunoHeight = game.scaleFromFHD(rauno.getHeight());
     }
 
     /**
@@ -189,6 +196,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
         batch.draw(background, 0, 0, bgWidth, bgHeight);
+        batch.draw(rauno, 0, 0, raunoWidth, raunoHeight);
         batch.draw(title, Gdx.graphics.getWidth() / 2 - titleWidth / 2, Gdx.graphics.getHeight() - titleHeight, titleWidth, titleHeight);
         batch.end();
 
