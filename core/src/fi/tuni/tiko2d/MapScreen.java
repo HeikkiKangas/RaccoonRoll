@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
  * Screen for displaying a map with all levels
@@ -23,8 +21,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     SpriteBatch batch;
     OrthographicCamera worldCamera;
     OrthographicCamera textCamera;
-    Stage stage;
-    Texture background;
+    //Stage stage;
+    Texture background, background2;
     float bgHeight;
     float bgWidth;
 
@@ -36,9 +34,10 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         background = new Texture("graphics/mappi_large.png");
+        background2 = new Texture("graphics/mappi_large.png");
 
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
+        //stage = new Stage(new ScreenViewport());
+        //Gdx.input.setInputProcessor(stage);
 
         bgHeight = game.scaleFromFHD(background.getHeight());
         bgWidth = game.scaleFromFHD(background.getWidth());
@@ -53,16 +52,24 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(49f / 255, 36f / 255, 209f / 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
         batch.draw(background, bgX, 0, bgWidth, bgHeight);
-        batch.end();
 
+
+        if (bgX > 0) {
+            batch.draw(background2, bgX - bgWidth, 0, bgWidth, bgHeight);
+        } else if (bgX < -(bgWidth - Gdx.graphics.getWidth())) {
+            batch.draw(background2, bgX + bgWidth, 0, bgWidth, bgHeight);
+        }
+        batch.end();
+        /*
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+        */
     }
 
     @Override
@@ -73,8 +80,15 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     class MapScroller extends GestureDetector.GestureAdapter {
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
-            Gdx.app.log("Panning", "X: " + x + "\nDeltaX: " + deltaX);
+            Gdx.app.log("Panning",
+                    "\nX: " + x + "\nDeltaX: " + deltaX + "\nbgX: " + bgX);
             bgX += deltaX;
+
+            if (bgX > bgWidth) {
+                bgX -= bgWidth;
+            } else if (bgX < -bgWidth) {
+                bgX += bgWidth;
+            }
             return super.pan(x, y, deltaX, deltaY);
         }
     }
