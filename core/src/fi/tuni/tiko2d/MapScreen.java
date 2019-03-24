@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -27,6 +28,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     float bgHeight;
     float bgWidth;
 
+    private float bgX;
+
     public MapScreen(RaccoonRoll game) {
         this.game = game;
         batch = game.getBatch();
@@ -39,6 +42,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         bgHeight = game.scaleFromFHD(background.getHeight());
         bgWidth = game.scaleFromFHD(background.getWidth());
+
+        Gdx.input.setInputProcessor(new GestureDetector(new MapScroller()));
     }
 
     @Override
@@ -53,7 +58,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
-        batch.draw(background, 0, 0, bgWidth, bgHeight);
+        batch.draw(background, bgX, 0, bgWidth, bgHeight);
         batch.end();
 
         stage.act(Gdx.graphics.getDeltaTime());
@@ -63,5 +68,14 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     @Override
     public void hide() {
 
+    }
+
+    class MapScroller extends GestureDetector.GestureAdapter {
+        @Override
+        public boolean pan(float x, float y, float deltaX, float deltaY) {
+            Gdx.app.log("Panning", "X: " + x + "\nDeltaX: " + deltaX);
+            bgX += deltaX;
+            return super.pan(x, y, deltaX, deltaY);
+        }
     }
 }
