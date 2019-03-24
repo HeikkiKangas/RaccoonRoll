@@ -22,7 +22,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     OrthographicCamera worldCamera;
     OrthographicCamera textCamera;
     //Stage stage;
-    Texture background, background2;
+    Texture background;
     float bgHeight;
     float bgWidth;
 
@@ -33,8 +33,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        background = new Texture("graphics/mappi_large.png");
-        background2 = new Texture("graphics/mappi_large.png");
+        background = new Texture("graphics/worldmap/mappi_btntest.png");
 
         //stage = new Stage(new ScreenViewport());
         //Gdx.input.setInputProcessor(stage);
@@ -61,10 +60,11 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
 
         if (bgX > 0) {
-            batch.draw(background2, bgX - bgWidth, 0, bgWidth, bgHeight);
+            batch.draw(background, bgX - bgWidth, 0, bgWidth, bgHeight);
         } else if (bgX < -(bgWidth - Gdx.graphics.getWidth())) {
-            batch.draw(background2, bgX + bgWidth, 0, bgWidth, bgHeight);
+            batch.draw(background, bgX + bgWidth, 0, bgWidth, bgHeight);
         }
+
         batch.end();
         /*
         stage.act(Gdx.graphics.getDeltaTime());
