@@ -80,8 +80,10 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     class MapScroller extends GestureDetector.GestureAdapter {
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
-            Gdx.app.log("Panning",
-                    "\nX: " + x + "\nDeltaX: " + deltaX + "\nbgX: " + bgX);
+            if (game.DEBUGGING()) {
+                Gdx.app.log("Panning",
+                        "\nX: " + x + "\nDeltaX: " + deltaX + "\nbgX: " + bgX);
+            }
             bgX += deltaX;
 
             if (bgX > bgWidth) {
@@ -89,6 +91,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             } else if (bgX < -bgWidth) {
                 bgX += bgWidth;
             }
+
             return super.pan(x, y, deltaX, deltaY);
         }
     }
