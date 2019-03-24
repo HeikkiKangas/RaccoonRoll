@@ -4,11 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -30,7 +33,9 @@ public class TutorialScreen implements Screen {
     private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
     private World world;
+    private ArrayList<Rectangle> walls;
     private Box2DDebugRenderer debugRenderer;
+    private ShapeRenderer shapeRenderer;
     private ArrayList<Sound> wallHitSounds;
     private Music backgroundMusic;
 
@@ -42,17 +47,9 @@ public class TutorialScreen implements Screen {
     float WORLD_HEIGHT;
     private final float TIME_STEP = 1 / 61f;
     private final DecimalFormat df = new DecimalFormat("#.#####");
-    private long skippedSteps;
-    /*
-    private ArrayList<Double> leftovers;
-    private ArrayList<Float> deltaTimes;
-    */
+
 
     public TutorialScreen(RaccoonRoll game) {
-        /*
-        leftovers = new ArrayList<>();
-        deltaTimes = new ArrayList<>();
-        */
         this.game = game;
         options = game.getOptions();
         batch = game.getBatch();
@@ -65,6 +62,7 @@ public class TutorialScreen implements Screen {
 
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
+        shapeRenderer = new ShapeRenderer();
         player = new Player(game);
         player.createPlayerBody(
                 world,
@@ -77,6 +75,7 @@ public class TutorialScreen implements Screen {
         loadSounds();
         loadBackgroundMusic("tutorial");
 
+        walls = new ArrayList<Rectangle>();
         createWalls();
 
         addContactListener();
@@ -145,15 +144,19 @@ public class TutorialScreen implements Screen {
         switch (side) {
             case 0:
                 groundBodyDef.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT - 0.1f);
+                walls.add(new Rectangle(0, WORLD_HEIGHT - 0.2f, WORLD_WIDTH, 0.2f));
                 break;
             case 1:
                 groundBodyDef.position.set(WORLD_WIDTH - 0.1f, WORLD_HEIGHT / 2);
+                walls.add(new Rectangle(WORLD_WIDTH - 0.2f, 0, 0.2f, WORLD_HEIGHT));
                 break;
             case 2:
                 groundBodyDef.position.set(WORLD_WIDTH / 2, 0.1f);
+                walls.add(new Rectangle(0, 0, WORLD_WIDTH, 0.2f));
                 break;
             case 3:
                 groundBodyDef.position.set(0.1f, WORLD_HEIGHT / 2);
+                walls.add(new Rectangle(0, 0, 0.2f, WORLD_HEIGHT));
                 break;
         }
 
@@ -195,22 +198,25 @@ public class TutorialScreen implements Screen {
         batch.setProjectionMatrix(textCamera.combined);
         //drawTexts();
         batch.end();
+
+        shapeRenderer.setProjectionMatrix(worldCamera.combined);
+        Color green = new Color();
+        green.a = 1;
+        green.r = 124f / 255;
+        green.g = 179f / 255;
+        green.b = 66f / 255;
+        shapeRenderer.setColor(green);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (Rectangle r : walls) {
+            shapeRenderer.rect(r.x, r.y, r.width, r.height);
+        }
+        shapeRenderer.end();
+
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
         }
 
         stepWorld(delta);
-        /*
-        if (game.DEBUGGING()) {
-            deltaTimes.add(delta);
-
-            Gdx.app.log("Average DeltaTime", df.format(deltaTimes.stream()
-                    .mapToDouble(a -> a)
-                    .average()
-                    .orElse(-1)));
-        }
-        */
-        //world.step(1f / 61f, 6, 2);
     }
 
     private void stepWorld(float delta) {
@@ -240,11 +246,6 @@ public class TutorialScreen implements Screen {
 
         if (game.DEBUGGING()) {
             Gdx.app.log("LeftOver", df.format(accumulator));
-            /*
-            leftovers.add(accumulator);
-            Gdx.app.log("Average leftover",
-                    df.format(leftovers.stream().mapToDouble(a -> a).average().orElse(-1)));
-            */
         }
     }
 
@@ -252,7 +253,7 @@ public class TutorialScreen implements Screen {
      * Clears the screen with black color
      */
     private void clearScreen() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(74f / 255, 60f / 255, 27f / 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
