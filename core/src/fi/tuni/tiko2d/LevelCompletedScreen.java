@@ -54,7 +54,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        rauno = new Texture("graphics/positiveRauno.png");
+        rauno = new Texture("graphics/othermenus/Positiivinenrauno.png");
         background = new Texture("graphics/othermenus/Tausta75.png");
 
         positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
@@ -127,17 +127,17 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(rgbToFloat(255), rgbToFloat(117), rgbToFloat(38), 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
 
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
         batch.draw(background, 0, 0, bgWidth, bgHeight);
         batch.draw(rauno, 0, 0, raunoWidth, raunoHeight);
         batch.end();
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     private float rgbToFloat(float num) {

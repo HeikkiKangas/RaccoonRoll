@@ -176,9 +176,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("About", "Button clicked");
                 //game.setScreen(new AboutScreen(game));
                 //for testing purposes
-                //game.setScreen(new LevelCompletedScreen(game));
+                game.setScreen(new LevelCompletedScreen(game));
                 //game.setScreen(new MapScreen(game));
-                game.setScreen(new TutorialScreen(game));
+                //game.setScreen(new TutorialScreen(game));
                 backgroundMusic.stop();
             }
         });
