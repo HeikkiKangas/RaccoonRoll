@@ -2,12 +2,15 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
  * Screen for displaying a map with all levels
@@ -21,10 +24,11 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     SpriteBatch batch;
     OrthographicCamera worldCamera;
     OrthographicCamera textCamera;
-    //Stage stage;
+    Stage stage;
     Texture background;
     float bgHeight;
     float bgWidth;
+    InputMultiplexer multiplexer;
 
     private float bgX;
 
@@ -35,13 +39,16 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         textCamera = game.getTextCamera();
         background = new Texture("graphics/worldmap/mappi_btntest.png");
 
-        //stage = new Stage(new ScreenViewport());
-        //Gdx.input.setInputProcessor(stage);
+        stage = new Stage(new ScreenViewport());
+
+        multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(new GestureDetector(new MapScroller()));
 
         bgHeight = game.scaleFromFHD(background.getHeight());
         bgWidth = game.scaleFromFHD(background.getWidth());
 
-        Gdx.input.setInputProcessor(new GestureDetector(new MapScroller()));
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
@@ -66,10 +73,9 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         }
 
         batch.end();
-        /*
+
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-        */
     }
 
     @Override
