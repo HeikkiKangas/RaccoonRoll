@@ -4,14 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -33,9 +34,14 @@ public class TutorialScreen implements Screen {
     private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
     private World world;
-    private ArrayList<Rectangle> walls;
+    //private ArrayList<Rectangle> walls;
     private Box2DDebugRenderer debugRenderer;
-    private ShapeRenderer shapeRenderer;
+    private TiledMapRenderer tiledMapRenderer;
+    private TiledMap tiledMap;
+    private float mapWidth;
+    private float mapHeight;
+    //private ShapeRenderer shapeRenderer;
+
     private ArrayList<Sound> wallHitSounds;
     private Music backgroundMusic;
 
@@ -57,12 +63,20 @@ public class TutorialScreen implements Screen {
         textCamera = game.getTextCamera();
         textFont = game.getTextFont();
 
+        tiledMap = new TmxMapLoader().load("tilemaps/tutorial/tutorial.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
+        mapWidth = tiledMap.getProperties().get("width", Integer.class) * 64 * game.getScale();
+        mapHeight = tiledMap.getProperties().get("height", Integer.class) * 64 * game.getScale();
+
         WORLD_HEIGHT = game.getWORLD_HEIGHT();
         WORLD_WIDTH = game.getWORLD_WIDTH();
+        worldCamera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
+        worldCamera.position.set(mapWidth / 2, mapHeight / 2, 0);
+        worldCamera.update();
 
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
-        shapeRenderer = new ShapeRenderer();
+        //shapeRenderer = new ShapeRenderer();
         player = new Player(game);
         player.createPlayerBody(
                 world,
@@ -75,7 +89,7 @@ public class TutorialScreen implements Screen {
         loadSounds();
         loadBackgroundMusic("tutorial");
 
-        walls = new ArrayList<Rectangle>();
+        //walls = new ArrayList<Rectangle>();
         createWalls();
 
         addContactListener();
@@ -144,19 +158,19 @@ public class TutorialScreen implements Screen {
         switch (side) {
             case 0:
                 groundBodyDef.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT - 0.1f);
-                walls.add(new Rectangle(0, WORLD_HEIGHT - 0.2f, WORLD_WIDTH, 0.2f));
+                //walls.add(new Rectangle(0, WORLD_HEIGHT - 0.2f, WORLD_WIDTH, 0.2f));
                 break;
             case 1:
                 groundBodyDef.position.set(WORLD_WIDTH - 0.1f, WORLD_HEIGHT / 2);
-                walls.add(new Rectangle(WORLD_WIDTH - 0.2f, 0, 0.2f, WORLD_HEIGHT));
+                //walls.add(new Rectangle(WORLD_WIDTH - 0.2f, 0, 0.2f, WORLD_HEIGHT));
                 break;
             case 2:
                 groundBodyDef.position.set(WORLD_WIDTH / 2, 0.1f);
-                walls.add(new Rectangle(0, 0, WORLD_WIDTH, 0.2f));
+                //walls.add(new Rectangle(0, 0, WORLD_WIDTH, 0.2f));
                 break;
             case 3:
                 groundBodyDef.position.set(0.1f, WORLD_HEIGHT / 2);
-                walls.add(new Rectangle(0, 0, 0.2f, WORLD_HEIGHT));
+                //walls.add(new Rectangle(0, 0, 0.2f, WORLD_HEIGHT));
                 break;
         }
 
@@ -191,6 +205,10 @@ public class TutorialScreen implements Screen {
     @Override
     public void render(float delta) {
         clearScreen();
+
+        tiledMapRenderer.setView(worldCamera);
+        tiledMapRenderer.render();
+
         player.movePlayer(delta);
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
@@ -199,6 +217,7 @@ public class TutorialScreen implements Screen {
         //drawTexts();
         batch.end();
 
+        /*
         shapeRenderer.setProjectionMatrix(worldCamera.combined);
         Color green = new Color();
         green.a = 1;
@@ -211,7 +230,7 @@ public class TutorialScreen implements Screen {
             shapeRenderer.rect(r.x, r.y, r.width, r.height);
         }
         shapeRenderer.end();
-
+        */
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
         }
