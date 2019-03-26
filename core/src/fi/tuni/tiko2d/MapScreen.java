@@ -28,7 +28,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     Texture background;
     float bgHeight;
     float bgWidth;
-    InputMultiplexer multiplexer;
+    private InputMultiplexer multiplexer;
 
     private float bgX;
 
