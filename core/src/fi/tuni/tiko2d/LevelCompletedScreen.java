@@ -176,4 +176,16 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         int number = MathUtils.random(0, 14);
         return number;
     }
+
+    /**
+     * Formats time from float seconds
+     *
+     * @return time in m:ss
+     */
+    private String formatTime() {
+        int time = (int) timeSpent;
+        int minutes = time / 60;
+        int seconds = time % 60;
+        return String.format("%d:%02d", minutes, seconds);
+    }
 }
