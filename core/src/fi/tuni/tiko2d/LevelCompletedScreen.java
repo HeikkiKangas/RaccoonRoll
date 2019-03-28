@@ -48,7 +48,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     int posNum;
     private Options options;
 
-    public LevelCompletedScreen(RaccoonRoll game) {
+    public LevelCompletedScreen(RaccoonRoll game, int points, float timeSpent) {
         this.game = game;
         options = game.getOptions();
         batch = game.getBatch();

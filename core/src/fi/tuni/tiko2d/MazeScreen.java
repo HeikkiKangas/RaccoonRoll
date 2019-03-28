@@ -295,7 +295,7 @@ public class MazeScreen implements Screen {
         }
         world.step(1 / 60f, 6, 2);
         if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
-            game.setScreen(new LevelCompletedScreen(game));
+            game.setScreen(new LevelCompletedScreen(game, points, timeSpent));
             dispose();
         }
     }

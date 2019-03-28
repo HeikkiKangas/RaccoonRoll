@@ -155,8 +155,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Play", "Button clicked");
                 screenChanged = true;
-                //game.setScreen(new MazeScreen(game, "london"));
-                game.setScreen(new MapScreen(game));
+                game.setScreen(new MazeScreen(game, "london"));
+                //game.setScreen(new MapScreen(game));
                 backgroundMusic.stop();
             }
         });
@@ -176,9 +176,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("About", "Button clicked");
                 //game.setScreen(new AboutScreen(game));
                 //for testing purposes
-                //game.setScreen(new LevelCompletedScreen(game));
+                game.setScreen(new LevelCompletedScreen(game));
                 //game.setScreen(new MapScreen(game));
-                game.setScreen(new TutorialScreen(game));
+                //game.setScreen(new TutorialScreen(game));
                 backgroundMusic.stop();
             }
         });
