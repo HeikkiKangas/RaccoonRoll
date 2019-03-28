@@ -8,12 +8,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -22,7 +29,17 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -34,13 +51,13 @@ public class TutorialScreen implements Screen {
     private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
     private World world;
-    //private ArrayList<Rectangle> walls;
     private Box2DDebugRenderer debugRenderer;
     private TiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
-    private float mapWidth;
-    private float mapHeight;
-    //private ShapeRenderer shapeRenderer;
+
+    private Skin skin;
+    private Stage stage;
+    private TextButton tutorialMazeButton;
 
     private ArrayList<Sound> wallHitSounds;
     private Music backgroundMusic;
@@ -49,9 +66,13 @@ public class TutorialScreen implements Screen {
     private Options options;
     private BitmapFont textFont;
 
-    float WORLD_WIDTH;
-    float WORLD_HEIGHT;
+    private float WORLD_WIDTH;
+    private float WORLD_HEIGHT;
+
     private final float TIME_STEP = 1 / 61f;
+
+    private final float tileSize = 64f;
+
     private final DecimalFormat df = new DecimalFormat("#.#####");
 
 
@@ -63,10 +84,14 @@ public class TutorialScreen implements Screen {
         textCamera = game.getTextCamera();
         textFont = game.getTextFont();
 
+        stage = new Stage(new ScreenViewport());
+
+        Gdx.input.setInputProcessor(stage);
+
         tiledMap = new TmxMapLoader().load("tilemaps/tutorial/tutorial.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
-        mapWidth = tiledMap.getProperties().get("width", Integer.class) * 64 * game.getScale();
-        mapHeight = tiledMap.getProperties().get("height", Integer.class) * 64 * game.getScale();
+        float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tileSize * game.getScale();
+        float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tileSize * game.getScale();
 
         WORLD_HEIGHT = game.getWORLD_HEIGHT();
         WORLD_WIDTH = game.getWORLD_WIDTH();
@@ -76,23 +101,77 @@ public class TutorialScreen implements Screen {
 
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
-        //shapeRenderer = new ShapeRenderer();
         player = new Player(game);
-        player.createPlayerBody(
-                world,
-                new Vector2(
-                        WORLD_WIDTH / 2f,
-                        WORLD_HEIGHT / 2f)
-        );
+        player.createPlayerBody(world, getPlayerStartPos());
 
         tutorialBundle = I18NBundle.createBundle(Gdx.files.internal("localization/TutorialBundle"), options.getLocale());
         loadSounds();
         loadBackgroundMusic("tutorial");
 
-        //walls = new ArrayList<Rectangle>();
         createWalls();
 
         addContactListener();
+
+        setupUi();
+    }
+
+    private void setupUi() {
+        loadSkin();
+        createTable();
+    }
+
+    private void createTable() {
+        tutorialMazeButton = new TextButton(tutorialBundle.get("buttonTxt"), skin);
+
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+        Table itemsTable = new Table();
+
+        if (game.DEBUGGING()) {
+            table.setDebug(true);
+            itemsTable.setDebug(true);
+        }
+
+        //table.top();
+        Label howToMoveLabel = new Label(tutorialBundle.get("howToMove"), skin);
+        Label goodLabel = new Label(tutorialBundle.get("gatherGood"), skin);
+        goodLabel.setWrap(true);
+        goodLabel.setAlignment(Align.top, Align.center);
+        Label badLabel = new Label(tutorialBundle.get("avoidBad"), skin);
+        badLabel.setWrap(true);
+        badLabel.setAlignment(Align.top, Align.center);
+        goodLabel.setFontScale(0.8f);
+        badLabel.setFontScale(0.8f);
+
+        table.add(howToMoveLabel).padTop(game.scaleVertical(75)).padBottom(game.scaleVertical(100));
+        table.row().expand().fill();
+        table.add(itemsTable);
+        //itemsTable.add(goodLabel).top().left().padLeft(50).expandX().fillX();
+        //itemsTable.add(badLabel).top().right().padRight(50).expandX().fillX();
+        itemsTable.add(goodLabel).top().left().padLeft(50).expand().fill();
+        itemsTable.add(badLabel).top().right().padRight(50).expand().fill();
+        table.row().right().padRight(game.scaleHorizontal(10)).bottom().padBottom(game.scaleVertical(10));
+        table.add(tutorialMazeButton);
+
+        tutorialMazeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (game.DEBUGGING()) {
+                    Gdx.app.log("MazeButton", "Clicked");
+                }
+            }
+        });
+    }
+
+    private void loadSkin() {
+        skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTextFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
     }
 
     /**
@@ -145,58 +224,6 @@ public class TutorialScreen implements Screen {
         });
     }
 
-    private void createWalls() {
-        for (int i = 0; i < 4; i++) {
-            world.createBody(getGroundBodyDef(i)).createFixture(getGroundShape(i), 0.0f);
-        }
-    }
-
-    private BodyDef getGroundBodyDef(int side) {
-
-        BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.type = BodyDef.BodyType.StaticBody;
-        switch (side) {
-            case 0:
-                groundBodyDef.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT - 0.1f);
-                //walls.add(new Rectangle(0, WORLD_HEIGHT - 0.2f, WORLD_WIDTH, 0.2f));
-                break;
-            case 1:
-                groundBodyDef.position.set(WORLD_WIDTH - 0.1f, WORLD_HEIGHT / 2);
-                //walls.add(new Rectangle(WORLD_WIDTH - 0.2f, 0, 0.2f, WORLD_HEIGHT));
-                break;
-            case 2:
-                groundBodyDef.position.set(WORLD_WIDTH / 2, 0.1f);
-                //walls.add(new Rectangle(0, 0, WORLD_WIDTH, 0.2f));
-                break;
-            case 3:
-                groundBodyDef.position.set(0.1f, WORLD_HEIGHT / 2);
-                //walls.add(new Rectangle(0, 0, 0.2f, WORLD_HEIGHT));
-                break;
-        }
-
-        return groundBodyDef;
-    }
-
-    private PolygonShape getGroundShape(int side) {
-        PolygonShape groundShape = new PolygonShape();
-        switch (side) {
-            case 0:
-                groundShape.setAsBox(WORLD_WIDTH / 2, 0.1f);
-                break;
-            case 1:
-                groundShape.setAsBox(0.1f, WORLD_HEIGHT / 2);
-                break;
-            case 2:
-                groundShape.setAsBox(WORLD_WIDTH / 2, 0.1f);
-                break;
-            case 3:
-                groundShape.setAsBox(0.1f, WORLD_HEIGHT / 2);
-                break;
-        }
-
-        return groundShape;
-    }
-
     @Override
     public void show() {
 
@@ -217,26 +244,28 @@ public class TutorialScreen implements Screen {
         //drawTexts();
         batch.end();
 
-        /*
-        shapeRenderer.setProjectionMatrix(worldCamera.combined);
-        Color green = new Color();
-        green.a = 1;
-        green.r = 124f / 255;
-        green.g = 179f / 255;
-        green.b = 66f / 255;
-        shapeRenderer.setColor(green);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        for (Rectangle r : walls) {
-            shapeRenderer.rect(r.x, r.y, r.width, r.height);
-        }
-        shapeRenderer.end();
-        */
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
         }
 
         stepWorld(delta);
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
+
+    /*
+    private void drawTexts() {
+        int textY = Gdx.graphics.getHeight() - game.scaleTextFromFHD(20);
+        String howToMove = tutorialBundle.get("howToMove");
+        textFont.draw(
+                batch,
+                howToMove,
+                Gdx.graphics.getWidth() / 2 - game.getTextDimensions(textFont, howToMove).x / 2,
+                textY
+        );
+    }
+    */
 
     private void stepWorld(float delta) {
         double accumulator;
@@ -248,23 +277,24 @@ public class TutorialScreen implements Screen {
             accumulator = delta;
         }
 
+        /*
         if (game.DEBUGGING()) {
             Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
             Gdx.app.log("DeltaTime", "" + delta);
             Gdx.app.log("TimeStep ", "" + TIME_STEP);
             Gdx.app.log("Delta / Timestep", "" + df.format(delta / TIME_STEP));
         }
-
+        */
         while (accumulator >= TIME_STEP) {
             if (game.DEBUGGING()) {
-                Gdx.app.log("WorldStep Accumulator", "" + accumulator);
+                //Gdx.app.log("WorldStep Accumulator", "" + accumulator);
             }
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
 
         if (game.DEBUGGING()) {
-            Gdx.app.log("LeftOver", df.format(accumulator));
+            //Gdx.app.log("LeftOver", df.format(accumulator));
         }
     }
 
@@ -301,5 +331,96 @@ public class TutorialScreen implements Screen {
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }
+    }
+
+    /**
+     * Gets player starting position from tilemap
+     *
+     * @return vector of player start position
+     */
+    private Vector2 getPlayerStartPos() {
+        MapLayer startPosLayer = tiledMap.getLayers().get("startpos");
+        MapObject startPos = startPosLayer.getObjects().get(0);
+        float startPosX = startPos.getProperties().get("x", Float.class) * game.getScale();
+        float startPosY = startPos.getProperties().get("y", Float.class) * game.getScale();
+        return new Vector2(startPosX, startPosY);
+    }
+
+    /**
+     * Creates world bodies from wall rectangles
+     */
+    private void createWalls() {
+        ArrayList<Rectangle> wallRectangles = getWallRectangles();
+        for (Rectangle wallRectangle : wallRectangles) {
+            Body wallBody = world.createBody(getWallBodyDef(wallRectangle));
+            wallBody.createFixture(getWallShape(wallRectangle), 0.0f);
+        }
+    }
+
+    /**
+     * Creates Rectangles scaled to world units from RectangleMapObjects on wall objects layer of the tilemap
+     *
+     * @return ArrayList of the Rectangles scaled to meters
+     */
+    private ArrayList<Rectangle> getWallRectangles() {
+        ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+        MapLayer wallsLayer = tiledMap.getLayers().get("wall_objects");
+        MapObjects mapObjects = wallsLayer.getObjects();
+        Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
+
+        float scale = game.getScale();
+        for (RectangleMapObject rectangleMapObject : rectangleObjects) {
+            Rectangle tempRect = rectangleMapObject.getRectangle();
+            Rectangle scaledRect = scaleRectangle(tempRect, scale);
+            rectangles.add(scaledRect);
+        }
+        return rectangles;
+    }
+
+    /**
+     * Creates BodyDef for wall bodies
+     *
+     * @param wallRect dimensions of the body to create
+     * @return BodyDef of the wall
+     */
+    private BodyDef getWallBodyDef(Rectangle wallRect) {
+        BodyDef wallBodyDef = new BodyDef();
+        wallBodyDef.type = BodyDef.BodyType.StaticBody;
+        wallBodyDef.position.set(
+                wallRect.x + wallRect.width / 2,
+                wallRect.y + wallRect.height / 2
+        );
+        return wallBodyDef;
+    }
+
+    /**
+     * Creates PolygonShape of the scaled wall Rectangle
+     *
+     * @param wallRect dimensions of the shape to create
+     * @return PolygonShape of the given wall rectangle
+     */
+    private PolygonShape getWallShape(Rectangle wallRect) {
+        PolygonShape wallShape = new PolygonShape();
+        wallShape.setAsBox(
+                wallRect.width / 2,
+                wallRect.height / 2
+        );
+        return wallShape;
+    }
+
+    /**
+     * Scales given rectangle from pixels to meters
+     *
+     * @param r     Rectangle to scale
+     * @param scale scaling to use
+     * @return scaled Rectangle
+     */
+    private Rectangle scaleRectangle(Rectangle r, float scale) {
+        Rectangle rr = new Rectangle();
+        rr.x = r.x * scale;
+        rr.y = r.y * scale;
+        rr.width = r.width * scale;
+        rr.height = r.height * scale;
+        return rr;
     }
 }
