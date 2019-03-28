@@ -2,7 +2,6 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -47,7 +46,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class TutorialScreen extends InputAdapter implements Screen {
+public class TutorialScreen implements Screen {
     private RaccoonRoll game;
     private SpriteBatch batch;
     private Player player;
@@ -92,7 +91,7 @@ public class TutorialScreen extends InputAdapter implements Screen {
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
-        inputMultiplexer.addProcessor(this);
+        //inputMultiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(inputMultiplexer);
         Gdx.input.setCatchBackKey(true);
 
@@ -261,9 +260,14 @@ public class TutorialScreen extends InputAdapter implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        if (goToMenuScreen) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            goToMenuScreen = true;
             game.setScreen(new MenuScreen(game));
             dispose();
+        }
+
+        if (goToMenuScreen) {
+            // kommentti
         }
     }
 
@@ -430,6 +434,7 @@ public class TutorialScreen extends InputAdapter implements Screen {
         return rr;
     }
 
+    /*
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.BACK) {
@@ -438,4 +443,6 @@ public class TutorialScreen extends InputAdapter implements Screen {
         }
         return false;
     }
+    */
+
 }

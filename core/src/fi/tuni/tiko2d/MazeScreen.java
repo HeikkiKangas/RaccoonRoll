@@ -126,6 +126,7 @@ public class MazeScreen implements Screen {
         addContactListener();
 
         Gdx.input.setInputProcessor(null);
+        Gdx.input.setCatchBackKey(true);
     }
 
     /**
