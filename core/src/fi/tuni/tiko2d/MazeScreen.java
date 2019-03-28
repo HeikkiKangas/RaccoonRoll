@@ -294,25 +294,27 @@ public class MazeScreen implements Screen {
         batch.setProjectionMatrix(textCamera.combined);
         drawHud();
         batch.end();
+
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
         }
+
         if (paused) {
             //pauseMenu.show();
             if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
                 paused = false;
             }
         }
+
         if (!paused) {
             world.step(1 / 60f, 6, 2);
             if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
                 game.setScreen(new LevelCompletedScreen(game, points, timeSpent));
                 dispose();
             }
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            paused = true;
+            if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+                paused = true;
+            }
         }
     }
 

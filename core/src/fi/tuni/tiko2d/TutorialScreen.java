@@ -2,7 +2,6 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -43,7 +42,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TutorialScreen implements Screen {
@@ -60,7 +58,6 @@ public class TutorialScreen implements Screen {
     private Skin skin;
     private Stage stage;
     private TextButton tutorialMazeButton;
-    private boolean goToMenuScreen;
 
     private ArrayList<Sound> wallHitSounds;
     private Music backgroundMusic;
@@ -76,7 +73,7 @@ public class TutorialScreen implements Screen {
 
     private final float tileSize = 64f;
 
-    private final DecimalFormat df = new DecimalFormat("#.#####");
+    private boolean goToTutorialMaze;
 
 
     public TutorialScreen(RaccoonRoll game) {
@@ -89,10 +86,7 @@ public class TutorialScreen implements Screen {
 
         stage = new Stage(new ScreenViewport());
 
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
-        //inputMultiplexer.addProcessor(this);
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
 
         tiledMap = new TmxMapLoader().load("tilemaps/tutorial/tutorial.tmx");
@@ -140,7 +134,6 @@ public class TutorialScreen implements Screen {
             itemsTable.setDebug(true);
         }
 
-        //table.top();
         Label howToMoveLabel = new Label(tutorialBundle.get("howToMove"), skin);
         Label goodLabel = new Label(tutorialBundle.get("gatherGood"), skin);
         goodLabel.setWrap(true);
@@ -154,8 +147,6 @@ public class TutorialScreen implements Screen {
         table.add(howToMoveLabel).padTop(game.scaleVertical(75)).padBottom(game.scaleVertical(100));
         table.row().expand().fill();
         table.add(itemsTable);
-        //itemsTable.add(goodLabel).top().left().padLeft(50).expandX().fillX();
-        //itemsTable.add(badLabel).top().right().padRight(50).expandX().fillX();
         itemsTable.add(goodLabel).top().left().padLeft(50).expand().fill();
         itemsTable.add(badLabel).top().right().padRight(50).expand().fill();
         table.row().right().padRight(game.scaleHorizontal(10)).bottom().padBottom(game.scaleVertical(10));
@@ -166,6 +157,7 @@ public class TutorialScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (game.DEBUGGING()) {
                     Gdx.app.log("MazeButton", "Clicked");
+                    goToTutorialMaze = true;
                 }
             }
         });
@@ -248,7 +240,6 @@ public class TutorialScreen implements Screen {
         batch.begin();
         player.draw(batch, delta);
         batch.setProjectionMatrix(textCamera.combined);
-        //drawTexts();
         batch.end();
 
         if (game.DEBUGGING()) {
@@ -261,13 +252,13 @@ public class TutorialScreen implements Screen {
         stage.draw();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            goToMenuScreen = true;
             game.setScreen(new MenuScreen(game));
             dispose();
         }
 
-        if (goToMenuScreen) {
-            // kommentti
+        if (goToTutorialMaze) {
+            game.setScreen(new MazeScreen(game, "tutorial"));
+            dispose();
         }
     }
 
@@ -433,16 +424,4 @@ public class TutorialScreen implements Screen {
         rr.height = r.height * scale;
         return rr;
     }
-
-    /*
-    @Override
-    public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.BACK) {
-            goToMenuScreen = true;
-            return true;
-        }
-        return false;
-    }
-    */
-
 }
