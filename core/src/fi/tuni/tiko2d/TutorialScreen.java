@@ -2,6 +2,7 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -45,7 +46,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class TutorialScreen implements Screen {
+public class TutorialScreen extends InputAdapter implements Screen {
     private RaccoonRoll game;
     private SpriteBatch batch;
     private Player player;
@@ -59,6 +60,7 @@ public class TutorialScreen implements Screen {
     private Skin skin;
     private Stage stage;
     private TextButton tutorialMazeButton;
+    private boolean goToMenuScreen;
 
     private ArrayList<Sound> wallHitSounds;
     private Music backgroundMusic;
@@ -254,7 +256,7 @@ public class TutorialScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+        if (goToMenuScreen) {
             game.setScreen(new MenuScreen(game));
             dispose();
         }
@@ -421,5 +423,14 @@ public class TutorialScreen implements Screen {
         rr.width = r.width * scale;
         rr.height = r.height * scale;
         return rr;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            goToMenuScreen = true;
+            return true;
+        }
+        return false;
     }
 }
