@@ -1,6 +1,7 @@
 package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -84,6 +85,8 @@ public class MazeScreen implements Screen {
 
     private long levelFinishedTime;
     private final long levelCompletedScreenDelay = 1500;
+
+    private boolean paused;
 
     /**
      * Sets up the selected maze
@@ -267,21 +270,21 @@ public class MazeScreen implements Screen {
      */
     @Override
     public void render(float delta) {
+        if (!paused) {
+            if (!goalReached) {
+                timeSpent += delta;
+            }
 
-        if (!goalReached) {
-            timeSpent += delta;
+            player.movePlayer(delta);
+            updateCameraPosition();
+            checkGoodObjectOverlaps();
+            checkBadObjectOverlaps();
+
+            if (goodObjectsRemaining == 0) {
+                checkGoalOverlap();
+            }
         }
-
         clearScreen();
-        player.movePlayer(delta);
-        updateCameraPosition();
-        checkGoodObjectOverlaps();
-        checkBadObjectOverlaps();
-
-        if (goodObjectsRemaining == 0) {
-            checkGoalOverlap();
-        }
-
         tiledMapRenderer.setView(worldCamera);
         tiledMapRenderer.render();
         batch.setProjectionMatrix(worldCamera.combined);
@@ -293,10 +296,22 @@ public class MazeScreen implements Screen {
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
         }
-        world.step(1 / 60f, 6, 2);
-        if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
-            game.setScreen(new LevelCompletedScreen(game, points, timeSpent));
-            dispose();
+        if (paused) {
+            //pauseMenu.show();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+                paused = false;
+            }
+        }
+        if (!paused) {
+            world.step(1 / 60f, 6, 2);
+            if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
+                game.setScreen(new LevelCompletedScreen(game, points, timeSpent));
+                dispose();
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            paused = true;
         }
     }
 
@@ -619,12 +634,12 @@ public class MazeScreen implements Screen {
 
     @Override
     public void pause() {
-
+        paused = true;
     }
 
     @Override
     public void resume() {
-
+        paused = false;
     }
 
     @Override
