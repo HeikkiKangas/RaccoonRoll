@@ -2,6 +2,7 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -49,6 +50,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         bgWidth = game.scaleFromFHD(background.getWidth());
 
         Gdx.input.setInputProcessor(multiplexer);
+        Gdx.input.setCatchBackKey(true);
     }
 
     @Override
@@ -76,6 +78,11 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
+        }
     }
 
     @Override
