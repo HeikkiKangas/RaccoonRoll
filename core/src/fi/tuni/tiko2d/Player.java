@@ -30,6 +30,7 @@ public class Player {
     private RaccoonRoll game;
     private TextureAtlas atlas;
     private float debuffTimeLeft;
+    private boolean paused;
 
     private boolean logVelocity;
 
@@ -58,7 +59,7 @@ public class Player {
      */
     public void draw(SpriteBatch batch, float delta) {
         Vector2 playerVelocity = playerBody.getLinearVelocity();
-        if (playerVelocity.x != 0 || playerVelocity.y != 0) {
+        if ((playerVelocity.x != 0 || playerVelocity.y != 0) && !paused) {
             playerRotation = playerBody.getLinearVelocity().angle();
             statetime += delta * Math.max(Math.abs(playerVelocity.x), Math.abs(playerVelocity.y));
         }
@@ -219,5 +220,9 @@ public class Player {
      */
     public void setGoalReached() {
         playerBody.setType(BodyDef.BodyType.StaticBody);
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

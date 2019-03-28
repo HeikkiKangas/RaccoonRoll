@@ -299,11 +299,13 @@ public class MazeScreen implements Screen {
             debugRenderer.render(world, worldCamera.combined);
         }
 
-        if (paused) {
-            //pauseMenu.show();
-            if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            if (paused) {
                 paused = false;
+            } else {
+                paused = true;
             }
+            player.setPaused(paused);
         }
 
         if (!paused) {
@@ -311,9 +313,6 @@ public class MazeScreen implements Screen {
             if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
                 game.setScreen(new LevelCompletedScreen(game, points, timeSpent));
                 dispose();
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-                paused = true;
             }
         }
     }
