@@ -2,6 +2,7 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -125,7 +126,7 @@ public class MazeScreen implements Screen {
         createGoalBlockBody();
         addContactListener();
 
-        Gdx.input.setInputProcessor(null);
+        Gdx.input.setInputProcessor(new InputAdapter());
         Gdx.input.setCatchBackKey(true);
     }
 
@@ -310,10 +311,11 @@ public class MazeScreen implements Screen {
 
         if (!paused) {
             world.step(1 / 60f, 6, 2);
-            if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
-                game.setScreen(new LevelCompletedScreen(game, points, timeSpent));
-                dispose();
-            }
+        }
+
+        if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
+            game.setScreen(new LevelCompletedScreen(game, points, timeSpent));
+            dispose();
         }
     }
 
