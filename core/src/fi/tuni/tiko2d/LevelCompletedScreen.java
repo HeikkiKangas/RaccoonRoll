@@ -36,20 +36,24 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     Skin skin;
     TextButton ok;
     Stage stage;
+    int posNum;
+    int points;
+    float timeSpent;
     float buttonHeight;
     float bgWidth;
     float bgHeight;
-    Texture background;
-    Label raunoTalk;
     float raunoHeight;
     float raunoWidth;
+    Texture background;
     Texture rauno;
+    Label raunoTalk;
     I18NBundle positiveBundle;
-    int posNum;
     private Options options;
 
     public LevelCompletedScreen(RaccoonRoll game, int points, float timeSpent) {
         this.game = game;
+        this.points = points;
+        this.timeSpent = timeSpent;
         options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
