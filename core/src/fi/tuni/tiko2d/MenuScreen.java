@@ -76,6 +76,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/main_menu_loop.mp3"));
         backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
+        Gdx.input.setCatchBackKey(false);
     }
 
     @Override
