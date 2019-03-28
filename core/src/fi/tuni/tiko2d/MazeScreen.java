@@ -639,11 +639,13 @@ public class MazeScreen implements Screen {
     @Override
     public void pause() {
         paused = true;
+        player.setPaused(true);
     }
 
     @Override
     public void resume() {
         paused = false;
+        player.setPaused(false);
     }
 
     @Override
