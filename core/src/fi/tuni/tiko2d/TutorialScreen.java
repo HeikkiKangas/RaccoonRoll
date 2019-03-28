@@ -157,8 +157,8 @@ public class TutorialScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (game.DEBUGGING()) {
                     Gdx.app.log("MazeButton", "Clicked");
-                    goToTutorialMaze = true;
                 }
+                goToTutorialMaze = true;
             }
         });
     }
