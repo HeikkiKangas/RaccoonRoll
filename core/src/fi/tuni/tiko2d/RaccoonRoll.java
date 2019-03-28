@@ -41,6 +41,8 @@ public class RaccoonRoll extends Game {
     private BitmapFont titleFont;
     private BitmapFont buttonFont;
     private BitmapFont hudFont;
+    private BitmapFont tutorialFont;
+    private BitmapFont tutorialSmallFont;
     private Locale locale;
     private boolean scaleHorizontal;
 
@@ -139,21 +141,55 @@ public class RaccoonRoll extends Game {
      * Generates the fonts used in the game
      */
     private void generateFonts() {
-        Color fontColor = Color.BLACK;
         String fontFilename = "fonts/boorsok.ttf";
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter tutorialFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        tutorialFontParameter.size = scaleTextFromFHD(75);
+        tutorialFontParameter.borderWidth = 2f;
+        tutorialFontParameter.borderColor = Color.BLACK;
+        tutorialFontParameter.color = Color.WHITE;
+        tutorialFont = fontGenerator.generateFont(tutorialFontParameter);
+
+        tutorialFontParameter.size = scaleTextFromFHD(60);
+        tutorialSmallFont = fontGenerator.generateFont(tutorialFontParameter);
+
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
         fontParameter.size = scaleTextFromFHD(55);
-        fontParameter.color = fontColor;
+        fontParameter.color = Color.BLACK;
         textFont = fontGenerator.generateFont(fontParameter);
+
         fontParameter.size = scaleTextFromFHD(85);
         titleFont = fontGenerator.generateFont(fontParameter);
+
         fontParameter.size = scaleTextFromFHD(55);
         buttonFont = fontGenerator.generateFont(fontParameter);
+
         fontParameter.size = scaleTextFromFHD(70);
         hudFont = fontGenerator.generateFont(fontParameter);
+
         fontGenerator.dispose();
+    }
+
+    /**
+     * Getter for font used in TutorialScreen instructions
+     *
+     * @return font for TutorialScreen instructions
+     */
+    public BitmapFont getTutorialSmallFont() {
+        return tutorialSmallFont;
+    }
+
+    /**
+     * Getter for font used in TutorialScreen instructions
+     *
+     * @return font for TutorialScreen instructions
+     */
+    public BitmapFont getTutorialFont() {
+        return tutorialFont;
     }
 
     /**

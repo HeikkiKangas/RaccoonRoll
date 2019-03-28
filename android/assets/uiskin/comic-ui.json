@@ -63,6 +63,12 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		font: font
 		fontColor: black
 	}
+	white: {
+		font: font
+	}
+	small-white: {
+		font: smallfont
+	}
 	narration: {
 		font: font
 		fontColor: black

@@ -131,6 +131,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         skin.add("button", game.getButtonFont());
         skin.add("title", game.getTitleFont());
         skin.add("font", game.getTextFont());
+        skin.add("smallfont", game.getTutorialSmallFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
     }

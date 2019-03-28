@@ -134,21 +134,30 @@ public class TutorialScreen implements Screen {
             itemsTable.setDebug(true);
         }
 
-        Label howToMoveLabel = new Label(tutorialBundle.get("howToMove"), skin);
-        Label goodLabel = new Label(tutorialBundle.get("gatherGood"), skin);
+        Label howToMoveLabel = new Label(tutorialBundle.get("howToMove"), skin, "white");
+
+        Label goodLabel = new Label(tutorialBundle.get("gatherGood"), skin, "small-white");
         goodLabel.setWrap(true);
         goodLabel.setAlignment(Align.top, Align.center);
-        Label badLabel = new Label(tutorialBundle.get("avoidBad"), skin);
+        //goodLabel.setFontScale(0.8f);
+
+        Label badLabel = new Label(tutorialBundle.get("avoidBad"), skin, "small-white");
         badLabel.setWrap(true);
         badLabel.setAlignment(Align.top, Align.center);
-        goodLabel.setFontScale(0.8f);
-        badLabel.setFontScale(0.8f);
+        //badLabel.setFontScale(0.8f);
 
         table.add(howToMoveLabel).padTop(game.scaleVertical(75)).padBottom(game.scaleVertical(100));
         table.row().expand().fill();
+        /*
         table.add(itemsTable);
         itemsTable.add(goodLabel).top().left().padLeft(50).expand().fill();
         itemsTable.add(badLabel).top().right().padRight(50).expand().fill();
+        */
+
+        table.add(goodLabel);
+        table.row().expand().fill();
+        table.add(badLabel);
+
         table.row().right().padRight(game.scaleHorizontal(10)).bottom().padBottom(game.scaleVertical(10));
         table.add(tutorialMazeButton);
 
@@ -168,7 +177,8 @@ public class TutorialScreen implements Screen {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
         skin.add("button", game.getButtonFont());
         skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTextFont());
+        skin.add("font", game.getTutorialFont());
+        skin.add("smallfont", game.getTutorialSmallFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
     }
