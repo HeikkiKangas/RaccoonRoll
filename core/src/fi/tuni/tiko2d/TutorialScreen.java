@@ -1,6 +1,7 @@
 package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -252,20 +253,12 @@ public class TutorialScreen implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-    }
 
-    /*
-    private void drawTexts() {
-        int textY = Gdx.graphics.getHeight() - game.scaleTextFromFHD(20);
-        String howToMove = tutorialBundle.get("howToMove");
-        textFont.draw(
-                batch,
-                howToMove,
-                Gdx.graphics.getWidth() / 2 - game.getTextDimensions(textFont, howToMove).x / 2,
-                textY
-        );
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
+        }
     }
-    */
 
     private void stepWorld(float delta) {
         double accumulator;
@@ -328,6 +321,12 @@ public class TutorialScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        tiledMap.dispose();
+        backgroundMusic.stop();
+        backgroundMusic.dispose();
+        player.dispose();
+        world.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }
