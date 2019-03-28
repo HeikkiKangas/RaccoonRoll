@@ -3,6 +3,7 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -89,7 +90,10 @@ public class TutorialScreen extends InputAdapter implements Screen {
 
         stage = new Stage(new ScreenViewport());
 
-        Gdx.input.setInputProcessor(stage);
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(this);
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
         tiledMap = new TmxMapLoader().load("tilemaps/tutorial/tutorial.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
