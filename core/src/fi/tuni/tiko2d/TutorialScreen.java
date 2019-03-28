@@ -1,6 +1,8 @@
 package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -58,6 +60,7 @@ public class TutorialScreen implements Screen {
     private Skin skin;
     private Stage stage;
     private TextButton tutorialMazeButton;
+    private boolean goToMenuScreen;
 
     private ArrayList<Sound> wallHitSounds;
     private Music backgroundMusic;
@@ -86,7 +89,11 @@ public class TutorialScreen implements Screen {
 
         stage = new Stage(new ScreenViewport());
 
-        Gdx.input.setInputProcessor(stage);
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+        //inputMultiplexer.addProcessor(this);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+        Gdx.input.setCatchBackKey(true);
 
         tiledMap = new TmxMapLoader().load("tilemaps/tutorial/tutorial.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
@@ -252,20 +259,17 @@ public class TutorialScreen implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-    }
 
-    /*
-    private void drawTexts() {
-        int textY = Gdx.graphics.getHeight() - game.scaleTextFromFHD(20);
-        String howToMove = tutorialBundle.get("howToMove");
-        textFont.draw(
-                batch,
-                howToMove,
-                Gdx.graphics.getWidth() / 2 - game.getTextDimensions(textFont, howToMove).x / 2,
-                textY
-        );
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            goToMenuScreen = true;
+            game.setScreen(new MenuScreen(game));
+            dispose();
+        }
+
+        if (goToMenuScreen) {
+            // kommentti
+        }
     }
-    */
 
     private void stepWorld(float delta) {
         double accumulator;
@@ -328,6 +332,12 @@ public class TutorialScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        tiledMap.dispose();
+        backgroundMusic.stop();
+        backgroundMusic.dispose();
+        player.dispose();
+        world.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }
@@ -423,4 +433,16 @@ public class TutorialScreen implements Screen {
         rr.height = r.height * scale;
         return rr;
     }
+
+    /*
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            goToMenuScreen = true;
+            return true;
+        }
+        return false;
+    }
+    */
+
 }
