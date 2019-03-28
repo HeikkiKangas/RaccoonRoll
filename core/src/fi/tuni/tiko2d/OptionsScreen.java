@@ -120,10 +120,10 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         musicContainer = new Container(volumeMusicSlider);
         musicContainer.setTransform(true);
-        musicContainer.scaleBy(3f);
+        musicContainer.scaleBy(game.scaleFromFHD(3f));
         effectsContainer = new Container(volumeEffectsSlider);
         effectsContainer.setTransform(true);
-        effectsContainer.scaleBy(3f);
+        effectsContainer.scaleBy(game.scaleFromFHD(3f));
 
         createLabels();
 
