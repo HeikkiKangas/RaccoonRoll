@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="70" height="50" tilewidth="64" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="1">
- <layer id="1" name="Tile Layer 1" width="70" height="50">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="69" height="50" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="1">
+ <tileset firstgid="1" name="bad_objects" tilewidth="64" tileheight="64" tilecount="5" columns="5">
+  <image source="../bad_objects.png" width="320" height="64"/>
+ </tileset>
+ <tileset firstgid="6" name="good_objects" tilewidth="64" tileheight="64" tilecount="2" columns="2">
+  <image source="../good_objects.png" width="128" height="64"/>
+ </tileset>
+ <tileset firstgid="8" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../maali_placeholder.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="9" name="kairo" tilewidth="64" tileheight="64" tilecount="39" columns="13">
+  <image source="kairo.png" width="832" height="192"/>
+ </tileset>
+ <layer id="5" name="ground" width="69" height="50">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20IX6AAAAAAAAAAAAAAAAAA4Dc2sAAB
+   eJzt0UENACAMBMFTUgSAf330RYKDefSxGQFbSVZX43N3Z/wUvmgKXzSFL5rCF03hi6bwRVP4oil80RS+aApfNIUvmsIXTeGLpvBFU/iiKXzRFL5oCl80hS+awhdN4Yum8EVT+KIpfNEUvmgKXzSFL5rCF03hi6bwRVP4oil80RS+aApfNIUvmsIXTeGLpvBFU/iiKXzRFL5oCl80hS+awhdN4Yum8EVT+KIpfNG8CA/ymQ==
+  </data>
+ </layer>
+ <layer id="6" name="wall_tiles" width="69" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt28EJwgAURMHfQe6BHGLlKc1SVMgh8gow4DzYBua+28xslq3v7TbLxeQxc4w+LgeT75g0Jo1JY9KYNCaNSWPSmDQmjUlj0pg0Jo1JY9KYNCaNSWPSmDQmjUlj0pg0Jo1JY9KYNCaNSWPSmDQmjUlj0pg0Jo1JY9KYNCaNSWPSriany99vnXn++jd0170Axh1yUA==
+  </data>
+ </layer>
+ <layer id="2" name="Tile Layer 1" width="69" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztVEEOwzAIS///6Z0mVWtSbDA027CEFGUUiGdzjDGOjg4w3jifEbD51fXY3s3JtbfFCasrlU6f9AjyxhnYfAbVOmlO7vuxnHjO0R2v9h47M/te6+yFp55K2xFOkNm8+EVO2H3u9UGF35EcZp5B5qC/M/UzOInMgORbuSi+hZMsv2T7iJ2JqT+A+2iu9b2KE1Wv1bdMHw925MS7t5ncTB9l+HEGr06e0ExzUsuJV/dq76juFecB3O+G5uSKLE6QmrtFNicz/LtOVr2+AR6dr3LYb71a3sE7K2TqhJ1FieZk3jui13M+UhPJZ2rv5p0zPHsmWk+JLE5YbTAzeudC4dG5pbe7+shZ4dGoX1Z1rfkHea/QDNLTg7v5I5yw/DP1Vz1ViHKSvYcrg+3rfReCyLeVUHES2Wm7oWoPWHWe8g4yD5I/OyNQ1YmgghPmv/lVTqrnqfLO55y7cWJ9q7qPclK536y3qO5VulLhKX6QdzUn8/zKsOas8CybU4XKXmzf5mSe09GBxgsKlAVY
   </data>
  </layer>
 </map>
