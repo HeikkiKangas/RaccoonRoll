@@ -47,6 +47,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     Texture background;
     Texture rauno;
     Label raunoTalk;
+    Label pointsLabel;
+    Label timeSpentLabel;
     I18NBundle positiveBundle;
     private Options options;
 
@@ -91,13 +93,17 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         Table speechBubble = new Table(skin);
         speechBubble.background("bubble-lower-left");
-        raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
+
+        createLabels();
+
         raunoTalk.setAlignment(Align.center);
         speechBubble.add(raunoTalk);
 
         float padding = game.scaleFromFHD(50);
         table.add(speechBubble).padRight(padding * 15);
-        table.row().pad(padding * 10, 0, 0, 0);
+        table.row().pad(padding * 5, 0, 0, 0);
+        table.add(pointsLabel);
+        table.row().pad(padding * 4, 0, 0, 0);
         table.padLeft(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
 
@@ -128,6 +134,12 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         skin.add("smallfont", game.getTutorialSmallFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+    }
+
+    private void createLabels() {
+        raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
+        pointsLabel = new Label(positiveBundle.get("points"), skin);
+        //timeSpentLabel = new Label(positiveBundle.get("time" + formatTime()), skin);
     }
 
     @Override
