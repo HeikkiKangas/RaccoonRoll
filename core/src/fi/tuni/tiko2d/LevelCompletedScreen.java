@@ -60,7 +60,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        rauno = new Texture("graphics/othermenus/Positiivinenrauno.png");
+        rauno = new Texture("graphics/othermenus/pieniRauno.png");
         background = new Texture("graphics/othermenus/Tausta75.png");
 
         positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
@@ -99,17 +99,16 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         raunoTalk.setAlignment(Align.center);
         speechBubble.add(raunoTalk);
 
-        float padding = game.scaleFromFHD(50);
-        table.add(speechBubble).padRight(padding * 15);
-        table.row(); //.pad(padding * 5, 0, 0, 0);
-        table.add(pointsLabel);
+        float padding = game.scaleFromFHD(600);
+        table.add(speechBubble).padRight(padding);
         table.row();
-        table.add(timeSpentLabel);
-        table.row(); //.pad(padding * 4, 0, 0, 0);
-        table.padLeft(padding * 26);
+        table.add(pointsLabel).padLeft(padding * 1.75f);
+        table.row().pad(padding / 15, 0, 0, 0);
+        table.add(timeSpentLabel).padLeft(padding * 1.75f);
+        table.row().pad(padding / 2, 0, 0, 0);
         buttonHeight = game.scaleFromFHD(200f);
 
-        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padLeft(padding * 2);
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
