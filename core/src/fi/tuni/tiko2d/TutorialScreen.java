@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -32,6 +33,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -58,6 +60,8 @@ public class TutorialScreen implements Screen {
     private Skin skin;
     private Stage stage;
     private TextButton tutorialMazeButton;
+    private Texture goodObjects;
+    private Texture badObjects;
 
     private ArrayList<Sound> wallHitSounds;
     private Music backgroundMusic;
@@ -88,6 +92,9 @@ public class TutorialScreen implements Screen {
 
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
+
+        goodObjects = new Texture("tilemaps/good_objects.png");
+        badObjects = new Texture("tilemaps/bad_objects.png");
 
         tiledMap = new TmxMapLoader().load("tilemaps/tutorial/tutorial.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
@@ -127,11 +134,13 @@ public class TutorialScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        Table itemsTable = new Table();
+        Table goodTable = new Table();
+        Table badTable = new Table();
 
         if (game.DEBUGGING()) {
             table.setDebug(true);
-            itemsTable.setDebug(true);
+            goodTable.setDebug(true);
+            badTable.setDebug(true);
         }
 
         Label howToMoveLabel = new Label(tutorialBundle.get("howToMove"), skin, "white");
@@ -139,24 +148,27 @@ public class TutorialScreen implements Screen {
         Label goodLabel = new Label(tutorialBundle.get("gatherGood"), skin, "small-white");
         goodLabel.setWrap(true);
         goodLabel.setAlignment(Align.top, Align.center);
-        //goodLabel.setFontScale(0.8f);
+        Image goodImages = new Image(goodObjects);
 
         Label badLabel = new Label(tutorialBundle.get("avoidBad"), skin, "small-white");
         badLabel.setWrap(true);
         badLabel.setAlignment(Align.top, Align.center);
-        //badLabel.setFontScale(0.8f);
+        Image badImages = new Image(badObjects);
 
-        table.add(howToMoveLabel).padTop(game.scaleVertical(75)).padBottom(game.scaleVertical(100));
-        table.row().expand().fill();
-        /*
-        table.add(itemsTable);
-        itemsTable.add(goodLabel).top().left().padLeft(50).expand().fill();
-        itemsTable.add(badLabel).top().right().padRight(50).expand().fill();
-        */
+        goodTable.add(goodLabel);
+        goodTable.row();
+        goodTable.add(goodImages);
 
-        table.add(goodLabel);
+        badTable.add(badLabel);
+        badTable.row();
+        badTable.add(badImages);
+
+        table.add(howToMoveLabel).padTop(game.scaleVertical(50)).padBottom(game.scaleVertical(50));
         table.row().expand().fill();
-        table.add(badLabel);
+
+        table.add(goodTable);
+        table.row().expand().fill();
+        table.add(badTable);
 
         table.row().right().padRight(game.scaleHorizontal(10)).bottom().padBottom(game.scaleVertical(10));
         table.add(tutorialMazeButton);
