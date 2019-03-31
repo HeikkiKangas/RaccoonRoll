@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -98,6 +99,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         createSkin();
         createButtons();
 
+        Table options = new Table();
+        Table backSave = new Table();
+
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
         volumeMusicSlider.setValue(musicVolume);
         volumeMusicSlider.addListener(new EventListener() {
@@ -130,22 +134,25 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         float padding = game.scaleFromFHD(50);
         buttonHeight = game.scaleFromFHD(200f);
 
-        table.add(titleLabel);
-        table.row().pad(padding, 0, 0, 0);
-        table.add(volumeMusicLabel);
-        table.add(musicContainer);
-        //table.add(volumeMusicSlider).width(Value.percentWidth(0.25f, table));
+        table.add(options);
+
+        options.add(titleLabel);
+        options.row().pad(padding, 0, 0, 0);
+        options.add(volumeMusicLabel);
+        options.add(musicContainer);
+        options.row().pad(padding * 2, 0, 0, 0);
+        options.add(volumeEffectsLabel);
+        options.add(effectsContainer);
+        options.row().pad(padding, 0, 0, 0);
+        options.add(languageLabel);
+        options.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding);
+        options.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+
         table.row().pad(padding * 2, 0, 0, 0);
-        table.add(volumeEffectsLabel);
-        table.add(effectsContainer);
-        //table.add(volumeEffectsSlider).width(Value.percentWidth(0.25f, table));
-        table.row().pad(padding, 0, 0, 0);
-        table.add(languageLabel);
-        table.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding);
-        table.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
-        table.row().pad(padding * 2, 0, 0, 0);
-        table.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight).padRight(padding * 2);
-        table.add(save).width(Value.percentWidth(0.20f, table)).height(buttonHeight);
+
+        table.add(backSave);
+        backSave.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight).padRight(padding * 10);
+        backSave.add(save).width(Value.percentWidth(0.20f, table)).height(buttonHeight).padLeft(padding * 10);
 
         addListeners();
     }
