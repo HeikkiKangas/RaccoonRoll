@@ -38,7 +38,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        background = new Texture("graphics/worldmap/mappi_btntest.png");
+        background = new Texture("graphics/Karttapienid.jpg");
 
         stage = new Stage(new ScreenViewport());
 
@@ -46,11 +46,13 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(new GestureDetector(new MapScroller()));
 
-        bgHeight = game.scaleFromFHD(background.getHeight());
-        bgWidth = game.scaleFromFHD(background.getWidth());
+        bgHeight = game.scaleVertical(background.getHeight());
+        bgWidth = game.scaleVertical(background.getWidth());
 
         Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
+
+        bgX = -300;
     }
 
     @Override
