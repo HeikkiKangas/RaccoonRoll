@@ -48,6 +48,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     Label musicTitle;
     Label music;
     I18NBundle aboutBundle;
+    Boolean screenActive = true;
 
     private Options options;
 
@@ -121,6 +122,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Back", "Button clicked");
                 game.setScreen(new MenuScreen(game));
+                screenActive = false;
             }
         });
     }
@@ -174,6 +176,10 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        if(!screenActive) {
+            dispose();
+        }
     }
 
     @Override
