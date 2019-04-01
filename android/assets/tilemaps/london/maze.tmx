@@ -21,7 +21,7 @@
    eJztmgFugzAMRX2NCZR2EgfjaD1KjrZMnSaP5FO7joGBLVlykYvzyJdrKDciul3M78U/iOYze2F8/PDm8jnTya0w0kV56bP41PChaKB13Nt5XckaeM7I9i6V4y1etL8Ty9/SeF3JGlD+FLwVbwL5iXw1zHWI1pxAbOHVXtteJlmzJQ7eOmck316dBNd5S15u3nsdvH1jCe9Kr+bxyxnA0pP36lfaPqbNCd6+sYV3IF2/HcF8+194j7Z3wVvHvXi5Vhe9d96KJQlq9eI9wl5LagXvej7SDJ+xkXtoG9VFtSz3R5I9Reaxp5JawVvnIM2UeWN+pWGLtiX9lv8uoFl9YFza+yMPs/Qf7XeDt85Bs4TFF8+WM6v1fSwvXdvb0T3sXs+vevUfbRy8dY5klljpw7/nRBrTnt8yt3j3K21v8Th/8Na8vTSM6qJnI2/Umltr1s7PFtNec28L3ub/g29rjM/VPOYaS3/jLtqWaN5jf49sV+a9P9/ZeZzZC2Pe+72vPfwLx/m2qQ==
   </data>
  </layer>
- <objectgroup id="18" name="wall_objects" visible="0">
+ <objectgroup id="18" name="wall_objects">
   <object id="4" x="0" y="256" width="128" height="2432"/>
   <object id="5" x="0" y="0" width="3840" height="128"/>
   <object id="6" x="3712" y="128" width="128" height="2560"/>
@@ -76,7 +76,7 @@
   <object id="55" x="3136" y="320" width="64" height="960"/>
   <object id="56" x="3520" y="256" width="64" height="1344"/>
  </objectgroup>
- <objectgroup id="17" name="goal_blocking_object" visible="0">
+ <objectgroup id="17" name="goal_blocking_object">
   <object id="3" x="0" y="128" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="16" name="goal_object" visible="0">
