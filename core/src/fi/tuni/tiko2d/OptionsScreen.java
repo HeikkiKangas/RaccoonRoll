@@ -60,6 +60,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     Container musicContainer;
     Container effectsContainer;
 
+    Boolean screenActive = true;
+
 
     /**
      * Sets up the options screen
@@ -216,6 +218,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Back", "Button clicked");
                 game.setScreen(new MenuScreen(game));
+                screenActive = false;
             }
         });
 
@@ -245,6 +248,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("Save", "Button clicked");
                 saveOptions();
                 game.setScreen(new MenuScreen(game));
+                screenActive = false;
             }
         });
     }
@@ -267,11 +271,15 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        if(!screenActive) {
+            dispose();
+        }
     }
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override
@@ -287,6 +295,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         }
         // dispose of assets when not needed anymore
         stage.dispose();
+        background.dispose();
     }
 
     /**
