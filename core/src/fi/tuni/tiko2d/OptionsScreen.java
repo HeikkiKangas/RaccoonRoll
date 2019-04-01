@@ -60,7 +60,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     Container musicContainer;
     Container effectsContainer;
 
-    Boolean screenActive = true;
+    boolean screenActive = true;
 
 
     /**
