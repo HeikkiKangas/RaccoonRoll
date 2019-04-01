@@ -176,11 +176,11 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("About", "Button clicked");
-                //game.setScreen(new AboutScreen(game));
+                game.setScreen(new AboutScreen(game));
                 //for testing purposes
                 //game.setScreen(new LevelCompletedScreen(game, 10, 200f));
                 //game.setScreen(new MapScreen(game));
-                game.setScreen(new TutorialScreen(game));
+                //game.setScreen(new TutorialScreen(game));
                 backgroundMusic.stop();
             }
         });
