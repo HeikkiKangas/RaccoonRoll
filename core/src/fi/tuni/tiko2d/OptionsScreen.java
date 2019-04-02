@@ -31,36 +31,36 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  */
 
 public class OptionsScreen extends ApplicationAdapter implements Screen {
-    RaccoonRoll game;
-    SpriteBatch batch;
-    OrthographicCamera worldCamera;
-    OrthographicCamera textCamera;
-    Skin skin;
-    TextButton back;
-    TextButton english;
-    TextButton finnish;
-    TextButton save;
-    Stage stage;
-    float buttonHeight;
-    float bgWidth;
-    float bgHeight;
-    Texture background;
+    private RaccoonRoll game;
+    private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private OrthographicCamera textCamera;
+    private Skin skin;
+    private TextButton back;
+    private TextButton english;
+    private TextButton finnish;
+    private TextButton save;
+    private Stage stage;
+    private float buttonHeight;
+    private float bgWidth;
+    private float bgHeight;
+    private Texture background;
     private Label titleLabel;
     private Label volumeMusicLabel;
     private Label volumeEffectsLabel;
     private Label languageLabel;
-    I18NBundle optionsBundle;
+    private I18NBundle optionsBundle;
 
     private Options options;
     private float musicVolume;
     private float effectsVolume;
     private String language;
-    TextButton.TextButtonStyle selected;
-    TextButton.TextButtonStyle notSelected;
-    Container musicContainer;
-    Container effectsContainer;
+    private TextButton.TextButtonStyle selected;
+    private TextButton.TextButtonStyle notSelected;
+    private Container musicContainer;
+    private Container effectsContainer;
 
-    boolean screenActive = true;
+    private boolean screenActive = true;
 
 
     /**
