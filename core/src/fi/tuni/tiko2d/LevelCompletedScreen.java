@@ -180,6 +180,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         }
         // dispose of assets when not needed anymore
         stage.dispose();
+        background.dispose();
+        rauno.dispose();
     }
 
     /**

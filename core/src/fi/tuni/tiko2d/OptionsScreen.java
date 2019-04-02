@@ -31,36 +31,36 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  */
 
 public class OptionsScreen extends ApplicationAdapter implements Screen {
-    RaccoonRoll game;
-    SpriteBatch batch;
-    OrthographicCamera worldCamera;
-    OrthographicCamera textCamera;
-    Skin skin;
-    TextButton back;
-    TextButton english;
-    TextButton finnish;
-    TextButton save;
-    Stage stage;
-    float buttonHeight;
-    float bgWidth;
-    float bgHeight;
-    Texture background;
+    private RaccoonRoll game;
+    private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private OrthographicCamera textCamera;
+    private Skin skin;
+    private TextButton back;
+    private TextButton english;
+    private TextButton finnish;
+    private TextButton save;
+    private Stage stage;
+    private float buttonHeight;
+    private float bgWidth;
+    private float bgHeight;
+    private Texture background;
     private Label titleLabel;
     private Label volumeMusicLabel;
     private Label volumeEffectsLabel;
     private Label languageLabel;
-    I18NBundle optionsBundle;
+    private I18NBundle optionsBundle;
 
     private Options options;
     private float musicVolume;
     private float effectsVolume;
     private String language;
-    TextButton.TextButtonStyle selected;
-    TextButton.TextButtonStyle notSelected;
-    Container musicContainer;
-    Container effectsContainer;
+    private TextButton.TextButtonStyle selected;
+    private TextButton.TextButtonStyle notSelected;
+    private Container musicContainer;
+    private Container effectsContainer;
 
-    boolean screenActive = true;
+    private boolean screenActive = true;
 
 
     /**
@@ -124,13 +124,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             }
         });
 
-        musicContainer = new Container(volumeMusicSlider);
-        musicContainer.setTransform(true);
-        musicContainer.scaleBy(game.scaleFromFHD(3f));
-        effectsContainer = new Container(volumeEffectsSlider);
-        effectsContainer.setTransform(true);
-        effectsContainer.scaleBy(game.scaleFromFHD(3f));
-
+        createContainers(volumeMusicSlider, volumeEffectsSlider);
         createLabels();
 
         float padding = game.scaleFromFHD(50);
@@ -208,6 +202,19 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
+     * Creates containers for sliders
+     */
+
+    private void createContainers(Slider music, Slider effects) {
+        musicContainer = new Container(music);
+        musicContainer.setTransform(true);
+        musicContainer.scaleBy(game.scaleFromFHD(3f));
+        effectsContainer = new Container(effects);
+        effectsContainer.setTransform(true);
+        effectsContainer.scaleBy(game.scaleFromFHD(3f));
+    }
+
+    /**
      * Adds listeners to textbuttons
      * Defines the action upon clicking said button
      */
@@ -254,7 +261,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Draws the buttons
+     * Draws background, buttons and sliders
+     * Calls dispose() when screen is not active
      *
      * @param delta time since last frame was drawn
      */
