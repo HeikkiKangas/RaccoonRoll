@@ -29,27 +29,27 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
-    RaccoonRoll game;
-    SpriteBatch batch;
-    OrthographicCamera worldCamera;
-    OrthographicCamera textCamera;
-    Skin skin;
-    TextButton ok;
-    Stage stage;
-    int posNum;
-    int points;
-    float timeSpent;
-    float buttonHeight;
-    float bgWidth;
-    float bgHeight;
-    float raunoHeight;
-    float raunoWidth;
-    Texture background;
-    Texture rauno;
-    Label raunoTalk;
-    Label pointsLabel;
-    Label timeSpentLabel;
-    I18NBundle positiveBundle;
+    private RaccoonRoll game;
+    private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private OrthographicCamera textCamera;
+    private Skin skin;
+    private TextButton ok;
+    private Stage stage;
+    private int posNum;
+    private int points;
+    private float timeSpent;
+    private float buttonHeight;
+    private float bgWidth;
+    private float bgHeight;
+    private float raunoHeight;
+    private float raunoWidth;
+    private Texture background;
+    private Texture rauno;
+    private Label raunoTalk;
+    private Label pointsLabel;
+    private Label timeSpentLabel;
+    private I18NBundle positiveBundle;
     private Options options;
 
     public LevelCompletedScreen(RaccoonRoll game, int points, float timeSpent) {
@@ -65,10 +65,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
 
-        raunoWidth = game.scaleFromFHD(rauno.getWidth());
-        raunoHeight = game.scaleFromFHD(rauno.getHeight());
-        bgWidth = game.scaleFromFHD(background.getWidth());
-        bgHeight = game.scaleFromFHD(background.getHeight());
+        scaleObjects();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -120,6 +117,17 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         if (game.DEBUGGING()) {
             Gdx.app.log("Show ran", "LevelCompletedScreen");
         }
+    }
+
+    /**
+     * Scales the image and background according to the screen
+     */
+
+    private void scaleObjects() {
+        raunoWidth = game.scaleFromFHD(rauno.getWidth());
+        raunoHeight = game.scaleFromFHD(rauno.getHeight());
+        bgWidth = game.scaleFromFHD(background.getWidth());
+        bgHeight = game.scaleFromFHD(background.getHeight());
     }
 
     /**
