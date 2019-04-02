@@ -124,13 +124,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             }
         });
 
-        musicContainer = new Container(volumeMusicSlider);
-        musicContainer.setTransform(true);
-        musicContainer.scaleBy(game.scaleFromFHD(3f));
-        effectsContainer = new Container(volumeEffectsSlider);
-        effectsContainer.setTransform(true);
-        effectsContainer.scaleBy(game.scaleFromFHD(3f));
-
+        createContainers(volumeMusicSlider, volumeEffectsSlider);
         createLabels();
 
         float padding = game.scaleFromFHD(50);
@@ -208,6 +202,19 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
+     * Creates containers for sliders
+     */
+
+    private void createContainers(Slider music, Slider effects) {
+        musicContainer = new Container(music);
+        musicContainer.setTransform(true);
+        musicContainer.scaleBy(game.scaleFromFHD(3f));
+        effectsContainer = new Container(effects);
+        effectsContainer.setTransform(true);
+        effectsContainer.scaleBy(game.scaleFromFHD(3f));
+    }
+
+    /**
      * Adds listeners to textbuttons
      * Defines the action upon clicking said button
      */
@@ -254,7 +261,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Draws the buttons
+     * Draws background, buttons and sliders
+     * Calls dispose() when screen is not active
      *
      * @param delta time since last frame was drawn
      */
