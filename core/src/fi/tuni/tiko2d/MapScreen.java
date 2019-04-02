@@ -26,7 +26,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     OrthographicCamera worldCamera;
     OrthographicCamera textCamera;
     Stage stage;
-    Texture background;
+    Texture map1;
+    Texture map2;
     float bgHeight;
     float bgWidth;
     private InputMultiplexer multiplexer;
@@ -38,7 +39,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        background = new Texture("graphics/Karttapienid.jpg");
+        map1 = new Texture("graphics/map1.png");
+        map2 = new Texture("graphics/map2.png");
 
         stage = new Stage(new ScreenViewport());
 
@@ -46,8 +48,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(new GestureDetector(new MapScroller()));
 
-        bgHeight = game.scaleVertical(background.getHeight());
-        bgWidth = game.scaleVertical(background.getWidth());
+        bgHeight = game.scaleVertical(map1.getHeight());
+        bgWidth = game.scaleVertical(map1.getWidth());
 
         Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
@@ -62,18 +64,24 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void render(float delta) {
+        if (game.DEBUGGING()) {
+            MemoryDebug.memoryUsed(delta);
+        }
         Gdx.gl.glClearColor(49f / 255, 36f / 255, 209f / 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(textCamera.combined);
         batch.begin();
-        batch.draw(background, bgX, 0, bgWidth, bgHeight);
+        batch.draw(map1, bgX, 0, bgWidth, bgHeight);
+        batch.draw(map2, bgX + bgWidth, 0, bgWidth, bgHeight);
 
 
         if (bgX > 0) {
-            batch.draw(background, bgX - bgWidth, 0, bgWidth, bgHeight);
-        } else if (bgX < -(bgWidth - Gdx.graphics.getWidth())) {
-            batch.draw(background, bgX + bgWidth, 0, bgWidth, bgHeight);
+            batch.draw(map1, bgX - bgWidth * 2, 0, bgWidth, bgHeight);
+            batch.draw(map2, bgX - bgWidth, 0, bgWidth, bgHeight);
+        } else if (bgX < -(bgWidth * 2 - Gdx.graphics.getWidth())) {
+            batch.draw(map1, bgX + bgWidth * 2, 0, bgWidth, bgHeight);
+            batch.draw(map2, bgX + bgWidth * 3, 0, bgWidth, bgHeight);
         }
 
         batch.end();
@@ -101,10 +109,10 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             }
             bgX += deltaX;
 
-            if (bgX > bgWidth) {
-                bgX -= bgWidth;
-            } else if (bgX < -bgWidth) {
-                bgX += bgWidth;
+            if (bgX > bgWidth * 2) {
+                bgX -= bgWidth * 2;
+            } else if (bgX < -bgWidth * 2) {
+                bgX += bgWidth * 2;
             }
 
             return super.pan(x, y, deltaX, deltaY);
