@@ -50,7 +50,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private Label volumeEffectsLabel;
     private Label languageLabel;
     private I18NBundle optionsBundle;
-
     private Options options;
     private float musicVolume;
     private float effectsVolume;
@@ -59,7 +58,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private TextButton.TextButtonStyle notSelected;
     private Container musicContainer;
     private Container effectsContainer;
-
     private boolean screenActive = true;
 
 

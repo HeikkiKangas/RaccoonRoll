@@ -21,16 +21,15 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MapScreen extends ApplicationAdapter implements Screen {
 
-    RaccoonRoll game;
-    SpriteBatch batch;
-    OrthographicCamera worldCamera;
-    OrthographicCamera textCamera;
-    Stage stage;
-    Texture background;
-    float bgHeight;
-    float bgWidth;
+    private RaccoonRoll game;
+    private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private OrthographicCamera textCamera;
+    private Stage stage;
+    private Texture background;
+    private float bgHeight;
+    private float bgWidth;
     private InputMultiplexer multiplexer;
-
     private float bgX;
 
     public MapScreen(RaccoonRoll game) {
