@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="11" nextobjectid="130">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="14" nextobjectid="157">
  <tileset firstgid="1" name="bad_objects" tilewidth="64" tileheight="64" tilecount="5" columns="5">
   <image source="../bad_objects.png" width="320" height="64"/>
  </tileset>
@@ -171,9 +171,44 @@
    eJzt08EJACAMA8A+HcJh3H8qFZzAPop4B/mHQCLI6CfcadUFHme/nPXdsVPdAwAAAAAAAAAAAAAAAAAAAADgNxM7yQEB
   </data>
  </layer>
- <layer id="7" name="good_tiles" width="80" height="60">
+ <layer id="11" name="bad_tiles" width="80" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2rENACAIBEAr3X9jF7DRENB4NwGFwJPYGgAAAOTp1QUAJBrVBQAlVr0vAwEQzW4BAAB2uCEA/mDew5v8LchlVgLAuejcErGXZSm8gTW5F+6lP4Fq8hM3mlztAGg=
+   eJzt2ssNABAURUEJ+m9ZB2LDDWYqONv3KQUAAOAfNR0AAHBQSwcAAFyspwMAYMLMDwAA+/gvAgAAyHKvBwBW2OXCOwbcLQAc
   </data>
  </layer>
+ <objectgroup id="12" name="bad_objects">
+  <object id="130" x="2112" y="640" width="64" height="64"/>
+  <object id="131" x="3072" y="1088" width="64" height="64"/>
+  <object id="132" x="1856" y="1920" width="64" height="64"/>
+  <object id="133" x="2624" y="2496" width="64" height="64"/>
+  <object id="134" x="1984" y="3200" width="64" height="64"/>
+  <object id="135" x="4864" y="3584" width="64" height="64"/>
+  <object id="136" x="192" y="1600" width="64" height="64"/>
+ </objectgroup>
+ <layer id="7" name="good_tiles" width="80" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt2LENACAIBEAr3X9jF7AyBCHe9SYWAo9jAAAAQJ75+gIAl1bSGaC/U+3LQABEM1uozC7ET/RjALowswD+oN9DT/7TcumVAHAvOrdEzGVZCm/gTO6FutQn8Jr8REUb+ZoAfA==
+  </data>
+ </layer>
+ <objectgroup id="13" name="good_objects">
+  <object id="137" x="3200" y="704" width="64" height="64"/>
+  <object id="138" x="3968" y="1152" width="64" height="64"/>
+  <object id="139" x="4288" y="1152" width="64" height="64"/>
+  <object id="140" x="3008" y="960" width="64" height="64"/>
+  <object id="141" x="2176" y="960" width="64" height="64"/>
+  <object id="142" x="4736" y="1472" width="64" height="64"/>
+  <object id="143" x="3776" y="2112" width="64" height="64"/>
+  <object id="144" x="1920" y="1792" width="64" height="64"/>
+  <object id="145" x="2496" y="2432" width="64" height="64"/>
+  <object id="147" x="2432" y="2624" width="64" height="64"/>
+  <object id="148" x="3200" y="2688" width="64" height="64"/>
+  <object id="149" x="4672" y="3072" width="64" height="64"/>
+  <object id="150" x="4736" y="3648" width="64" height="64"/>
+  <object id="151" x="3584" y="3072" width="64" height="64"/>
+  <object id="152" x="2688" y="3200" width="64" height="64"/>
+  <object id="153" x="2304" y="3072" width="64" height="64"/>
+  <object id="154" x="2048" y="3264" width="64" height="64"/>
+  <object id="155" x="1536" y="3456" width="64" height="64"/>
+  <object id="156" x="128" y="1664" width="64" height="64"/>
+ </objectgroup>
 </map>

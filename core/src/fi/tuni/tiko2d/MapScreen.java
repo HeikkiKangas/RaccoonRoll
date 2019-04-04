@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 /**
  * Screen for displaying a map with all levels
  *
- * @author Laura Kanerva
+ * @author
  */
 
 public class MapScreen extends ApplicationAdapter implements Screen {
