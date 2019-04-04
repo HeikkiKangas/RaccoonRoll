@@ -105,7 +105,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         table.add(pointsLabel).padLeft(padding * 1.75f);
         table.row().pad(padding / 15, 0, 0, 0);
         table.add(timeSpentLabel).padLeft(padding * 1.75f);
-        table.row().pad(padding / 3, 0, 0, 0);
+        //table.row().pad(padding / 3, 0, 0, 0); yksirivisille
+        table.row().pad(padding / 4, 0, 0, 0);
         buttonHeight = game.scaleFromFHD(200f);
 
         table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padLeft(padding * 2);
@@ -149,7 +150,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     }
 
     private void createLabels() {
-        raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
+        //for testing purposes
+        raunoTalk = new Label(positiveBundle.get("pos1"), skin);
+        //raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
         timeSpentLabel = new Label(positiveBundle.get("time") + formatTime(), skin);
         title = new Label(positiveBundle.get("title"), skin, "title");
