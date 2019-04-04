@@ -26,29 +26,29 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  */
 
 public class MenuScreen extends ApplicationAdapter implements Screen {
-    RaccoonRoll game;
-    SpriteBatch batch;
-    OrthographicCamera worldCamera;
-    OrthographicCamera textCamera;
-    Skin skin;
-    TextButton play;
-    TextButton optionsButton;
-    TextButton about;
-    Stage stage;
-    I18NBundle menuBundle;
-    float buttonHeight;
-    float titleWidth;
-    float titleHeight;
-    float bgWidth;
-    float bgHeight;
-    float raunoWidth;
-    float raunoHeight;
-    Texture title;
-    Texture background;
-    Texture rauno;
+    private RaccoonRoll game;
+    private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private OrthographicCamera textCamera;
+    private Skin skin;
+    private TextButton play;
+    private TextButton optionsButton;
+    private TextButton about;
+    private Stage stage;
+    private I18NBundle menuBundle;
+    private float buttonHeight;
+    private float titleWidth;
+    private float titleHeight;
+    private float bgWidth;
+    private float bgHeight;
+    private float raunoWidth;
+    private float raunoHeight;
+    private Texture title;
+    private Texture background;
+    private Texture rauno;
     private Music backgroundMusic;
     private Options options;
-    Boolean screenChanged = false;
+    private boolean screenChanged = false;
 
     /**
      * Sets up the main menu

@@ -27,29 +27,28 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class AboutScreen extends ApplicationAdapter implements Screen {
 
-    RaccoonRoll game;
-    SpriteBatch batch;
-    OrthographicCamera worldCamera;
-    OrthographicCamera textCamera;
-    Skin skin;
-    TextButton back;
-    Stage stage;
-    float buttonHeight;
-    float bgWidth;
-    float bgHeight;
-    Texture background;
-    Label programmerTitle;
-    Label programmer1;
-    Label programmer2;
-    Label scrumTitle;
-    Label scrum;
-    Label graphicsTitle;
-    Label graphics;
-    Label musicTitle;
-    Label music;
-    I18NBundle aboutBundle;
-    Boolean screenActive = true;
-
+    private RaccoonRoll game;
+    private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private OrthographicCamera textCamera;
+    private Skin skin;
+    private TextButton back;
+    private Stage stage;
+    private float buttonHeight;
+    private float bgWidth;
+    private float bgHeight;
+    private Texture background;
+    private Label programmerTitle;
+    private Label programmer1;
+    private Label programmer2;
+    private Label scrumTitle;
+    private Label scrum;
+    private Label graphicsTitle;
+    private Label graphics;
+    private Label musicTitle;
+    private Label music;
+    private I18NBundle aboutBundle;
+    private Boolean screenActive = true;
     private Options options;
 
     /**
