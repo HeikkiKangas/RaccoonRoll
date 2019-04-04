@@ -9,8 +9,8 @@
  <tileset firstgid="8" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../maali_placeholder.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="9" name="tilesetaasia (6)" tilewidth="64" tileheight="64" tilecount="24" columns="24">
-  <image source="tilesetaasia (6).png" width="1536" height="64"/>
+ <tileset firstgid="9" name="tileset" tilewidth="64" tileheight="64" tilecount="24" columns="24">
+  <image source="tileset.png" width="1536" height="64"/>
  </tileset>
  <objectgroup id="12" name="startpos">
   <object id="1" x="192" y="3648">
@@ -24,10 +24,10 @@
  </layer>
  <layer id="6" name="wall_tiles" width="80" height="60">
   <data encoding="base64" compression="zlib">
-   eJztXNluxDAInNeq9323fEo/rZ/efSsrZRowsM6qICFZlo3JBALG3n0B8NIc4rMdvw3yRWBuJVfrdarwe8c4fQbmVlK1XoLGL0KCZfzudvyxwjdET8vcSmZ6PQZknpP+E+B7CT/Le/s0tGdQhS5MjmDZ/ho/LlOTYB0/bffMN1j7WbUr/fqJrH+fIO+vZxL47M+C2Wy7rFiHPYeg8fPKtOB3hXXf8La1zAzWMfHGsA6LoRb5t+SZBMdrf951vOtb5AgaP4t81i/wxd9LMsbbHo3F3m8J053lBSy/eCb9gjn2l2GLEfvLagsavwr8WN55S8aw+JQdiy3+W5E7ePGLUNtfjP4rfidYjkOWuo93Xzy6L9VsyQUqcodI/GB0bPlf43c8+LFc1+uzzK9GWcf8B9XeQvytfp+VtDX7a/z8+D2Q8drvWM7M5mbEXK9fR/Rl/d78z2I3lne+JfLq2/jtUwV+On/WfE36LWMsc2ewV1/dr78DGr+s/dt/IkHjFyHB+P0Nlkuzem7F+a/3TCiDdU7O8DuG/VuVTA8JGr8ICXz1Z2bHFsyyzn/1N+FQObnXf710SPubbXOaBI1fhATL+FnuTc2qX+n8dcZdTW/83XL9ZbYtChq/CAl8+LF7DLPqV/pMyPNN8J6PMbbcf47YVrV9jMrP0kvgs7/Gb58E+fjpmFhRv7Lclcyclxl/t3DOMbpWhY6Cxi9Cglr8sn6/YMnV1+Sz86OIXhXxt8Ius+Vn6SWotb/Gz3YOWrH/rdxf67zbm9dH6s+HtL9K+YeMH2zdxs9ff9b58CvW/UHHPEvOymralm/Imh8y2d79r/6uCMbrp953H7G/yLoZurC5gsYvMlewfn/D4gOWGObdC7PxLA/2+GFkX551f6N6n2ah2ToIGr8ICfb+P+frzcEXzvEVPFuH0x2P/l9R8y//AJxO5n8=
+   eJztXG1uIzEIfX+rdtttsts2/dhylD1aj9ajbf6VSPN2wEA8UUFCsiwbM29gwNjJM4Dn5hDfHPl1kG8Dcyu5Wq9rhd8bxuk9MLeSqvUSNH4REizj9+vIf1Z4R/S0zK1kptdjQOYP0n8FfCzhZ3lv74b2DKrQhckRLNtf48dlahKs46ftnvkGax9Uu9Kvn8j6vxPk/e+ZBD77s2A22y4r1mHPIWj8vDIt+P3Eum9421pmBuuYuDOsw2KoRf6ePJPgcu3Pu453fYscQeNnkc/6Bb74e0fGeNujsdj7LWG6s7yA5RcH0i+YY38Zthixv6y2oPGrwI/lnXsyhsWn7Fhs8d+K3MGLX4Ta/mL0XfG7wnIcstR9vPvi0X2pZksuUJE7ROIHo0vL/xq/y8GP5bpen2V+Nco65j+o9hbib/X7rKSt2V/j58fvgYzXfsdyZjY3I+Z6/TqiL+v35n8Wu7G88y2RV9/G75Qq8NP5s+Z70m8ZY5k7g7366n79HdD4Ze3fvhMJGr8ICcbvb7BcmtVzK85/vWdCGaxzcobfJezfqmR6SND4RUjgqz8zO7ZglnX+q78J58rJvf7rpXPa32yb0yRo/CIkWMbPcm9qVv1K568z7mp64++W6y+zbVHQ+EVI4MOP3WOYVb/SZ0Keb4L3fIyx5f5zxLaq7WNUfpZeAp/9NX6nJMjHT8fEivqV5a5k5rzM+LuFc47RtSp0FDR+ERLU4pf1+wVLrr4mn50fRfSqiL8VdpktP0svQa39NX62c9CK/W/l/lrn3d68PlJ/Pqf9Vco/Z/xg6zZ+/vqzzodfsO4POuZZclZW07Z8Q9b8kMn27n/1d0UwXj/1vvuI/UXWzdCFzRU0fpG5gvX7GxYfsMQw716YjWd5sMcPI/vyrPsb1fs0C83WQdD4RUhw8v85f18dfOscX8GzdThi9jn6f0XNX/wPQCXnAA==
   </data>
  </layer>
- <objectgroup id="13" name="wall_objects">
+ <objectgroup id="13" name="wall_objects" visible="0">
   <object id="2" x="4992" y="256" width="128" height="3584"/>
   <object id="3" x="0" y="0" width="5120" height="128"/>
   <object id="4" x="0" y="128" width="128" height="3712"/>
@@ -138,10 +138,10 @@
   <object id="109" x="832" y="3392" width="64" height="320"/>
   <object id="110" x="128" y="3520" width="576" height="64"/>
  </objectgroup>
- <objectgroup id="14" name="goal_blocking_object">
+ <objectgroup id="14" name="goal_blocking_object" visible="0">
   <object id="111" x="4992" y="128" width="128" height="128"/>
  </objectgroup>
- <objectgroup id="15" name="goal_object">
+ <objectgroup id="15" name="goal_object" visible="0">
   <object id="114" x="5112" y="128" width="8" height="128"/>
  </objectgroup>
  <layer id="9" name="goal_ground" width="80" height="60" visible="0">
