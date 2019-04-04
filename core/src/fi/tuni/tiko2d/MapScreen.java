@@ -16,20 +16,20 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 /**
  * Screen for displaying a map with all levels
  *
- * @author Laura Kanerva
+ * @author
  */
 
 public class MapScreen extends ApplicationAdapter implements Screen {
 
-    RaccoonRoll game;
-    SpriteBatch batch;
-    OrthographicCamera worldCamera;
-    OrthographicCamera textCamera;
-    Stage stage;
-    Texture map1;
-    Texture map2;
-    float bgHeight;
-    float bgWidth;
+    private RaccoonRoll game;
+    private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private OrthographicCamera textCamera;
+    private Stage stage;
+    private Texture map1;
+    private Texture map2;
+    private float bgHeight;
+    private float bgWidth;
     private InputMultiplexer multiplexer;
 
     private float bgX;
