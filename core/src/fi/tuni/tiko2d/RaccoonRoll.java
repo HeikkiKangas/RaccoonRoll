@@ -3,14 +3,13 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.Locale;
 
 /*
 Tile width: 16
@@ -37,18 +36,10 @@ public class RaccoonRoll extends Game {
     //private final float scale = 1f / 96f;
     // 16px tile scaling: private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
-    private BitmapFont textFont;
-    private BitmapFont titleFont;
-    private BitmapFont buttonFont;
-    private BitmapFont hudFont;
-    private BitmapFont tutorialFont;
-    private BitmapFont tutorialSmallFont;
-    private Locale locale;
+
     private boolean scaleHorizontal;
 
     private Options options;
-    private float effectsVolume;
-    private float musicVolume;
 
     /**
      * Creates variables used in most of the classes.
@@ -77,8 +68,13 @@ public class RaccoonRoll extends Game {
 
         updateWorldDimensions();
         setupCameras();
-        generateFonts();
+        //generateFonts();
 
+        MemoryDebug.maxMemory();
+        Gdx.app.log("MaxTextureSize", "" + GL20.GL_MAX_TEXTURE_SIZE);
+        //3379
+        Gdx.app.log("MaxTextureUnits", "" + GL20.GL_MAX_TEXTURE_IMAGE_UNITS);
+        //34930
         setScreen(new MenuScreen(this));
     }
 
@@ -99,10 +95,12 @@ public class RaccoonRoll extends Game {
             Gdx.app.log("Disposed", "RaccoonRoll");
         }
         batch.dispose();
+        /*
         buttonFont.dispose();
         hudFont.dispose();
         textFont.dispose();
         titleFont.dispose();
+        */
     }
 
     /**
@@ -140,6 +138,7 @@ public class RaccoonRoll extends Game {
     /**
      * Generates the fonts used in the game
      */
+    /*
     private void generateFonts() {
         String fontFilename = "fonts/boorsok.ttf";
 
@@ -158,8 +157,8 @@ public class RaccoonRoll extends Game {
 
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        fontParameter.size = scaleTextFromFHD(55);
         fontParameter.color = Color.BLACK;
+        fontParameter.size = scaleTextFromFHD(55);
         textFont = fontGenerator.generateFont(fontParameter);
 
         fontParameter.size = scaleTextFromFHD(85);
@@ -173,6 +172,7 @@ public class RaccoonRoll extends Game {
 
         fontGenerator.dispose();
     }
+    */
 
     /**
      * Getter for font used in TutorialScreen instructions
@@ -180,6 +180,20 @@ public class RaccoonRoll extends Game {
      * @return font for TutorialScreen instructions
      */
     public BitmapFont getTutorialSmallFont() {
+        String fontFilename = "fonts/boorsok.ttf";
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter tutorialFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        tutorialFontParameter.borderWidth = 2f;
+        tutorialFontParameter.borderColor = Color.BLACK;
+        tutorialFontParameter.color = Color.WHITE;
+        tutorialFontParameter.size = scaleTextFromFHD(60);
+
+        BitmapFont tutorialSmallFont = fontGenerator.generateFont(tutorialFontParameter);
+
+        fontGenerator.dispose();
+
         return tutorialSmallFont;
     }
 
@@ -189,6 +203,18 @@ public class RaccoonRoll extends Game {
      * @return font for TutorialScreen instructions
      */
     public BitmapFont getTutorialFont() {
+        String fontFilename = "fonts/boorsok.ttf";
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter tutorialFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        tutorialFontParameter.size = scaleTextFromFHD(75);
+        tutorialFontParameter.borderWidth = 2f;
+        tutorialFontParameter.borderColor = Color.BLACK;
+        tutorialFontParameter.color = Color.WHITE;
+        BitmapFont tutorialFont = fontGenerator.generateFont(tutorialFontParameter);
+
+        fontGenerator.dispose();
+
         return tutorialFont;
     }
 
@@ -197,6 +223,19 @@ public class RaccoonRoll extends Game {
      * @return font for MazeScreen HUD
      */
     public BitmapFont getHudFont() {
+        String fontFilename = "fonts/boorsok.ttf";
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        //fontParameter.color = Color.BLACK;
+        fontParameter.borderWidth = 2f;
+        fontParameter.borderColor = Color.BLACK;
+        fontParameter.color = Color.WHITE;
+        fontParameter.size = scaleTextFromFHD(70);
+        BitmapFont hudFont = fontGenerator.generateFont(fontParameter);
+
+        fontGenerator.dispose();
+
         return hudFont;
     }
 
@@ -205,6 +244,16 @@ public class RaccoonRoll extends Game {
      * @return font for AboutScreen texts
      */
     public BitmapFont getTextFont() {
+        String fontFilename = "fonts/boorsok.ttf";
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.color = Color.BLACK;
+        fontParameter.size = scaleTextFromFHD(55);
+        BitmapFont textFont = fontGenerator.generateFont(fontParameter);
+
+        fontGenerator.dispose();
+
         return textFont;
     }
 
@@ -213,6 +262,16 @@ public class RaccoonRoll extends Game {
      * @return font for AboutScreen title
      */
     public BitmapFont getTitleFont() {
+        String fontFilename = "fonts/boorsok.ttf";
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.color = Color.BLACK;
+        fontParameter.size = scaleTextFromFHD(85);
+        BitmapFont titleFont = fontGenerator.generateFont(fontParameter);
+
+        fontGenerator.dispose();
+
         return titleFont;
     }
 
@@ -221,6 +280,16 @@ public class RaccoonRoll extends Game {
      * @return font for menu buttons
      */
     public BitmapFont getButtonFont() {
+        String fontFilename = "fonts/boorsok.ttf";
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.color = Color.BLACK;
+        fontParameter.size = scaleTextFromFHD(55);
+        BitmapFont buttonFont = fontGenerator.generateFont(fontParameter);
+
+        fontGenerator.dispose();
+
         return buttonFont;
     }
 

@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -281,6 +280,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         if(!screenActive) {
             dispose();
         }
+        if (game.DEBUGGING()) {
+            MemoryDebug.memoryUsed(delta);
+        }
     }
 
     @Override
@@ -296,12 +298,13 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
-        if (game.DEBUGGING()) {
-            Gdx.app.log("Disposed", "MazeScreen");
-        }
         // dispose of assets when not needed anymore
         stage.dispose();
         background.dispose();
+        skin.dispose();
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Disposed", "OptionsScreen");
+        }
     }
 
     /**

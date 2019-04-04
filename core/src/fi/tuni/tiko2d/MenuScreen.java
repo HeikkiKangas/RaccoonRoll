@@ -211,6 +211,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         if(screenChanged) {
             dispose();
         }
+
+        if (game.DEBUGGING()) {
+            MemoryDebug.memoryUsed(delta);
+        }
     }
 
     @Override
@@ -237,11 +241,17 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
+        // dispose of assets when not needed anymore
+        stage.dispose();
+        background.dispose();
+        rauno.dispose();
+        title.dispose();
+        backgroundMusic.dispose();
+        skin.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "MenuScreen");
         }
         // dispose of assets when not needed anymore
         //play.clearListeners();
-        stage.dispose();
     }
 }

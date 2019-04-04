@@ -8,7 +8,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
@@ -68,7 +67,7 @@ public class TutorialScreen implements Screen {
 
     private I18NBundle tutorialBundle;
     private Options options;
-    private BitmapFont textFont;
+    //private BitmapFont textFont;
 
     private float WORLD_WIDTH;
     private float WORLD_HEIGHT;
@@ -86,7 +85,7 @@ public class TutorialScreen implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        textFont = game.getTextFont();
+        //textFont = game.getTextFont();
 
         stage = new Stage(new ScreenViewport());
 
@@ -144,6 +143,7 @@ public class TutorialScreen implements Screen {
         }
 
         Label howToMoveLabel = new Label(tutorialBundle.get("howToMove"), skin, "white");
+        howToMoveLabel.setAlignment(Align.top, Align.center);
 
         Label goodLabel = new Label(tutorialBundle.get("gatherGood"), skin, "small-white");
         goodLabel.setWrap(true);
@@ -163,7 +163,7 @@ public class TutorialScreen implements Screen {
         badTable.row();
         badTable.add(badImages);
 
-        table.add(howToMoveLabel).padTop(game.scaleVertical(50)).padBottom(game.scaleVertical(50));
+        table.add(howToMoveLabel).padTop(game.scaleVertical(25)).padBottom(game.scaleVertical(25));
         table.row().expand().fill();
 
         table.add(goodTable);
@@ -351,6 +351,7 @@ public class TutorialScreen implements Screen {
         backgroundMusic.dispose();
         player.dispose();
         world.dispose();
+        skin.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }
