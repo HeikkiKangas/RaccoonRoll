@@ -49,6 +49,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private Label raunoTalk;
     private Label pointsLabel;
     private Label timeSpentLabel;
+    private Label title;
     private I18NBundle positiveBundle;
     private Options options;
 
@@ -97,12 +98,14 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         speechBubble.add(raunoTalk);
 
         float padding = game.scaleFromFHD(600);
+        table.add(title);
+        table.row().pad(padding / 10, 0, 0, 0);;
         table.add(speechBubble).padRight(padding);
         table.row();
         table.add(pointsLabel).padLeft(padding * 1.75f);
         table.row().pad(padding / 15, 0, 0, 0);
         table.add(timeSpentLabel).padLeft(padding * 1.75f);
-        table.row().pad(padding / 2, 0, 0, 0);
+        table.row().pad(padding / 3, 0, 0, 0);
         buttonHeight = game.scaleFromFHD(200f);
 
         table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padLeft(padding * 2);
@@ -149,6 +152,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
         timeSpentLabel = new Label(positiveBundle.get("time") + formatTime(), skin);
+        title = new Label(positiveBundle.get("title"), skin, "title");
     }
 
     @Override
