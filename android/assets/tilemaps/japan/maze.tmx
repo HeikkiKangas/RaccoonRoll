@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="14" nextobjectid="157">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="14" nextobjectid="160">
  <tileset firstgid="1" name="bad_objects" tilewidth="64" tileheight="64" tilecount="5" columns="5">
   <image source="../bad_objects.png" width="320" height="64"/>
  </tileset>
@@ -187,7 +187,7 @@
  </objectgroup>
  <layer id="7" name="good_tiles" width="80" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2LENACAIBEAr3X9jF7AyBCHe9SYWAo9jAAAAQJ75+gIAl1bSGaC/U+3LQABEM1uozC7ET/RjALowswD+oN9DT/7TcumVAHAvOrdEzGVZCm/gTO6FutQn8Jr8REUb+ZoAfA==
+   eJzt17ENwCAMBECqZP+NswAVAuNX7nokF9h+jwEAAAB1ntsFQCP6Ictb9AbIN+t9Mx+A3eyWf0i9KVLrhhXmMQAp7Czoxd3EKeY9ZLIXapmVALBud27ZsZdlKfyBObkX+tKfwG3yEx19TVYAkA==
   </data>
  </layer>
  <objectgroup id="13" name="good_objects">
@@ -210,5 +210,8 @@
   <object id="154" x="2048" y="3264" width="64" height="64"/>
   <object id="155" x="1536" y="3456" width="64" height="64"/>
   <object id="156" x="128" y="1664" width="64" height="64"/>
+  <object id="157" x="384" y="896" width="64" height="64"/>
+  <object id="158" x="2304" y="1600" width="64" height="64"/>
+  <object id="159" x="3072" y="2304" width="64" height="64"/>
  </objectgroup>
 </map>
