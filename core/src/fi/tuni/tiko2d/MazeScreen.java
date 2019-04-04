@@ -3,6 +3,7 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -35,8 +37,18 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
@@ -49,11 +61,20 @@ public class MazeScreen implements Screen {
     private RaccoonRoll game;
     private SpriteBatch batch;
     private OrthographicCamera worldCamera;
-    private OrthographicCamera textCamera;
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
+
+    private Stage hud;
+    private Stage pauseMenu;
+    private Skin skin;
+    private Label timeSpentLabel;
+    private String timeSpentText;
+    private Label objectsLeftLabel;
+    private String objectsLeftText;
+    private Button pauseButton;
+    private InputMultiplexer multiplexer;
 
     private ArrayList<Sound> wallHitSounds;
     private Sound badSound;
@@ -74,15 +95,9 @@ public class MazeScreen implements Screen {
     private I18NBundle mazeBundle;
     private Options options;
 
-    private String goodObjectsRemainingLabel;
-    private String pointsLabel;
-    private String timeSpentLabel;
     private int goodObjectsRemaining;
     private int points;
     private float timeSpent;
-
-    private BitmapFont textFont;
-    private BitmapFont hudFont;
 
     private long levelFinishedTime;
     private final long levelCompletedScreenDelay = 1500;
@@ -100,17 +115,17 @@ public class MazeScreen implements Screen {
         options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
-        textCamera = game.getTextCamera();
-        textFont = game.getTextFont();
-        hudFont = game.getHudFont();
 
         world = new World(new Vector2(0, 0), true);
         player = new Player(game);
 
+        hud = new Stage(new ScreenViewport());
+        pauseMenu = new Stage(new ScreenViewport());
+        loadSkin();
+
         debugRenderer = new Box2DDebugRenderer();
 
         mazeBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MazeBundle"), options.getLocale());
-        createLabels();
 
         loadTileMap(levelName);
         loadSounds();
@@ -122,12 +137,55 @@ public class MazeScreen implements Screen {
         badObjectRectangles = getBadRectangles();
         getGoalRectangle();
 
+        createHud();
         createWalls();
         createGoalBlockBody();
         addContactListener();
 
-        Gdx.input.setInputProcessor(new InputAdapter());
+        multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(hud);
+        Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
+    }
+
+    private void loadSkin() {
+        skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTutorialFont());
+        skin.add("smallfont", game.getTutorialSmallFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+    }
+
+    private void createTable() {
+        Table table = new Table();
+        table.setFillParent(true);
+        hud.addActor(table);
+
+        if (game.DEBUGGING()) {
+            table.setDebug(true);
+        }
+
+        table.top();
+        table.add(timeSpentLabel).left().top().padLeft(game.scaleHorizontal(10)).width((Gdx.graphics.getWidth() - game.scaleHorizontal(20)) / 3f);
+        table.add(objectsLeftLabel).top().expandX();
+        table.add(pauseButton).right().top().padRight(game.scaleHorizontal(10)).padTop(5).expandX();
+
+        pauseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (paused) {
+                    paused = false;
+                    multiplexer.removeProcessor(pauseMenu);
+                } else {
+                    paused = true;
+                    multiplexer.addProcessor(pauseMenu);
+                }
+                player.setPaused(paused);
+            }
+        });
     }
 
     /**
@@ -221,13 +279,15 @@ public class MazeScreen implements Screen {
         world.destroyBody(goalBlock);
     }
 
-    /**
-     * Gets localized labels for HUD from bundle
-     */
-    private void createLabels() {
-        goodObjectsRemainingLabel = mazeBundle.get("goodObjectsRemaining");
-        timeSpentLabel = mazeBundle.get("time");
-        pointsLabel = mazeBundle.get("points");
+    private void createHud() {
+        objectsLeftText = mazeBundle.get("goodObjectsRemaining");
+        timeSpentText = mazeBundle.get("time");
+
+        objectsLeftLabel = new Label(objectsLeftText + goodObjectsRemaining, skin, "small-white");
+        timeSpentLabel = new Label(timeSpentText + formatTime(), skin, "small-white");
+        pauseButton = new TextButton("Pause", skin);
+
+        createTable();
     }
 
     /**
@@ -281,6 +341,8 @@ public class MazeScreen implements Screen {
             updateCameraPosition();
             checkGoodObjectOverlaps();
             checkBadObjectOverlaps();
+            updateObjectsLeftLabel();
+            updateTimeSpentLabel();
 
             if (goodObjectsRemaining == 0) {
                 checkGoalOverlap();
@@ -292,9 +354,12 @@ public class MazeScreen implements Screen {
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         player.draw(batch, delta);
-        batch.setProjectionMatrix(textCamera.combined);
-        drawHud();
         batch.end();
+
+        if (paused) {
+            pauseMenu.draw();
+        }
+        hud.draw();
 
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
@@ -319,38 +384,6 @@ public class MazeScreen implements Screen {
         }
     }
 
-    /**
-     * Draws time, objects left and points to upper edge of the screen
-     */
-    private void drawHud() {
-        int padding = game.scaleTextFromFHD(20);
-        int textY = Gdx.graphics.getHeight() - padding;
-
-        String timeSpentText = String.format("%s %s", timeSpentLabel, formatTime());
-        hudFont.draw(
-                batch,
-                timeSpentText,
-                padding,
-                textY
-        );
-
-        String pointsText = String.format("%s %d", pointsLabel, points);
-        hudFont.draw(
-                batch,
-                pointsText,
-                Gdx.graphics.getWidth() - game.getTextDimensions(hudFont, pointsText).x - padding,
-                textY
-        );
-
-        String goodObjectsRemainingText = String.format("%s %d", goodObjectsRemainingLabel, goodObjectsRemaining);
-        Vector2 goodObjectsRemainingTextDimensions = game.getTextDimensions(hudFont, goodObjectsRemainingText);
-        hudFont.draw(
-                batch,
-                goodObjectsRemainingText,
-                Gdx.graphics.getWidth() / 2 - goodObjectsRemainingTextDimensions.x / 2,
-                textY
-        );
-    }
 
     /**
      * Formats time from float seconds
@@ -411,7 +444,6 @@ public class MazeScreen implements Screen {
                         (TiledMapTileLayer) tiledMap.getLayers().get("good_tiles"),
                         getRectangleTileIndex(rectangle)
                 );
-                points++;
                 goodSound.play(options.getEffectsVolume());
                 if (goodObjectsRemaining == 1) {
                     showGoal();
@@ -456,7 +488,7 @@ public class MazeScreen implements Screen {
                 if (game.DEBUGGING()) {
                     Gdx.app.log("Debuff", "applied");
                 }
-                points--;
+                timeSpent += 10;
                 badSound.play(options.getEffectsVolume());
             }
         }
@@ -640,13 +672,11 @@ public class MazeScreen implements Screen {
     public void pause() {
         paused = true;
         player.setPaused(true);
+        multiplexer.addProcessor(pauseMenu);
     }
 
     @Override
-    public void resume() {
-        paused = false;
-        player.setPaused(false);
-    }
+    public void resume() {}
 
     @Override
     public void hide() {
@@ -670,6 +700,9 @@ public class MazeScreen implements Screen {
         victorySound.dispose();
         goodSound.dispose();
         badSound.dispose();
+        hud.dispose();
+        pauseMenu.dispose();
+        skin.dispose();
 
         tiledMap.dispose();
         world.dispose();
@@ -677,5 +710,13 @@ public class MazeScreen implements Screen {
         if (game.DEBUGGING()) {
             Gdx.app.log("Finished dispose", "MazeScreen");
         }
+    }
+
+    private void updateTimeSpentLabel() {
+        timeSpentLabel.setText(timeSpentText + formatTime());
+    }
+
+    private void updateObjectsLeftLabel() {
+        objectsLeftLabel.setText(objectsLeftText + goodObjectsRemaining);
     }
 }
