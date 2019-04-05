@@ -67,8 +67,6 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         started = new Texture("graphics/worldmap/Nappikelt.png");
         done = new Texture("graphics/worldmap/Nappivih.png");
 
-        int btnSize = (int) game.scaleVertical(75);
-
         stage = new Stage(new ScreenViewport(), batch);
 
         multiplexer = new InputMultiplexer();
@@ -180,7 +178,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         for (Country entry : levels) {
             final String country = entry.country;
             Group countryButtons = new Group();
-            Texture texture = new Texture("graphics/worldmap/buttons/" + entry.flagPath);
+            //Texture texture = new Texture("graphics/worldmap/buttons/" + entry.flagPath);
+            Texture texture;
             boolean firstLevelCompleted = game.getCompletedLevels().getBoolean(entry.levels[0].toLowerCase(), false);
             boolean secondLevelCompleted = game.getCompletedLevels().getBoolean(entry.levels[1].toLowerCase(), false);
             boolean addNextButton = true;
@@ -188,16 +187,16 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             float x = game.scaleVertical(entry.buttonX);
             float y = game.scaleVertical(entry.buttonY);
 
-            /*
+
             if (firstLevelCompleted && secondLevelCompleted) {
                 addNextButton = true;
-                selectedTexture = done;
+                texture = done;
             } else if (firstLevelCompleted && !secondLevelCompleted) {
-                selectedTexture = started;
+                texture = started;
             } else {
-                selectedTexture = notStarted;
+                texture = notStarted;
             }
-            */
+
 
             //selectedTexture = new Texture("graphics/worldmap/buttons/uk2.png");
 
