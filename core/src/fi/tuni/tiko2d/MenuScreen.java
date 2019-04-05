@@ -49,6 +49,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     private Music backgroundMusic;
     private Options options;
     private boolean screenChanged = false;
+    private boolean tutorialCompleted;
 
     /**
      * Sets up the main menu
@@ -62,6 +63,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
+        tutorialCompleted = game.getCompletedLevels().getBoolean("tutorial", false);
         title = new Texture("graphics/mainmenu/Logoiso2.png");
         background = new Texture("graphics/mainmenu/Valikontausta.png");
         rauno = new Texture("graphics/mainmenu/Valikkorauno.png");
@@ -159,7 +161,11 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("Play", "Button clicked");
                 screenChanged = true;
                 //game.setScreen(new MazeScreen(game, "london"));
-                game.setScreen(new MapScreen(game));
+                if (tutorialCompleted) {
+                    game.setScreen(new MapScreen(game));
+                } else {
+                    game.setScreen(new TutorialScreen(game));
+                }
                 backgroundMusic.stop();
             }
         });
