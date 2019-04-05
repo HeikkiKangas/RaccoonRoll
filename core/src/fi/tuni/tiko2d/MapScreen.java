@@ -10,7 +10,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
@@ -32,6 +35,15 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private float bgWidth;
     private InputMultiplexer multiplexer;
 
+    private ImageButton ukButton1;
+    private ImageButton ukButton2;
+    private Group ukButtons;
+    private Group buttons;
+
+    private Texture notStarted;
+    private Texture started;
+    private Texture done;
+
     private float bgX;
 
     public MapScreen(RaccoonRoll game) {
@@ -42,7 +54,13 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         map1 = new Texture("graphics/map1.png");
         map2 = new Texture("graphics/map2.png");
 
-        stage = new Stage(new ScreenViewport());
+        notStarted = new Texture("graphics/worldmap/Nappipun.png");
+        started = new Texture("graphics/worldmap/Nappikelt.png");
+        done = new Texture("graphics/worldmap/Nappivih.png");
+
+        int btnSize = (int) game.scaleVertical(75);
+
+        stage = new Stage(new ScreenViewport(), batch);
 
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
@@ -54,7 +72,24 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
 
-        bgX = -300;
+        buttons = new Group();
+        ukButtons = new Group();
+
+        ukButton1 = new ImageButton(new TextureRegionDrawable(notStarted));
+        ukButton1.setPosition(game.scaleVertical(1300), game.scaleVertical(325));
+        ukButton1.setRound(true);
+        ukButton1.setTransform(true);
+        ukButton1.setScale(game.scaleVertical(1));
+        ukButton2 = new ImageButton(new TextureRegionDrawable(notStarted));
+        ukButton2.setPosition(game.scaleVertical(1300) - bgWidth * 2, game.scaleVertical(325));
+        ukButton2.setRound(true);
+        ukButton2.setTransform(true);
+        ukButton2.setScale(game.scaleVertical(1));
+        ukButtons.addActor(ukButton1);
+        ukButtons.addActor(ukButton2);
+        buttons.addActor(ukButtons);
+        stage.addActor(buttons);
+        bgX = game.scaleVertical(-600);
     }
 
     @Override
@@ -108,11 +143,16 @@ public class MapScreen extends ApplicationAdapter implements Screen {
                         "\nX: " + x + "\nDeltaX: " + deltaX + "\nbgX: " + bgX);
             }
             bgX += deltaX;
-
+            buttons.moveBy(deltaX, 0);
+            Gdx.app.log("buttons X", "" + buttons.getX());
             if (bgX > bgWidth * 2) {
                 bgX -= bgWidth * 2;
+                buttons.moveBy(-(bgWidth * 2), 0);
+                Gdx.app.log("buttons X -", "" + buttons.getX());
             } else if (bgX < -bgWidth * 2) {
                 bgX += bgWidth * 2;
+                buttons.moveBy(bgWidth * 2, 0);
+                Gdx.app.log("buttons X +", "" + buttons.getX());
             }
 
             return super.pan(x, y, deltaX, deltaY);
