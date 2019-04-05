@@ -2,6 +2,7 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -36,6 +37,7 @@ public class RaccoonRoll extends Game {
     //private final float scale = 1f / 96f;
     // 16px tile scaling: private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
+    private Preferences completedLevels;
 
     private boolean scaleHorizontal;
 
@@ -48,6 +50,7 @@ public class RaccoonRoll extends Game {
     @Override
     public void create () {
         options = new Options();
+        completedLevels = Gdx.app.getPreferences("completedLevels");
 
         if ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth() <= 0.5625f) {
             scaleHorizontal = true;
@@ -411,5 +414,9 @@ public class RaccoonRoll extends Game {
      */
     public boolean DEBUGGING() {
         return DEBUGGING;
+    }
+
+    public Preferences getCompletedLevels() {
+        return completedLevels;
     }
 }

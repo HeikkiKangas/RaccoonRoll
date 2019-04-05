@@ -11,8 +11,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -72,23 +74,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
 
-        buttons = new Group();
-        ukButtons = new Group();
-
-        ukButton1 = new ImageButton(new TextureRegionDrawable(notStarted));
-        ukButton1.setPosition(game.scaleVertical(1300), game.scaleVertical(325));
-        ukButton1.setRound(true);
-        ukButton1.setTransform(true);
-        ukButton1.setScale(game.scaleVertical(1));
-        ukButton2 = new ImageButton(new TextureRegionDrawable(notStarted));
-        ukButton2.setPosition(game.scaleVertical(1300) - bgWidth * 2, game.scaleVertical(325));
-        ukButton2.setRound(true);
-        ukButton2.setTransform(true);
-        ukButton2.setScale(game.scaleVertical(1));
-        ukButtons.addActor(ukButton1);
-        ukButtons.addActor(ukButton2);
-        buttons.addActor(ukButtons);
-        stage.addActor(buttons);
+        createButtons();
         bgX = game.scaleVertical(-600);
     }
 
@@ -157,5 +143,43 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
             return super.pan(x, y, deltaX, deltaY);
         }
+    }
+
+    private void createButtons() {
+        buttons = new Group();
+        /*
+        buttons.setTransform(true);
+        buttons.setScale(game.scaleVertical(1));
+        */
+        createUkButtons();
+        stage.addActor(buttons);
+    }
+
+    private void createUkButtons() {
+        ukButtons = new Group();
+
+        ukButton1 = new ImageButton(new TextureRegionDrawable(notStarted));
+        ukButton1.setPosition(game.scaleVertical(1300), game.scaleVertical(325));
+        ukButton1.setRound(true);
+        ukButton1.setTransform(true);
+        ukButton1.setScale(game.scaleVertical(1));
+
+        ukButton2 = new ImageButton(new TextureRegionDrawable(notStarted));
+        ukButton2.setPosition(game.scaleVertical(1300) - bgWidth * 2, game.scaleVertical(325));
+        ukButton2.setRound(true);
+        ukButton2.setTransform(true);
+        ukButton2.setScale(game.scaleVertical(1));
+
+        ukButtons.addActor(ukButton1);
+        ukButtons.addActor(ukButton2);
+
+        ukButtons.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("UK", "Clicked");
+            }
+        });
+
+        buttons.addActor(ukButtons);
     }
 }
