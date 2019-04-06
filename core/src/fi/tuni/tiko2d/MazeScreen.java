@@ -169,9 +169,9 @@ public class MazeScreen implements Screen {
         }
 
         table.top();
-        table.add(timeSpentLabel).left().top().padLeft(game.scaleHorizontal(10)).width((Gdx.graphics.getWidth() - game.scaleHorizontal(20)) / 3f);
+        table.add(timeSpentLabel).left().top().padLeft(game.scaleHorizontal(10)).width(Gdx.graphics.getWidth() / 6f);
         table.add(objectsLeftLabel).top().expandX();
-        table.add(pauseButton).right().top().padRight(game.scaleHorizontal(10)).padTop(5).expandX();
+        table.add(pauseButton).right().top().padRight(game.scaleHorizontal(10)).padTop(5);
 
         pauseButton.addListener(new ClickListener() {
             @Override
