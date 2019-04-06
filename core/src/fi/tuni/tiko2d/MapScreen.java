@@ -9,13 +9,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
@@ -30,47 +36,57 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     private RaccoonRoll game;
     private SpriteBatch batch;
-    private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
-    private Stage stage;
+    private Stage buttonStage;
+    private Stage levelSelect;
+    private Skin skin;
     private Texture map1;
     private Texture map2;
     private float bgHeight;
     private float bgWidth;
     private InputMultiplexer multiplexer;
+    private boolean showLevelSelect;
 
     private ArrayList<Country> levels;
 
     private Group buttons;
 
+    /*
     private Texture notStarted;
     private Texture started;
     private Texture done;
+    */
 
     private float bgX;
 
     public MapScreen(RaccoonRoll game) {
-        levels = new ArrayList<Country>();
-        levels.add(new Country("United Kingdom", new String[]{"London", "Manchester"}, 1300, 325, "uk.png"));
-        levels.add(new Country("France", new String[]{"Paris", "Marseille"}, 1300, 200, "france.png"));
-        levels.add(new Country("Egypt", new String[]{"Kairo", "Alexandria"}, 1375, 10, "egypt.png"));
-        levels.add(new Country("United States", new String[]{"New York", "New Jersey"}, 400, 100, "us.png"));
         this.game = game;
+        I18NBundle mapBundle = I18NBundle.createBundle(
+                Gdx.files.internal("localization/MapBundle"),
+                game.getOptions().getLocale());
+
+        levels = new ArrayList<Country>();
+        levels.add(new Country(mapBundle.get("uk"), new String[]{"London", "Manchester"}, 1300, 325, "uk.png"));
+        levels.add(new Country(mapBundle.get("fr"), new String[]{"Paris", "Marseille"}, 1300, 200, "france.png"));
+        levels.add(new Country(mapBundle.get("eg"), new String[]{"Kairo", "Alexandria"}, 1375, 10, "egypt.png"));
+        levels.add(new Country(mapBundle.get("us"), new String[]{"New York", "New Jersey"}, 400, 100, "us.png"));
+        levels.add(new Country(mapBundle.get("ch"), new String[]{"Peking", "Hong Kong"}, 2600, 25, "ch.png"));
+
         batch = game.getBatch();
-        worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        map1 = new Texture("graphics/map1.png");
-        map2 = new Texture("graphics/map2.png");
+        map1 = new Texture("graphics/worldmap/map1.png");
+        map2 = new Texture("graphics/worldmap/map2.png");
 
-
+        /*
         notStarted = new Texture("graphics/worldmap/Nappipun.png");
         started = new Texture("graphics/worldmap/Nappikelt.png");
         done = new Texture("graphics/worldmap/Nappivih.png");
+        */
 
-        stage = new Stage(new ScreenViewport(), batch);
+        buttonStage = new Stage(new ScreenViewport());
 
         multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(buttonStage);
         multiplexer.addProcessor(new GestureDetector(new MapScroller()));
 
         bgHeight = game.scaleVertical(map1.getHeight());
@@ -81,6 +97,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         createButtons();
         bgX = game.scaleVertical(-600);
+
+        createSkin();
     }
 
     @Override
@@ -112,8 +130,11 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         batch.end();
 
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+        //buttonStage.act(Gdx.graphics.getDeltaTime());
+        buttonStage.draw();
+        if (showLevelSelect) {
+            levelSelect.draw();
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             game.setScreen(new MenuScreen(game));
@@ -150,9 +171,67 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         }
     }
 
+    private void generateLevelSelect(Country selectedCountry) {
+        final Country country = selectedCountry;
+        float topPadding = game.scaleVertical(50);
+        levelSelect = new Stage(new ScreenViewport());
+        Table table = new Table();
+        table.setFillParent(true);
+
+        Label countryName = new Label(country.country, skin);
+
+        TextButton levelButton1 = new TextButton(country.levels[0], skin);
+        levelButton1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log(country.levels[0], "Clicked");
+            }
+        });
+
+        TextButton levelButton2 = new TextButton(country.levels[1], skin);
+        levelButton2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log(country.levels[1], "Clicked");
+            }
+        });
+
+        TextButton closeButton = new TextButton("x", skin);
+        closeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Close", "Clicked");
+                showLevelSelect = false;
+                multiplexer.removeProcessor(levelSelect);
+                multiplexer.addProcessor(buttonStage);
+                levelSelect.dispose();
+            }
+        });
+
+        table.add(countryName);
+        table.row();
+        table.add(levelButton1).padTop(topPadding);
+        table.row();
+        table.add(levelButton2).padTop(topPadding);
+        table.row();
+        table.add(closeButton).right().padTop(topPadding);
+        levelSelect.addActor(table);
+    }
+
+    private void createSkin() {
+        skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        skin.add("button", game.getButtonFont());
+        skin.add("title", game.getTitleFont());
+        skin.add("font", game.getTextFont());
+        skin.add("smallfont", game.getTutorialSmallFont());
+
+        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+    }
+
     private void createButtons() {
         buttons = new Group();
-        stage.addActor(buttons);
+        buttonStage.addActor(buttons);
 
         /*
         createUkButtons();
@@ -176,10 +255,10 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         }
         */
         for (Country entry : levels) {
-            final String country = entry.country;
+            final Country country = entry;
             Group countryButtons = new Group();
-            //Texture texture = new Texture("graphics/worldmap/buttons/" + entry.flagPath);
-            Texture texture;
+            Texture texture = new Texture("graphics/worldmap/buttons/" + entry.flagPath);
+            //Texture texture;
             boolean firstLevelCompleted = game.getCompletedLevels().getBoolean(entry.levels[0].toLowerCase(), false);
             boolean secondLevelCompleted = game.getCompletedLevels().getBoolean(entry.levels[1].toLowerCase(), false);
             boolean addNextButton = true;
@@ -187,7 +266,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             float x = game.scaleVertical(entry.buttonX);
             float y = game.scaleVertical(entry.buttonY);
 
-
+            /*
             if (firstLevelCompleted && secondLevelCompleted) {
                 addNextButton = true;
                 texture = done;
@@ -196,28 +275,40 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             } else {
                 texture = notStarted;
             }
-
+            */
 
             //selectedTexture = new Texture("graphics/worldmap/buttons/uk2.png");
 
             ImageButton btn1 = new ImageButton(new TextureRegionDrawable(texture));
             ImageButton btn2 = new ImageButton(new TextureRegionDrawable(texture));
+            ImageButton btn3 = new ImageButton(new TextureRegionDrawable(texture));
+            /*
             btn1.setRound(true);
             btn2.setRound(true);
+            btn3.setRound(true);
+            */
             btn1.setTransform(true);
             btn2.setTransform(true);
+            btn3.setTransform(true);
             btn1.setScale(game.scaleVertical(1));
             btn2.setScale(game.scaleVertical(1));
+            btn3.setScale(game.scaleVertical(1));
             btn1.setPosition(x, y);
-            btn2.setPosition(x - bgWidth * 2, y);
+            btn2.setPosition(x + bgWidth * 2, y);
+            btn3.setPosition(x - bgWidth * 2, y);
 
             countryButtons.addActor(btn1);
             countryButtons.addActor(btn2);
+            countryButtons.addActor(btn3);
 
             countryButtons.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Gdx.app.log(country, "Clicked");
+                    Gdx.app.log(country.country, "Clicked");
+                    multiplexer.removeProcessor(buttonStage);
+                    generateLevelSelect(country);
+                    multiplexer.addProcessor(levelSelect);
+                    showLevelSelect = true;
                 }
             });
 
@@ -229,6 +320,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         }
     }
 
+    /*
     private void createUkButtons() {
         Group ukButtons = new Group();
         Texture selectedTexture;
@@ -360,15 +452,17 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         buttons.addActor(franceButtons);
     }
-
+    */
     @Override
     public void dispose() {
+        /*
         started.dispose();
         notStarted.dispose();
         done.dispose();
+        */
         map1.dispose();
         map2.dispose();
-        stage.dispose();
+        buttonStage.dispose();
     }
 
     private class Country {
