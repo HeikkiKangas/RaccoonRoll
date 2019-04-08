@@ -89,6 +89,7 @@ public class TutorialScreen implements Screen {
         //textFont = game.getTextFont();
 
         stage = new Stage(new ScreenViewport(), batch);
+        skin = assetManager.get("uiskin/comic-ui.json");
 
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
@@ -120,11 +121,6 @@ public class TutorialScreen implements Screen {
 
         addContactListener();
 
-        setupUi();
-    }
-
-    private void setupUi() {
-        loadSkin();
         createTable();
     }
 
@@ -183,19 +179,6 @@ public class TutorialScreen implements Screen {
                 goToTutorialMaze = true;
             }
         });
-    }
-
-    private void loadSkin() {
-        skin = assetManager.get("uiskin/comic-ui.json");
-        /*
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTutorialFont());
-        skin.add("smallfont", game.getTutorialSmallFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        */
     }
 
     /**
