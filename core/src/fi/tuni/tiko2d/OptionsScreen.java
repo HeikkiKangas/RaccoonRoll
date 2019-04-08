@@ -3,6 +3,7 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -59,6 +60,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private Container effectsContainer;
     private boolean screenActive = true;
     private MazeScreen mazeScreen;
+    private AssetManager assetManager;
 
 
     /**
@@ -69,6 +71,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
     public OptionsScreen(RaccoonRoll game) {
         this.game = game;
+        assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
         textCamera = game.getTextCamera();
@@ -175,8 +178,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
      */
 
     private void createSkin() {
-        skinAtlas = new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas"));
-        skin = new Skin();
+        //skinAtlas = new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas"));
+        skin = assetManager.get("uiskin/comic-ui.json");
         /*
         skin.addRegions(skinAtlas);
         skin.add("button", game.getButtonFont());
@@ -185,10 +188,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         skin.add("smallfont", game.getTutorialSmallFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-
+        */
         selected = skin.get("selected", TextButton.TextButtonStyle.class);
         notSelected = skin.get("default", TextButton.TextButtonStyle.class);
-        */
     }
 
     /**
@@ -333,9 +335,11 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        /*
         background.dispose();
         skin.dispose();
         skinAtlas.dispose();
+        */
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "OptionsScreen");
         }

@@ -3,6 +3,7 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -31,6 +32,7 @@ public class Player {
     private TextureAtlas atlas;
     private float debuffTimeLeft;
     private boolean paused;
+    private AssetManager assetManager;
 
     private boolean logVelocity;
 
@@ -39,10 +41,11 @@ public class Player {
      * @param game Main game class for scaling the player texture
      */
     public Player(RaccoonRoll game) {
+        assetManager = game.getAssetManager();
         logVelocity = false;
 
         this.game = game;
-        atlas = new TextureAtlas(Gdx.files.internal("graphics/player/roll_animation/racc_roll.txt"));
+        atlas = assetManager.get("graphics/player/roll_animation/racc_roll.txt");
         playerAnimation = new Animation<TextureRegion>(
                 1 / 30f,
                 atlas.findRegions("racc_roll")
@@ -179,7 +182,6 @@ public class Player {
      * @return player body definition
      */
     private BodyDef getPlayerBodyDef(float x, float y) {
-        float scale = game.getScale();
         BodyDef playerBodyDef = new BodyDef();
         playerBodyDef.type = BodyDef.BodyType.DynamicBody;
         playerBodyDef.position.set(x, y);

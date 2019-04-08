@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -92,15 +93,16 @@ public class MazeScreen implements Screen {
     private Options options;
 
     private int goodObjectsRemaining;
-    private int points;
     private float timeSpent;
 
     private long levelFinishedTime;
-    private final long levelCompletedScreenDelay = 1500;
+    private final long levelCompletedScreenDelay = 1000;
 
     private boolean paused;
 
     private String levelName;
+
+    private AssetManager assetManager;
 
     /**
      * Sets up the selected maze
@@ -111,6 +113,7 @@ public class MazeScreen implements Screen {
     public MazeScreen(RaccoonRoll game, String levelName) {
         this.levelName = levelName;
         this.game = game;
+        assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
@@ -118,9 +121,9 @@ public class MazeScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
         player = new Player(game);
 
-        hud = new Stage(new ScreenViewport());
-        pauseMenu = new Stage(new ScreenViewport());
-        loadSkin();
+
+        pauseMenu = new Stage(new ScreenViewport(), batch);
+        skin = assetManager.get("uiskin/comic-ui.json");
 
         debugRenderer = new Box2DDebugRenderer();
 
@@ -145,48 +148,6 @@ public class MazeScreen implements Screen {
         multiplexer.addProcessor(hud);
         Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
-    }
-
-    private void loadSkin() {
-        skin = new Skin();
-        /*
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTutorialFont());
-        skin.add("smallfont", game.getTutorialSmallFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        */
-    }
-
-    private void createTable() {
-        Table table = new Table();
-        table.setFillParent(true);
-        hud.addActor(table);
-
-        if (game.DEBUGGING()) {
-            table.setDebug(true);
-        }
-
-        table.top();
-        table.add(timeSpentLabel).left().top().padLeft(game.scaleHorizontal(10)).width(Gdx.graphics.getWidth() / 6f);
-        table.add(objectsLeftLabel).top().expandX();
-        table.add(pauseButton).right().top().padRight(game.scaleHorizontal(10)).padTop(5);
-
-        pauseButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (paused) {
-                    paused = false;
-                    multiplexer.removeProcessor(pauseMenu);
-                } else {
-                    paused = true;
-                    multiplexer.addProcessor(pauseMenu);
-                }
-                player.setPaused(paused);
-            }
-        });
     }
 
     /**
@@ -222,12 +183,11 @@ public class MazeScreen implements Screen {
     private void loadSounds() {
         wallHitSounds = new ArrayList<Sound>();
         for (int i = 1; i < 6; i++) {
-            String filePath = String.format("sounds/wallHit/WALL_HIT_0%d.mp3", i);
-            wallHitSounds.add(Gdx.audio.newSound(Gdx.files.internal(filePath)));
+            wallHitSounds.add(assetManager.get(String.format("sounds/wallHit/WALL_HIT_0%d.mp3", i), Sound.class));
         }
-        badSound = Gdx.audio.newSound(Gdx.files.internal("sounds/badObject/BAD_01.mp3"));
-        goodSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goodObject/GOOD_01.mp3"));
-        victorySound = Gdx.audio.newSound(Gdx.files.internal("sounds/victory/VICTORY_01.mp3"));
+        badSound = assetManager.get("sounds/badObject/BAD_01.mp3");
+        goodSound = assetManager.get("sounds/goodObject/GOOD_01.mp3");
+        victorySound = assetManager.get("sounds/victory/VICTORY_01.mp3");
     }
 
     /**
@@ -236,7 +196,7 @@ public class MazeScreen implements Screen {
      * @param levelName name of the level which music we want to load
      */
     private void loadBackgroundMusic(String levelName) {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/maze.mp3"));
+        backgroundMusic = assetManager.get("sounds/backgroundMusic/maze.mp3");
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
@@ -281,6 +241,8 @@ public class MazeScreen implements Screen {
     }
 
     private void createHud() {
+        hud = new Stage(new ScreenViewport(), batch);
+
         objectsLeftText = mazeBundle.get("goodObjectsRemaining");
         timeSpentText = mazeBundle.get("time");
 
@@ -288,7 +250,32 @@ public class MazeScreen implements Screen {
         timeSpentLabel = new Label(timeSpentText + formatTime(), skin, "small-white");
         pauseButton = new TextButton("Pause", skin);
 
-        createTable();
+        Table table = new Table();
+        table.setFillParent(true);
+        hud.addActor(table);
+
+        if (game.DEBUGGING()) {
+            table.setDebug(true);
+        }
+
+        table.top();
+        table.add(timeSpentLabel).left().top().padLeft(game.scaleHorizontal(10)).width(Gdx.graphics.getWidth() / 6f);
+        table.add(objectsLeftLabel).top().expandX();
+        table.add(pauseButton).right().top().padRight(game.scaleHorizontal(10)).padTop(5);
+
+        pauseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (paused) {
+                    paused = false;
+                    multiplexer.removeProcessor(pauseMenu);
+                } else {
+                    paused = true;
+                    multiplexer.addProcessor(pauseMenu);
+                }
+                player.setPaused(paused);
+            }
+        });
     }
 
     /**
@@ -694,18 +681,9 @@ public class MazeScreen implements Screen {
         if (game.DEBUGGING()) {
             Gdx.app.log("Starting dispose", "MazeScreen");
         }
-        player.dispose();
-        for (Sound wallHitSound : wallHitSounds) {
-            wallHitSound.dispose();
-        }
         backgroundMusic.stop();
-        backgroundMusic.dispose();
-        victorySound.dispose();
-        goodSound.dispose();
-        badSound.dispose();
         hud.dispose();
         pauseMenu.dispose();
-        skin.dispose();
 
         tiledMap.dispose();
         world.dispose();
