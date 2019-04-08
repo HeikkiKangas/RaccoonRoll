@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="66" height="44" tilewidth="64" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="1">
- <layer id="1" name="Tile Layer 1" width="66" height="44">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="66" height="44" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" name="tilesetpariisi" tilewidth="64" tileheight="64" tilecount="27" columns="27">
+  <image source="tilesetpariisi.png" width="1728" height="64"/>
+ </tileset>
+ <tileset firstgid="28" name="bad_objects" tilewidth="64" tileheight="64" tilecount="5" columns="5">
+  <image source="../bad_objects.png" width="320" height="64"/>
+ </tileset>
+ <tileset firstgid="33" name="good_objects" tilewidth="64" tileheight="64" tilecount="2" columns="2">
+  <image source="../good_objects.png" width="128" height="64"/>
+ </tileset>
+ <tileset firstgid="35" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../maali_placeholder.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="36" name="eiffel" tilewidth="64" tileheight="64" tilecount="4" columns="2">
+  <image source="eiffel.png" width="128" height="128"/>
+ </tileset>
+ <layer id="1" name="ground" width="66" height="44">
   <data encoding="base64" compression="zlib">
-   eJztwQENAAAAwqD3T+3sARQAAAAAAAAAAAAAADctYAAB
+   eJztwwENAAAAwqA3sH9bi8DGqqmqqqqqqqqqqqqq2gHPeqop
+  </data>
+ </layer>
+ <layer id="2" name="wall_tiles" width="66" height="44">
+  <data encoding="base64" compression="zlib">
+   eJzt2ssJwzAQBuElhCBSgn3No42U4lJSSkpxKS4l60zcghDsDPzoKPSd1SLeLSJOEa+Ky7cvuS23XtNhLrpLLg0+abJNeUbRZgwWHXTY04F0IB1IB9KBdCAdSAfSgXQgHUgH0oF0oFEdbrl7x/tGdXjknh3vG9WhdzqQDqQD6UA6kA6kA+lAOpAOpAPpQDqQDqQD6UA6kA6kA+lAh0P7/6ediu4cv3+k+9bGH9uouOP9X5EHkOk=
+  </data>
+ </layer>
+ <layer id="3" name="baguette" width="66" height="44">
+  <data encoding="base64" compression="zlib">
+   eJzt2DEKACAMA8A+pP9/p4MIIjg5Se4g0KlDoEurAAAAACBTH0nVlzmNHiZ3AQAAAJDj/AW9Zt+LHhY98KMBt3QD1Q==
   </data>
  </layer>
 </map>
