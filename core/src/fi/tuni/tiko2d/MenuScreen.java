@@ -64,9 +64,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         tutorialCompleted = game.getCompletedLevels().getBoolean("tutorial", false);
-        title = new Texture("graphics/mainmenu/Logoiso2.png");
-        background = new Texture("graphics/mainmenu/Valikontausta.png");
-        rauno = new Texture("graphics/mainmenu/Valikkorauno.png");
+        createTextures();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -74,11 +72,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), options.getLocale());
 
         scaleObjects();
+        setUpAudio();
 
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/main_menu_loop.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(options.getMusicVolume());
-        backgroundMusic.play();
         Gdx.input.setCatchBackKey(false);
     }
 
@@ -107,6 +102,27 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         table.add(about).uniformX().fillX().height(buttonHeight);
 
         addListeners();
+    }
+
+    /**
+     * Creates textures used in main menu
+     */
+
+    private void createTextures() {
+        title = new Texture("graphics/mainmenu/Logoiso2.png");
+        background = new Texture("graphics/mainmenu/Valikontausta.png");
+        rauno = new Texture("graphics/mainmenu/Valikkorauno.png");
+    }
+
+    /**
+     * Sets background music to main menu
+     */
+
+    private void setUpAudio() {
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/main_menu_loop.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(options.getMusicVolume());
+        backgroundMusic.play();
     }
 
     /**
@@ -188,6 +204,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 //game.setScreen(new LevelCompletedScreen(game, 200f));
                 //game.setScreen(new MapScreen(game));
                 //game.setScreen(new TutorialScreen(game));
+                //game.setScreen(new HighscoreScreen(game));
                 backgroundMusic.stop();
             }
         });
@@ -230,6 +247,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     /**
      * Should be called when window resizes but doesn't
+     * Should change the stage's viewport when the screen size is changed
      *
      * @param width  not used
      * @param height not used
@@ -242,12 +260,11 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Disposes used assets
+     * Disposes used assets when they are not needed anymore
      */
 
     @Override
     public void dispose() {
-        // dispose of assets when not needed anymore
         stage.dispose();
         background.dispose();
         rauno.dispose();
@@ -257,7 +274,5 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "MenuScreen");
         }
-        // dispose of assets when not needed anymore
-        //play.clearListeners();
     }
 }

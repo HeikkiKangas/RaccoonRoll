@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -59,6 +60,11 @@ public class HighscoreScreen extends ApplicationAdapter implements Screen {
         createSkin();
         back = new TextButton("Back", skin);
         //make a bundle and change
+
+        float padding = game.scaleFromFHD(50);
+        table.row().padTop(padding);
+        table.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight);
+        table.row();
     }
 
     @Override

@@ -177,14 +177,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         english = new TextButton(optionsBundle.get("englishButton"), skin);
         finnish = new TextButton(optionsBundle.get("finnishButton"), skin);
         save = new TextButton(optionsBundle.get("saveButton"), skin);
-
-        /* SHOULD keep first language selected
-        if(options.getLocale().equals("en")) {
-            english.setStyle(selected);
-        } else if (options.getLocale().equals("fi")){
-            finnish.setStyle(selected);
-        }
-        */
     }
 
     /**
@@ -290,15 +282,25 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         dispose();
     }
 
+    /**
+     * Should be called when window resizes but doesn't
+     * Should change the stage's viewport when the screen size is changed
+     *
+     * @param width  not used
+     * @param height not used
+     */
+
     @Override
     public void resize(int width, int height) {
-        // change the stage's viewport when the screen size is changed
         stage.getViewport().update(width, height, true);
     }
 
+    /**
+     * Disposes used assets when they are not needed anymore
+     */
+
     @Override
     public void dispose() {
-        // dispose of assets when not needed anymore
         stage.dispose();
         background.dispose();
         skin.dispose();
@@ -308,7 +310,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Called when apply button (the one with checkmark) is pressed
+     * Called when Save button is pressed
      */
 
     private void saveOptions() {

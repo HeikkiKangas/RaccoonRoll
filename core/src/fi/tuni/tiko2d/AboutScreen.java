@@ -47,6 +47,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     private Label graphics;
     private Label musicTitle;
     private Label music;
+    private Label font;
     private I18NBundle aboutBundle;
     private Boolean screenActive = true;
     private Options options;
@@ -109,6 +110,9 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.row();
         table.add(music);
         table.row();
+        table.row().pad(padding, 0, 0, 0);
+        table.add(font);
+        table.row();
 
         buttonTable.row();
         buttonTable.padRight(padding * 26);
@@ -155,6 +159,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         graphics = new Label(aboutBundle.get("graphics"), skin);
         musicTitle = new Label(aboutBundle.get("musicTitle"), skin, "title");
         music = new Label(aboutBundle.get("music"), skin);
+        font = new Label(aboutBundle.get("font"), skin, "small-white");
     }
 
     /**
