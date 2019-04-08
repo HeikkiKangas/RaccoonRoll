@@ -88,6 +88,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
     public OptionsScreen(RaccoonRoll game, MazeScreen mazeScreen) {
         this.game = game;
+        this.mazeScreen = mazeScreen;
         options = game.getOptions();
         batch = game.getBatch();
         textCamera = game.getTextCamera();
