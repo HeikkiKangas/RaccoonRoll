@@ -53,7 +53,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private I18NBundle positiveBundle;
     private Options options;
 
-    public LevelCompletedScreen(RaccoonRoll game, int points, float timeSpent) {
+    public LevelCompletedScreen(RaccoonRoll game, float timeSpent) {
         this.game = game;
         this.points = points;
         this.timeSpent = timeSpent;
@@ -102,8 +102,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         table.row().pad(padding / 10, 0, 0, 0);;
         table.add(speechBubble).padRight(padding);
         table.row();
-        table.add(pointsLabel).padLeft(padding * 1.75f);
-        table.row().pad(padding / 15, 0, 0, 0);
+        //table.add(pointsLabel).padLeft(padding * 1.75f);
+        //table.row().pad(padding / 15, 0, 0, 0);
         table.add(timeSpentLabel).padLeft(padding * 1.75f);
         //table.row().pad(padding / 3, 0, 0, 0); yksirivisille
         table.row().pad(padding / 4, 0, 0, 0);
@@ -151,8 +151,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     private void createLabels() {
         //for testing purposes
-        raunoTalk = new Label(positiveBundle.get("pos1"), skin);
-        //raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
+        //raunoTalk = new Label(positiveBundle.get("pos1"), skin);
+        raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
         timeSpentLabel = new Label(positiveBundle.get("time") + formatTime(), skin);
         title = new Label(positiveBundle.get("title"), skin, "title");
