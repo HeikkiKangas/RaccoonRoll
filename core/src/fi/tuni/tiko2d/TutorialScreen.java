@@ -201,7 +201,7 @@ public class TutorialScreen implements Screen {
      * @param levelName name of the level which music we want to load
      */
     private void loadBackgroundMusic(String levelName) {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/" + levelName + ".mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/maze.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
