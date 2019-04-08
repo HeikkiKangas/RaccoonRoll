@@ -6,6 +6,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -65,8 +65,8 @@ public class RaccoonRoll extends Game {
      */
     @Override
     public void create () {
-        generateFonts();
         assetManager = new AssetManager();
+        generateFonts();
         loadAssets();
         options = new Options();
         completedLevels = Gdx.app.getPreferences("completedLevels");
@@ -90,7 +90,6 @@ public class RaccoonRoll extends Game {
 
         updateWorldDimensions();
         setupCameras();
-        //generateFonts();
 
         MemoryDebug.maxMemory();
         Gdx.app.log("MaxTextureSize", "" + GL20.GL_MAX_TEXTURE_SIZE);
@@ -117,44 +116,7 @@ public class RaccoonRoll extends Game {
             Gdx.app.log("Disposed", "RaccoonRoll");
         }
         batch.dispose();
-        /*
-        buttonFont.dispose();
-        hudFont.dispose();
-        textFont.dispose();
-        titleFont.dispose();
-        */
-    }
-
-    /**
-     * Called when window resizes, calls {@link #updateWorldDimensions()}
-     *
-     * @param width  not used
-     * @param height not used
-     */
-    @Override
-    public void resize(int width, int height) {
-        updateWorldDimensions();
-        // Gdx.app.log("RaccoonRoll", "Resize happened");
-    }
-
-    /**
-     * Updates world height according to window's aspect ratio
-     */
-    public void updateWorldDimensions() {
-        float aspectRatio = 1.0f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
-        WORLD_HEIGHT = WORLD_WIDTH * aspectRatio;
-        setupCameras();
-    }
-
-    /**
-     * Return's given text's dimensions when drawn with the given font
-     * @param font the font to use
-     * @param text the text which dimensions will be returned
-     * @return Vector with text width as x and text height as y
-     */
-    public Vector2 getTextDimensions(BitmapFont font, String text) {
-        glyphLayout.setText(font, text);
-        return new Vector2(glyphLayout.width, glyphLayout.height);
+        assetManager.dispose();
     }
 
     /**
@@ -189,6 +151,27 @@ public class RaccoonRoll extends Game {
         buttonFont = fontGenerator.generateFont(fontParameter);
 
         fontGenerator.dispose();
+    }
+
+    /**
+     * Called when window resizes, calls {@link #updateWorldDimensions()}
+     *
+     * @param width  not used
+     * @param height not used
+     */
+    @Override
+    public void resize(int width, int height) {
+        updateWorldDimensions();
+        // Gdx.app.log("RaccoonRoll", "Resize happened");
+    }
+
+    /**
+     * Updates world height according to window's aspect ratio
+     */
+    public void updateWorldDimensions() {
+        float aspectRatio = 1.0f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
+        WORLD_HEIGHT = WORLD_WIDTH * aspectRatio;
+        setupCameras();
     }
 
     /**
@@ -316,6 +299,7 @@ public class RaccoonRoll extends Game {
     }
 
     private void loadAssets() {
+        long start = System.currentTimeMillis();
         // All menus
         assetManager.load("sounds/backgroundMusic/main_menu_loop.mp3", Music.class);
 
@@ -324,7 +308,9 @@ public class RaccoonRoll extends Game {
         assetManager.load("graphics/mainmenu/Valikontausta.png", Texture.class);
         assetManager.load("graphics/mainmenu/Valikkorauno.png", Texture.class);
 
-        // OptionsScreen
+        // OptionsScreen, AboutScreen, LevelCompletedScreen
+        assetManager.load("graphics/othermenus/Tausta75.png", Texture.class);
+        assetManager.load("graphics/othermenus/pieniRauno.png", Texture.class);
 
         // Skin
         ObjectMap<String, Object> resources = new ObjectMap<String, Object>();
@@ -336,7 +322,34 @@ public class RaccoonRoll extends Game {
         assetManager.load("uiskin/comic-ui.atlas", TextureAtlas.class);
         assetManager.load("uiskin/comic-ui.json", Skin.class, new SkinLoader.SkinParameter("uiskin/comic-ui.atlas", resources));
 
+        // MazeScreen
+        for (int i = 1; i < 6; i++) {
+            assetManager.load(String.format("sounds/wallHit/WALL_HIT_0%d.mp3", i), Sound.class);
+        }
+        assetManager.load("sounds/badObject/BAD_01.mp3", Sound.class);
+        assetManager.load("sounds/goodObject/GOOD_01.mp3", Sound.class);
+        assetManager.load("sounds/victory/VICTORY_01.mp3", Sound.class);
+        assetManager.load("sounds/backgroundMusic/maze.mp3", Music.class);
+
+        // Player
+        assetManager.load("graphics/player/roll_animation/racc_roll.txt", TextureAtlas.class);
+
+        // MapScreen
+        assetManager.load("graphics/worldmap/map1.png", Texture.class);
+        assetManager.load("graphics/worldmap/map2.png", Texture.class);
+        assetManager.load("graphics/worldmap/buttons/uk.png", Texture.class);
+        assetManager.load("graphics/worldmap/buttons/us.png", Texture.class);
+        assetManager.load("graphics/worldmap/buttons/eg.png", Texture.class);
+        assetManager.load("graphics/worldmap/buttons/ch.png", Texture.class);
+        assetManager.load("graphics/worldmap/buttons/fr.png", Texture.class);
+
+        // TutorialScreen
+        assetManager.load("tilemaps/good_objects.png", Texture.class);
+        assetManager.load("tilemaps/bad_objects.png", Texture.class);
+
         assetManager.finishLoading();
+
+        Gdx.app.log("Assets loaded", "in " + (System.currentTimeMillis() - start) + "ms");
     }
 
     public AssetManager getAssetManager() {

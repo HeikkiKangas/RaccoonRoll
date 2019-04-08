@@ -52,11 +52,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     private boolean tutorialCompleted;
 
     private AssetManager assetManager;
-    // Asset names
-    private final String TITLE = "graphics/mainmenu/Logoiso2.png";
-    private final String BACKGROUND = "graphics/mainmenu/Valikontausta.png";
-    private final String RAUNO = "graphics/mainmenu/Valikkorauno.png";
-    private final String BGMUSIC = "sounds/backgroundMusic/main_menu_loop.mp3";
 
     /**
      * Sets up the main menu
@@ -122,9 +117,9 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         background = new Texture("graphics/mainmenu/Valikontausta.png");
         rauno = new Texture("graphics/mainmenu/Valikkorauno.png");
         */
-        title = assetManager.get(TITLE);
-        background = assetManager.get(BACKGROUND);
-        rauno = assetManager.get(RAUNO);
+        title = assetManager.get("graphics/mainmenu/Logoiso2.png");
+        background = assetManager.get("graphics/mainmenu/Valikontausta.png");
+        rauno = assetManager.get("graphics/mainmenu/Valikkorauno.png");
     }
 
     /**
@@ -132,7 +127,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
      */
 
     private void setUpAudio() {
-        backgroundMusic = assetManager.get(BGMUSIC);
+        backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
@@ -286,7 +281,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         title.dispose();
         backgroundMusic.dispose();
         */
-        skin.dispose();
+        //skin.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "MenuScreen");
         }

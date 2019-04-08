@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -53,6 +54,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     private Group buttons;
 
+    private AssetManager assetManager;
+
     /*
     private Texture notStarted;
     private Texture started;
@@ -63,6 +66,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     public MapScreen(RaccoonRoll game) {
         this.game = game;
+        assetManager = game.getAssetManager();
         mapBundle = I18NBundle.createBundle(
                 Gdx.files.internal("localization/MapBundle"),
                 game.getOptions().getLocale());
@@ -76,8 +80,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         batch = game.getBatch();
         textCamera = game.getTextCamera();
-        map1 = new Texture("graphics/worldmap/map1.png");
-        map2 = new Texture("graphics/worldmap/map2.png");
+        map1 = assetManager.get("graphics/worldmap/map1.png");
+        map2 = assetManager.get("graphics/worldmap/map2.png");
 
         /*
         notStarted = new Texture("graphics/worldmap/Nappipun.png");
@@ -85,7 +89,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         done = new Texture("graphics/worldmap/Nappivih.png");
         */
 
-        buttonStage = new Stage(new ScreenViewport());
+        buttonStage = new Stage(new ScreenViewport(), batch);
 
         multiplexer = new InputMultiplexer();
         mapScroller = new GestureDetector(new MapScroller());
@@ -178,7 +182,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         final Country country = selectedCountry;
         float padding = game.scaleVertical(50);
         boolean firstLevelCompleted = game.getCompletedLevels().getBoolean(country.levels[0], false);
-        levelSelect = new Stage(new ScreenViewport());
+        levelSelect = new Stage(new ScreenViewport(), batch);
         Table table = new Table(skin);
         Table levelButtonTable = new Table();
 
@@ -253,7 +257,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     }
 
     private void createSkin() {
-        skin = new Skin();
+        skin = assetManager.get("uiskin/comic-ui.json");
 
     }
 
@@ -264,7 +268,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         for (Country entry : levels) {
             final Country country = entry;
             Group countryButtons = new Group();
-            Texture texture = new Texture(
+            Texture texture = assetManager.get(
                     String.format("graphics/worldmap/buttons/%s.png", country.countryCode)
             );
             /*
@@ -345,10 +349,14 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         notStarted.dispose();
         done.dispose();
         */
+        /*
         map1.dispose();
         map2.dispose();
+        */
         buttonStage.dispose();
-        levelSelect.dispose();
+        if (levelSelect != null) {
+            levelSelect.dispose();
+        }
         if (game.DEBUGGING()) {
             Gdx.app.log("MapScreen", "Disposed");
         }
