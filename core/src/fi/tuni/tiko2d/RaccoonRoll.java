@@ -3,9 +3,12 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +29,7 @@ Show tiles: 30
  * @author Heikki Kangas
  */
 public class RaccoonRoll extends Game {
-    private final boolean DEBUGGING = false;
+    private final boolean DEBUGGING = true;
 
     private SpriteBatch batch;
     private final float WORLD_WIDTH = 10f;
@@ -43,12 +46,15 @@ public class RaccoonRoll extends Game {
 
     private Options options;
 
+    private AssetManager assetManager;
+
     /**
      * Creates variables used in most of the classes.
      * Updates world height according to screen's aspect ratio
      */
     @Override
     public void create () {
+        assetManager = new AssetManager();
         options = new Options();
         completedLevels = Gdx.app.getPreferences("completedLevels");
 
@@ -419,4 +425,25 @@ public class RaccoonRoll extends Game {
     public Preferences getCompletedLevels() {
         return completedLevels;
     }
+
+    private void loadAssets() {
+        // All menus
+        assetManager.load("sounds/backgroundMusic/main_menu_loop.mp3", Music.class);
+
+        // Skin
+        assetManager.load();
+
+        // MenuScreen
+        assetManager.load("graphics/mainmenu/Logoiso2.png", Texture.class);
+        assetManager.load("graphics/mainmenu/Valikontausta.png", Texture.class);
+        assetManager.load("graphics/mainmenu/Valikkorauno.png", Texture.class);
+
+        // OptionsScreen
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+
 }
