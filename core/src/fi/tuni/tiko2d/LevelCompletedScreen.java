@@ -147,7 +147,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     private void createLabels() {
         //for testing purposes
-        //raunoTalk = new Label(positiveBundle.get("pos1"), skin);
+        //raunoTalk = new Label(positiveBundle.get("pos13"), skin);
         raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         //pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
         timeSpentLabel = new Label(positiveBundle.get("time") + formatTime(), skin);
