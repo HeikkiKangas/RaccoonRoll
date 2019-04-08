@@ -37,7 +37,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private TextButton ok;
     private Stage stage;
     private int posNum;
-    private int points;
     private float timeSpent;
     private float buttonHeight;
     private float bgWidth;
@@ -47,7 +46,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private Texture background;
     private Texture rauno;
     private Label raunoTalk;
-    private Label pointsLabel;
+    //private Label pointsLabel;
     private Label timeSpentLabel;
     private Label title;
     private I18NBundle positiveBundle;
@@ -55,7 +54,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     public LevelCompletedScreen(RaccoonRoll game, float timeSpent) {
         this.game = game;
-        this.points = points;
         this.timeSpent = timeSpent;
         options = game.getOptions();
         batch = game.getBatch();
@@ -101,10 +99,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         table.add(title);
         table.row().pad(padding / 10, 0, 0, 0);;
         table.add(speechBubble).padRight(padding);
-        table.row();
-        //table.add(pointsLabel).padLeft(padding * 1.75f);
-        //table.row().pad(padding / 15, 0, 0, 0);
-        table.add(timeSpentLabel).padLeft(padding * 1.75f);
+        table.row().pad(padding / 13);
+        table.add(timeSpentLabel).padLeft(padding * 1.85f);
         //table.row().pad(padding / 3, 0, 0, 0); yksirivisille
         table.row().pad(padding / 4, 0, 0, 0);
         buttonHeight = game.scaleFromFHD(200f);
@@ -153,7 +149,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         //for testing purposes
         //raunoTalk = new Label(positiveBundle.get("pos1"), skin);
         raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
-        pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
+        //pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
         timeSpentLabel = new Label(positiveBundle.get("time") + formatTime(), skin);
         title = new Label(positiveBundle.get("title"), skin, "title");
     }
