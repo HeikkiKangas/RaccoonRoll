@@ -176,6 +176,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private void createSkin() {
         skinAtlas = new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas"));
         skin = new Skin();
+        /*
         skin.addRegions(skinAtlas);
         skin.add("button", game.getButtonFont());
         skin.add("title", game.getTitleFont());
@@ -186,6 +187,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         selected = skin.get("selected", TextButton.TextButtonStyle.class);
         notSelected = skin.get("default", TextButton.TextButtonStyle.class);
+        */
     }
 
     /**

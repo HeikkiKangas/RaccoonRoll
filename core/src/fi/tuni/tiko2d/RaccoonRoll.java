@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,8 +13,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.ObjectMap;
 
 /*
 Tile width: 16
@@ -42,6 +46,13 @@ public class RaccoonRoll extends Game {
     private GlyphLayout glyphLayout;
     private Preferences completedLevels;
 
+    private BitmapFont textFont;
+    private BitmapFont titleFont;
+    private BitmapFont outlinedFont;
+    private BitmapFont outlinedSmallFont;
+    private BitmapFont buttonFont;
+    private TextureAtlas skinAtlas;
+
     private boolean scaleHorizontal;
 
     private Options options;
@@ -54,7 +65,9 @@ public class RaccoonRoll extends Game {
      */
     @Override
     public void create () {
+        generateFonts();
         assetManager = new AssetManager();
+        loadAssets();
         options = new Options();
         completedLevels = Gdx.app.getPreferences("completedLevels");
 
@@ -147,7 +160,6 @@ public class RaccoonRoll extends Game {
     /**
      * Generates the fonts used in the game
      */
-    /*
     private void generateFonts() {
         String fontFilename = "fonts/boorsok.ttf";
 
@@ -159,10 +171,10 @@ public class RaccoonRoll extends Game {
         tutorialFontParameter.borderWidth = 2f;
         tutorialFontParameter.borderColor = Color.BLACK;
         tutorialFontParameter.color = Color.WHITE;
-        tutorialFont = fontGenerator.generateFont(tutorialFontParameter);
+        outlinedFont = fontGenerator.generateFont(tutorialFontParameter);
 
         tutorialFontParameter.size = scaleTextFromFHD(60);
-        tutorialSmallFont = fontGenerator.generateFont(tutorialFontParameter);
+        outlinedSmallFont = fontGenerator.generateFont(tutorialFontParameter);
 
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
@@ -176,130 +188,7 @@ public class RaccoonRoll extends Game {
         fontParameter.size = scaleTextFromFHD(55);
         buttonFont = fontGenerator.generateFont(fontParameter);
 
-        fontParameter.size = scaleTextFromFHD(70);
-        hudFont = fontGenerator.generateFont(fontParameter);
-
         fontGenerator.dispose();
-    }
-    */
-
-    /**
-     * Getter for font used in TutorialScreen instructions
-     *
-     * @return font for TutorialScreen instructions
-     */
-    public BitmapFont getTutorialSmallFont() {
-        String fontFilename = "fonts/boorsok.ttf";
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter tutorialFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        tutorialFontParameter.borderWidth = 2f;
-        tutorialFontParameter.borderColor = Color.BLACK;
-        tutorialFontParameter.color = Color.WHITE;
-        tutorialFontParameter.size = scaleTextFromFHD(60);
-
-        BitmapFont tutorialSmallFont = fontGenerator.generateFont(tutorialFontParameter);
-
-        fontGenerator.dispose();
-
-        return tutorialSmallFont;
-    }
-
-    /**
-     * Getter for font used in TutorialScreen instructions
-     *
-     * @return font for TutorialScreen instructions
-     */
-    public BitmapFont getTutorialFont() {
-        String fontFilename = "fonts/boorsok.ttf";
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter tutorialFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        tutorialFontParameter.size = scaleTextFromFHD(75);
-        tutorialFontParameter.borderWidth = 2f;
-        tutorialFontParameter.borderColor = Color.BLACK;
-        tutorialFontParameter.color = Color.WHITE;
-        BitmapFont tutorialFont = fontGenerator.generateFont(tutorialFontParameter);
-
-        fontGenerator.dispose();
-
-        return tutorialFont;
-    }
-
-    /**
-     * Getter for font used in MazeScreen HUD
-     * @return font for MazeScreen HUD
-     */
-    public BitmapFont getHudFont() {
-        String fontFilename = "fonts/boorsok.ttf";
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        //fontParameter.color = Color.BLACK;
-        fontParameter.borderWidth = 2f;
-        fontParameter.borderColor = Color.BLACK;
-        fontParameter.color = Color.WHITE;
-        fontParameter.size = scaleTextFromFHD(70);
-        BitmapFont hudFont = fontGenerator.generateFont(fontParameter);
-
-        fontGenerator.dispose();
-
-        return hudFont;
-    }
-
-    /**
-     * Getter for font used in AboutScreen texts
-     * @return font for AboutScreen texts
-     */
-    public BitmapFont getTextFont() {
-        String fontFilename = "fonts/boorsok.ttf";
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.color = Color.BLACK;
-        fontParameter.size = scaleTextFromFHD(55);
-        BitmapFont textFont = fontGenerator.generateFont(fontParameter);
-
-        fontGenerator.dispose();
-
-        return textFont;
-    }
-
-    /**
-     * Getter for font used in AboutScreen title text
-     * @return font for AboutScreen title
-     */
-    public BitmapFont getTitleFont() {
-        String fontFilename = "fonts/boorsok.ttf";
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.color = Color.BLACK;
-        fontParameter.size = scaleTextFromFHD(85);
-        BitmapFont titleFont = fontGenerator.generateFont(fontParameter);
-
-        fontGenerator.dispose();
-
-        return titleFont;
-    }
-
-    /**
-     * Getter for font used in menu buttons
-     * @return font for menu buttons
-     */
-    public BitmapFont getButtonFont() {
-        String fontFilename = "fonts/boorsok.ttf";
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilename));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.color = Color.BLACK;
-        fontParameter.size = scaleTextFromFHD(55);
-        BitmapFont buttonFont = fontGenerator.generateFont(fontParameter);
-
-        fontGenerator.dispose();
-
-        return buttonFont;
     }
 
     /**
@@ -430,15 +319,24 @@ public class RaccoonRoll extends Game {
         // All menus
         assetManager.load("sounds/backgroundMusic/main_menu_loop.mp3", Music.class);
 
-        // Skin
-        assetManager.load();
-
         // MenuScreen
         assetManager.load("graphics/mainmenu/Logoiso2.png", Texture.class);
         assetManager.load("graphics/mainmenu/Valikontausta.png", Texture.class);
         assetManager.load("graphics/mainmenu/Valikkorauno.png", Texture.class);
 
         // OptionsScreen
+
+        // Skin
+        ObjectMap<String, Object> resources = new ObjectMap<String, Object>();
+        resources.put("button", buttonFont);
+        resources.put("title", titleFont);
+        resources.put("font", textFont);
+        resources.put("outlinedfont", outlinedFont);
+        resources.put("outlinedsmallfont", outlinedSmallFont);
+        assetManager.load("uiskin/comic-ui.atlas", TextureAtlas.class);
+        assetManager.load("uiskin/comic-ui.json", Skin.class, new SkinLoader.SkinParameter("uiskin/comic-ui.atlas", resources));
+
+        assetManager.finishLoading();
     }
 
     public AssetManager getAssetManager() {
