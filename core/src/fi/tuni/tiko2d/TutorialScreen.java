@@ -45,6 +45,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
+import javax.xml.soap.Text;
+
 public class TutorialScreen implements Screen {
     private RaccoonRoll game;
     private SpriteBatch batch;
@@ -58,7 +60,6 @@ public class TutorialScreen implements Screen {
 
     private Skin skin;
     private Stage stage;
-    private TextButton tutorialMazeButton;
     private Texture goodObjects;
     private Texture badObjects;
 
@@ -86,7 +87,9 @@ public class TutorialScreen implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        //textFont = game.getTextFont();
+
+        game.getCompletedLevels().putBoolean("tutorial", true);
+        game.getCompletedLevels().flush();
 
         stage = new Stage(new ScreenViewport(), batch);
         skin = assetManager.get("uiskin/comic-ui.json");
@@ -125,7 +128,11 @@ public class TutorialScreen implements Screen {
     }
 
     private void createTable() {
-        tutorialMazeButton = new TextButton(tutorialBundle.get("buttonTxt"), skin);
+        Table buttonTable = new Table();
+        TextButton tutorialMazeButton = new TextButton(tutorialBundle.get("buttonTxt"), skin);
+        TextButton mapButton = new TextButton("\nWorld\n\nMap", skin);
+        buttonTable.add(mapButton).left().bottom().expandX().uniformX();
+        buttonTable.add(tutorialMazeButton).right().bottom().expandX().uniformX();
 
         Table table = new Table();
         table.setFillParent(true);
@@ -160,15 +167,33 @@ public class TutorialScreen implements Screen {
         badTable.row();
         badTable.add(badImages);
 
-        table.add(howToMoveLabel).padTop(game.scaleVertical(25)).padBottom(game.scaleVertical(25));
+        table.add(howToMoveLabel).padTop(game.scaleVertical(15)).padBottom(game.scaleVertical(25));
         table.row().expand().fill();
 
-        table.add(goodTable);
+        table.add(goodTable).top();
         table.row().expand().fill();
-        table.add(badTable);
+        table.add(badTable).top();
 
+        /*
         table.row().right().padRight(game.scaleHorizontal(10)).bottom().padBottom(game.scaleVertical(10));
         table.add(tutorialMazeButton);
+        */
+        table.row().bottom().pad(0,
+                game.scaleHorizontal(10),
+                game.scaleVertical(10),
+                game.scaleHorizontal(10));
+        table.add(buttonTable).bottom().expandX().fillX();
+
+        mapButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (game.DEBUGGING()) {
+                    Gdx.app.log("MapButton", "Clicked");
+                }
+                game.setScreen(new MapScreen(game));
+                dispose();
+            }
+        });
 
         tutorialMazeButton.addListener(new ClickListener() {
             @Override
@@ -176,7 +201,9 @@ public class TutorialScreen implements Screen {
                 if (game.DEBUGGING()) {
                     Gdx.app.log("MazeButton", "Clicked");
                 }
-                goToTutorialMaze = true;
+                game.setScreen(new TutorialScreen(game));
+                dispose();
+                //goToTutorialMaze = true;
             }
         });
     }
@@ -263,10 +290,12 @@ public class TutorialScreen implements Screen {
             dispose();
         }
 
+        /*
         if (goToTutorialMaze) {
             game.setScreen(new MazeScreen(game, "tutorial"));
             dispose();
         }
+        */
     }
 
     private void stepWorld(float delta) {
