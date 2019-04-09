@@ -158,7 +158,7 @@
  <objectgroup id="9" name="goal_blocking_object">
   <object id="128" x="0" y="128" width="128" height="128"/>
  </objectgroup>
- <objectgroup id="10" name="goal_object">
+ <objectgroup id="10" name="goal_object" visible="0">
   <object id="129" x="0" y="128" width="8" height="128"/>
  </objectgroup>
  <layer id="6" name="goal_ground" width="80" height="60" visible="0">
