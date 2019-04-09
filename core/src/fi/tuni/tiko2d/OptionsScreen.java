@@ -3,6 +3,7 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -32,7 +33,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class OptionsScreen extends ApplicationAdapter implements Screen {
     private RaccoonRoll game;
     private SpriteBatch batch;
-    private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
     private Skin skin;
     private TextButton back;
@@ -40,6 +40,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private TextButton finnish;
     private TextButton save;
     private Stage stage;
+    private TextureAtlas skinAtlas;
     private float buttonHeight;
     private float bgWidth;
     private float bgHeight;
@@ -58,6 +59,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private Container musicContainer;
     private Container effectsContainer;
     private boolean screenActive = true;
+    private MazeScreen mazeScreen;
+    private AssetManager assetManager;
 
 
     /**
@@ -68,16 +71,36 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
     public OptionsScreen(RaccoonRoll game) {
         this.game = game;
+        assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
-        worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         musicVolume = options.getMusicVolume();
         effectsVolume = options.getEffectsVolume();
         language = options.getLanguage();
         background = new Texture("graphics/othermenus/Tausta75.png");
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), batch);
+        Gdx.input.setInputProcessor(stage);
+
+        optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), options.getLocale());
+
+        bgWidth = game.scaleFromFHD(background.getWidth());
+        bgHeight = game.scaleFromFHD(background.getHeight());
+    }
+
+    public OptionsScreen(RaccoonRoll game, MazeScreen mazeScreen) {
+        this.game = game;
+        this.mazeScreen = mazeScreen;
+        options = game.getOptions();
+        batch = game.getBatch();
+        textCamera = game.getTextCamera();
+        musicVolume = options.getMusicVolume();
+        effectsVolume = options.getEffectsVolume();
+        language = options.getLanguage();
+        background = new Texture("graphics/othermenus/Tausta75.png");
+
+        stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
 
         optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), options.getLocale());
@@ -155,15 +178,17 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
      */
 
     private void createSkin() {
-        skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
+        //skinAtlas = new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas"));
+        skin = assetManager.get("uiskin/comic-ui.json");
+        /*
+        skin.addRegions(skinAtlas);
         skin.add("button", game.getButtonFont());
         skin.add("title", game.getTitleFont());
         skin.add("font", game.getTextFont());
         skin.add("smallfont", game.getTutorialSmallFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-
+        */
         selected = skin.get("selected", TextButton.TextButtonStyle.class);
         notSelected = skin.get("default", TextButton.TextButtonStyle.class);
     }
@@ -213,7 +238,11 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Back", "Button clicked");
-                game.setScreen(new MenuScreen(game));
+                if (mazeScreen != null) {
+                    game.setScreen(mazeScreen);
+                } else {
+                    game.setScreen(new MenuScreen(game));
+                }
                 screenActive = false;
             }
         });
@@ -243,7 +272,11 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Save", "Button clicked");
                 saveOptions();
-                game.setScreen(new MenuScreen(game));
+                if (mazeScreen != null) {
+                    game.setScreen(mazeScreen);
+                } else {
+                    game.setScreen(new MenuScreen(game));
+                }
                 screenActive = false;
             }
         });
@@ -302,8 +335,11 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        /*
         background.dispose();
         skin.dispose();
+        skinAtlas.dispose();
+        */
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "OptionsScreen");
         }

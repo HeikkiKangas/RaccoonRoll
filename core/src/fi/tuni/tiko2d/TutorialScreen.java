@@ -3,13 +3,13 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -67,7 +67,7 @@ public class TutorialScreen implements Screen {
 
     private I18NBundle tutorialBundle;
     private Options options;
-    //private BitmapFont textFont;
+    private AssetManager assetManager;
 
     private float WORLD_WIDTH;
     private float WORLD_HEIGHT;
@@ -81,19 +81,21 @@ public class TutorialScreen implements Screen {
 
     public TutorialScreen(RaccoonRoll game) {
         this.game = game;
+        assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         //textFont = game.getTextFont();
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), batch);
+        skin = assetManager.get("uiskin/comic-ui.json");
 
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
 
-        goodObjects = new Texture("tilemaps/good_objects.png");
-        badObjects = new Texture("tilemaps/bad_objects.png");
+        goodObjects = assetManager.get("tilemaps/good_objects.png");
+        badObjects = assetManager.get("tilemaps/bad_objects.png");
 
         tiledMap = new TmxMapLoader().load("tilemaps/tutorial/tutorial.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.getScale());
@@ -119,11 +121,6 @@ public class TutorialScreen implements Screen {
 
         addContactListener();
 
-        setupUi();
-    }
-
-    private void setupUi() {
-        loadSkin();
         createTable();
     }
 
@@ -184,24 +181,13 @@ public class TutorialScreen implements Screen {
         });
     }
 
-    private void loadSkin() {
-        skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTutorialFont());
-        skin.add("smallfont", game.getTutorialSmallFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-    }
-
     /**
      * Loads levels background music, sets looping and volume and starts playing the music.
      *
      * @param levelName name of the level which music we want to load
      */
     private void loadBackgroundMusic(String levelName) {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/maze.mp3"));
+        backgroundMusic = assetManager.get("sounds/backgroundMusic/maze.mp3");
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
@@ -213,8 +199,7 @@ public class TutorialScreen implements Screen {
     private void loadSounds() {
         wallHitSounds = new ArrayList<Sound>();
         for (int i = 1; i < 6; i++) {
-            String filePath = String.format("sounds/wallHit/WALL_HIT_0%d.mp3", i);
-            wallHitSounds.add(Gdx.audio.newSound(Gdx.files.internal(filePath)));
+            wallHitSounds.add(assetManager.get(String.format("sounds/wallHit/WALL_HIT_0%d.mp3", i), Sound.class));
         }
     }
 
@@ -348,10 +333,10 @@ public class TutorialScreen implements Screen {
         stage.dispose();
         tiledMap.dispose();
         backgroundMusic.stop();
-        backgroundMusic.dispose();
-        player.dispose();
+        //backgroundMusic.dispose();
+        //player.dispose();
         world.dispose();
-        skin.dispose();
+        //skin.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }

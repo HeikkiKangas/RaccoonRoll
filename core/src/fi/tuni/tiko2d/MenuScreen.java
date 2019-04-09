@@ -3,12 +3,12 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -51,6 +51,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     private boolean screenChanged = false;
     private boolean tutorialCompleted;
 
+    private AssetManager assetManager;
+
     /**
      * Sets up the main menu
      *
@@ -59,6 +61,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     public MenuScreen(RaccoonRoll game) {
         this.game = game;
+        assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
@@ -66,7 +69,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         tutorialCompleted = game.getCompletedLevels().getBoolean("tutorial", false);
         createTextures();
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
 
         menuBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MenuBundle"), options.getLocale());
@@ -109,9 +112,14 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
      */
 
     private void createTextures() {
+        /*
         title = new Texture("graphics/mainmenu/Logoiso2.png");
         background = new Texture("graphics/mainmenu/Valikontausta.png");
         rauno = new Texture("graphics/mainmenu/Valikkorauno.png");
+        */
+        title = assetManager.get("graphics/mainmenu/Logoiso2.png");
+        background = assetManager.get("graphics/mainmenu/Valikontausta.png");
+        rauno = assetManager.get("graphics/mainmenu/Valikkorauno.png");
     }
 
     /**
@@ -119,7 +127,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
      */
 
     private void setUpAudio() {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundMusic/main_menu_loop.mp3"));
+        backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
@@ -145,7 +153,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
      */
 
     private void createSkin() {
-        skin = new Skin();
+        skin = assetManager.get("uiskin/comic-ui.json");
+        /*
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
         skin.add("button", game.getButtonFont());
         skin.add("title", game.getTitleFont());
@@ -153,6 +162,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         skin.add("smallfont", game.getTutorialSmallFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+        */
     }
 
     /**
@@ -265,11 +275,13 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        /*
         background.dispose();
         rauno.dispose();
         title.dispose();
         backgroundMusic.dispose();
-        skin.dispose();
+        */
+        //skin.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "MenuScreen");
         }

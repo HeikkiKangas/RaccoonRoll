@@ -3,11 +3,11 @@ package fi.tuni.tiko2d;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -31,7 +31,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     private RaccoonRoll game;
     private SpriteBatch batch;
-    private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
     private Skin skin;
     private TextButton ok;
@@ -46,27 +45,27 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private Texture background;
     private Texture rauno;
     private Label raunoTalk;
-    //private Label pointsLabel;
     private Label timeSpentLabel;
     private Label title;
     private I18NBundle positiveBundle;
     private Options options;
+    private AssetManager assetManager;
 
     public LevelCompletedScreen(RaccoonRoll game, float timeSpent) {
         this.game = game;
         this.timeSpent = timeSpent;
+        assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
-        worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
-        rauno = new Texture("graphics/othermenus/pieniRauno.png");
-        background = new Texture("graphics/othermenus/Tausta75.png");
+        rauno = assetManager.get("graphics/othermenus/pieniRauno.png");
+        background = assetManager.get("graphics/othermenus/Tausta75.png");
 
         positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
 
         scaleObjects();
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
         if (game.DEBUGGING()) {
             Gdx.app.log("Constructor ran", "LevelCompletedScreen");
@@ -111,6 +110,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Continue", "Button clicked");
                 game.setScreen(new MapScreen(game));
+                dispose();
             }
         });
 
@@ -135,7 +135,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
      */
 
     private void createSkin() {
-        skin = new Skin();
+        skin = assetManager.get("uiskin/comic-ui.json");
+        /*
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
         skin.add("button", game.getButtonFont());
         skin.add("title", game.getTitleFont());
@@ -143,6 +144,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         skin.add("smallfont", game.getTutorialSmallFont());
 
         skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
+        */
     }
 
     private void createLabels() {
@@ -191,8 +193,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         }
         // dispose of assets when not needed anymore
         stage.dispose();
+        /*
         background.dispose();
         rauno.dispose();
+        */
     }
 
     /**
