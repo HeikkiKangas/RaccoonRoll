@@ -118,7 +118,7 @@ public class TutorialScreen implements Screen {
 
         tutorialBundle = I18NBundle.createBundle(Gdx.files.internal("localization/TutorialBundle"), options.getLocale());
         loadSounds();
-        loadBackgroundMusic("tutorial");
+        loadBackgroundMusic();
 
         createWalls();
 
@@ -130,8 +130,8 @@ public class TutorialScreen implements Screen {
     private void createTable() {
         Table buttonTable = new Table();
         TextButton tutorialMazeButton = new TextButton(tutorialBundle.get("buttonTxt"), skin);
-        TextButton mapButton = new TextButton("\nWorld\n\nMap", skin);
-        buttonTable.add(mapButton).left().bottom().expandX().uniformX();
+        TextButton mapButton = new TextButton(tutorialBundle.get("mapButton"), skin);
+        buttonTable.add(mapButton).left().bottom().expandX().uniformX().width(tutorialMazeButton.getWidth());
         buttonTable.add(tutorialMazeButton).right().bottom().expandX().uniformX();
 
         Table table = new Table();
@@ -191,6 +191,7 @@ public class TutorialScreen implements Screen {
                     Gdx.app.log("MapButton", "Clicked");
                 }
                 game.setScreen(new MapScreen(game));
+                backgroundMusic.stop();
                 dispose();
             }
         });
@@ -201,7 +202,7 @@ public class TutorialScreen implements Screen {
                 if (game.DEBUGGING()) {
                     Gdx.app.log("MazeButton", "Clicked");
                 }
-                game.setScreen(new TutorialScreen(game));
+                game.setScreen(new MazeScreen(game, "tutorial"));
                 dispose();
                 //goToTutorialMaze = true;
             }
@@ -210,10 +211,8 @@ public class TutorialScreen implements Screen {
 
     /**
      * Loads levels background music, sets looping and volume and starts playing the music.
-     *
-     * @param levelName name of the level which music we want to load
      */
-    private void loadBackgroundMusic(String levelName) {
+    private void loadBackgroundMusic() {
         backgroundMusic = assetManager.get("sounds/backgroundMusic/maze.mp3");
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(options.getMusicVolume());
@@ -361,11 +360,7 @@ public class TutorialScreen implements Screen {
     public void dispose() {
         stage.dispose();
         tiledMap.dispose();
-        backgroundMusic.stop();
-        //backgroundMusic.dispose();
-        //player.dispose();
         world.dispose();
-        //skin.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }

@@ -45,6 +45,7 @@ public class RaccoonRoll extends Game {
     // 16px tile scaling: private final float scale = 1f / 48f;
     private GlyphLayout glyphLayout;
     private Preferences completedLevels;
+    private Preferences highScores;
 
     private BitmapFont textFont;
     private BitmapFont titleFont;
@@ -70,6 +71,7 @@ public class RaccoonRoll extends Game {
         loadAssets();
         options = new Options();
         completedLevels = Gdx.app.getPreferences("completedLevels");
+        highScores = Gdx.app.getPreferences("highScores");
 
         if ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth() <= 0.5625f) {
             scaleHorizontal = true;
@@ -356,5 +358,19 @@ public class RaccoonRoll extends Game {
         return assetManager;
     }
 
+    public Preferences getHighScores() {
+        return highScores;
+    }
 
+    /**
+     * Formats time from float seconds
+     *
+     * @return time in m:ss
+     */
+    public String formatTime(float timeSpent) {
+        int time = (int) timeSpent;
+        int minutes = time / 60;
+        int seconds = time % 60;
+        return String.format("%d:%02d", minutes, seconds);
+    }
 }

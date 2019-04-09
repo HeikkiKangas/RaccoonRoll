@@ -185,14 +185,16 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Play", "Button clicked");
-                screenChanged = true;
+                //screenChanged = true;
                 //game.setScreen(new MazeScreen(game, "london"));
                 if (tutorialCompleted) {
                     game.setScreen(new MapScreen(game));
                 } else {
                     game.setScreen(new TutorialScreen(game));
+                    backgroundMusic.stop();
                 }
-                backgroundMusic.stop();
+                dispose();
+                //backgroundMusic.stop();
             }
         });
 
@@ -201,7 +203,8 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("optionsButton", "Button clicked");
                 game.setScreen(new OptionsScreen(game));
-                backgroundMusic.stop();
+                dispose();
+                //backgroundMusic.stop();
             }
         });
 
@@ -209,12 +212,13 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("About", "Button clicked");
-                //game.setScreen(new AboutScreen(game));
+                game.setScreen(new AboutScreen(game));
+                dispose();
                 //for testing purposes
-                game.setScreen(new LevelCompletedScreen(game, 200f));
+                //game.setScreen(new LevelCompletedScreen(game, 200f));
                 //game.setScreen(new MapScreen(game));
                 //game.setScreen(new TutorialScreen(game));
-                backgroundMusic.stop();
+                //backgroundMusic.stop();
             }
         });
     }

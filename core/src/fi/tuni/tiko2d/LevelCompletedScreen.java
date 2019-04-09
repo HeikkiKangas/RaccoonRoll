@@ -2,8 +2,10 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -50,16 +52,31 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private I18NBundle positiveBundle;
     private Options options;
     private AssetManager assetManager;
+    private Preferences highScores;
+    private boolean newHighscore;
+    private Music backgroundMusic;
 
-    public LevelCompletedScreen(RaccoonRoll game, float timeSpent) {
+    public LevelCompletedScreen(RaccoonRoll game, float timeSpent, String levelName) {
         this.game = game;
         this.timeSpent = timeSpent;
+        highScores = game.getHighScores();
         assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
         textCamera = game.getTextCamera();
         rauno = assetManager.get("graphics/othermenus/pieniRauno.png");
         background = assetManager.get("graphics/othermenus/Tausta75.png");
+        backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
+        backgroundMusic.setVolume(game.getOptions().getMusicVolume());
+        backgroundMusic.play();
+
+        float highScore = highScores.getFloat(levelName, 0);
+        if (highScore > timeSpent || highScore == 0) {
+            highScores.putFloat(levelName, timeSpent);
+            highScores.flush();
+            newHighscore = true;
+            Gdx.app.log("HighScore", "New HighScore!");
+        }
 
         positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
 
@@ -152,7 +169,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         //raunoTalk = new Label(positiveBundle.get("pos13"), skin);
         raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         //pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
-        timeSpentLabel = new Label(positiveBundle.get("time") + formatTime(), skin);
+        timeSpentLabel = new Label(positiveBundle.get("time") + game.formatTime(timeSpent), skin);
         title = new Label(positiveBundle.get("title"), skin, "title");
     }
 
@@ -206,17 +223,5 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     public int getRandomPositive() {
         int number = MathUtils.random(0, 14);
         return number;
-    }
-
-    /**
-     * Formats time from float seconds
-     *
-     * @return time in m:ss
-     */
-    private String formatTime() {
-        int time = (int) timeSpent;
-        int minutes = time / 60;
-        int seconds = time % 60;
-        return String.format("%d:%02d", minutes, seconds);
     }
 }

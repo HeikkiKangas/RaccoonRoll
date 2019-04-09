@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -61,6 +62,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private boolean screenActive = true;
     private MazeScreen mazeScreen;
     private AssetManager assetManager;
+    private Music backgroundMusic;
 
 
     /**
@@ -79,6 +81,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         effectsVolume = options.getEffectsVolume();
         language = options.getLanguage();
         background = new Texture("graphics/othermenus/Tausta75.png");
+        backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
 
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
@@ -99,6 +102,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         effectsVolume = options.getEffectsVolume();
         language = options.getLanguage();
         background = new Texture("graphics/othermenus/Tausta75.png");
+        backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
 
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
@@ -130,6 +134,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
             @Override
             public boolean handle(Event event) {
                 musicVolume = volumeMusicSlider.getValue();
+                backgroundMusic.setVolume(musicVolume);
                 return false;
             }
         });

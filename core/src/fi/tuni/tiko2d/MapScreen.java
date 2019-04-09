@@ -4,8 +4,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,6 +51,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private InputMultiplexer multiplexer;
     private GestureDetector mapScroller;
     private boolean showLevelSelect;
+    private Preferences highScores;
 
     private ArrayList<Country> levels;
     private I18NBundle mapBundle;
@@ -56,6 +59,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private Group buttons;
 
     private AssetManager assetManager;
+    private Music backgroundMusic;
 
     /*
     private Texture notStarted;
@@ -67,6 +71,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     public MapScreen(RaccoonRoll game) {
         this.game = game;
+        highScores = game.getHighScores();
         assetManager = game.getAssetManager();
         mapBundle = I18NBundle.createBundle(
                 Gdx.files.internal("localization/MapBundle"),
@@ -83,6 +88,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         textCamera = game.getTextCamera();
         map1 = assetManager.get("graphics/worldmap/map1.png");
         map2 = assetManager.get("graphics/worldmap/map2.png");
+
+        backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
 
         /*
         notStarted = new Texture("graphics/worldmap/Nappipun.png");
@@ -202,6 +209,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log(country.levelNames[0], "Clicked");
                 game.setScreen(new MazeScreen(game, country.levels[0]));
+                backgroundMusic.stop();
                 dispose();
             }
         });
@@ -214,6 +222,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     Gdx.app.log(country.levelNames[1], "Clicked");
                     game.setScreen(new MazeScreen(game, country.levels[1]));
+                    backgroundMusic.stop();
                     dispose();
                 }
             });
@@ -234,14 +243,29 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         levelButtonTable.add(levelButton1).padTop(padding).uniformX().fillX();
         levelButtonTable.row();
-        // Placeholder time
-        levelButtonTable.add(new Label("1:32", skin));
+
+        Label levelTimeLabel1 = new Label("", skin);
+        float levelTime1 = highScores.getFloat(country.levels[0], 0);
+        if (levelTime1 != 0f) {
+            levelTimeLabel1.setText(mapBundle.get("bestTime") + game.formatTime(levelTime1));
+        } else {
+            levelTimeLabel1.setText(mapBundle.get("notPlayedYet"));
+        }
+        levelButtonTable.add(levelTimeLabel1);
+
         if (firstLevelCompleted) {
             levelButtonTable.row();
             levelButtonTable.add(levelButton2).padTop(padding).fillX();
             levelButtonTable.row();
-            // Placeholder time
-            levelButtonTable.add(new Label("2:45", skin));
+
+            Label levelTimeLabel2 = new Label("", skin);
+            float levelTime2 = highScores.getFloat(country.levels[1], 0);
+            if (levelTime2 != 0f) {
+                levelTimeLabel2.setText(mapBundle.get("bestTime") + game.formatTime(levelTime2));
+            } else {
+                levelTimeLabel2.setText(mapBundle.get("notPlayedYet"));
+            }
+            levelButtonTable.add(levelTimeLabel2);
         }
 
         table.add(countryName);
@@ -268,7 +292,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private void createButtons() {
         buttons = new Group();
         buttonStage.addActor(buttons);
-        TextButton tutorialButton = new TextButton("\nTutorial\n", skin);
+        TextButton tutorialButton = new TextButton(mapBundle.get("tutorialButton"), skin);
         Table tutorialTable = new Table();
         tutorialTable.setFillParent(true);
         tutorialTable.top().right();
@@ -282,6 +306,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("TutorialButton", "Clicked");
                 game.setScreen(new TutorialScreen(game));
+                backgroundMusic.stop();
                 dispose();
             }
         });
@@ -292,17 +317,10 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             Texture texture = assetManager.get(
                     String.format("graphics/worldmap/buttons/%s.png", country.countryCode)
             );
-            /*
-            boolean firstLevelCompleted = game.getCompletedLevels().getBoolean(entry.levels[0], false);
-            boolean secondLevelCompleted = game.getCompletedLevels().getBoolean(entry.levels[1], false);
-            */
+
+            //boolean addNextButton = game.getCompletedLevels().getBoolean(country.levels[1], false);
 
             boolean addNextButton = true;
-            /*
-            if (firstLevelCompleted && secondLevelCompleted) {
-                addNextButton = true;
-            }
-            */
 
             float x = game.scaleVertical(entry.buttonX);
             float y = game.scaleVertical(entry.buttonY);

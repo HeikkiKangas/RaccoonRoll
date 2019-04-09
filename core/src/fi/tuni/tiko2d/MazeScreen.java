@@ -131,7 +131,7 @@ public class MazeScreen implements Screen {
 
         loadTileMap(levelName);
         loadSounds();
-        loadBackgroundMusic(levelName);
+        loadBackgroundMusic();
 
         player.createPlayerBody(world, getPlayerStartPos());
         goodObjectRectangles = getGoodRectangles();
@@ -192,14 +192,14 @@ public class MazeScreen implements Screen {
 
     /**
      * Loads levels background music, sets looping and volume and starts playing the music.
-     *
-     * @param levelName name of the level which music we want to load
      */
-    private void loadBackgroundMusic(String levelName) {
+    private void loadBackgroundMusic() {
         backgroundMusic = assetManager.get("sounds/backgroundMusic/maze.mp3");
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(options.getMusicVolume());
-        backgroundMusic.play();
+        if (!backgroundMusic.isPlaying()) {
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(options.getMusicVolume());
+            backgroundMusic.play();
+        }
     }
 
     /**
@@ -247,7 +247,7 @@ public class MazeScreen implements Screen {
         timeSpentText = mazeBundle.get("time");
 
         objectsLeftLabel = new Label(objectsLeftText + goodObjectsRemaining, skin, "small-white");
-        timeSpentLabel = new Label(timeSpentText + formatTime(), skin, "small-white");
+        timeSpentLabel = new Label(timeSpentText + game.formatTime(timeSpent), skin, "small-white");
         pauseButton = new TextButton("Pause", skin);
 
         Table table = new Table();
@@ -369,22 +369,10 @@ public class MazeScreen implements Screen {
         if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
             game.getCompletedLevels().putBoolean(levelName, true);
             game.getCompletedLevels().flush();
-            game.setScreen(new LevelCompletedScreen(game, timeSpent));
+            game.setScreen(new LevelCompletedScreen(game, timeSpent, levelName));
+            backgroundMusic.stop();
             dispose();
         }
-    }
-
-
-    /**
-     * Formats time from float seconds
-     *
-     * @return time in m:ss
-     */
-    private String formatTime() {
-        int time = (int) timeSpent;
-        int minutes = time / 60;
-        int seconds = time % 60;
-        return String.format("%d:%02d", minutes, seconds);
     }
 
     /**
@@ -694,7 +682,7 @@ public class MazeScreen implements Screen {
     }
 
     private void updateTimeSpentLabel() {
-        timeSpentLabel.setText(timeSpentText + formatTime());
+        timeSpentLabel.setText(timeSpentText + game.formatTime(timeSpent));
     }
 
     private void updateObjectsLeftLabel() {
