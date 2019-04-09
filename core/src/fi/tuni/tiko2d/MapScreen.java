@@ -40,6 +40,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private OrthographicCamera textCamera;
     private Stage buttonStage;
     private Stage levelSelect;
+    private Stage tutorialStage;
     private Skin skin;
     private Texture map1;
     private Texture map2;
@@ -90,10 +91,12 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         */
 
         buttonStage = new Stage(new ScreenViewport(), batch);
+        tutorialStage = new Stage(new ScreenViewport(), batch);
 
         multiplexer = new InputMultiplexer();
         mapScroller = new GestureDetector(new MapScroller());
         multiplexer.addProcessor(buttonStage);
+        multiplexer.addProcessor(tutorialStage);
         multiplexer.addProcessor(mapScroller);
 
         bgHeight = game.scaleVertical(map1.getHeight());
@@ -102,10 +105,10 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
 
-        createButtons();
         bgX = game.scaleVertical(-600);
 
         createSkin();
+        createButtons();
     }
 
     @Override
@@ -139,6 +142,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         //buttonStage.act(Gdx.graphics.getDeltaTime());
         buttonStage.draw();
+        tutorialStage.draw();
         if (showLevelSelect) {
             levelSelect.draw();
         }
@@ -264,6 +268,23 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private void createButtons() {
         buttons = new Group();
         buttonStage.addActor(buttons);
+        TextButton tutorialButton = new TextButton("\nTutorial\n", skin);
+        Table tutorialTable = new Table();
+        tutorialTable.setFillParent(true);
+        tutorialTable.top().right();
+        tutorialTable.add(tutorialButton).pad(
+                game.scaleVertical(10),
+                0,0, game.scaleHorizontal(10)
+        );
+        tutorialStage.addActor(tutorialTable);
+        tutorialButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("TutorialButton", "Clicked");
+                game.setScreen(new TutorialScreen(game));
+                dispose();
+            }
+        });
 
         for (Country entry : levels) {
             final Country country = entry;
@@ -354,6 +375,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         map2.dispose();
         */
         buttonStage.dispose();
+        tutorialStage.dispose();
         if (levelSelect != null) {
             levelSelect.dispose();
         }
