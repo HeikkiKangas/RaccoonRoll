@@ -80,7 +80,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         musicVolume = options.getMusicVolume();
         effectsVolume = options.getEffectsVolume();
         language = options.getLanguage();
-        background = new Texture("graphics/othermenus/Tausta75.png");
+        background = assetManager.get("graphics/othermenus/Tausta75.png");
         backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
 
         stage = new Stage(new ScreenViewport(), batch);
@@ -95,13 +95,14 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     public OptionsScreen(RaccoonRoll game, MazeScreen mazeScreen) {
         this.game = game;
         this.mazeScreen = mazeScreen;
+        assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
         textCamera = game.getTextCamera();
         musicVolume = options.getMusicVolume();
         effectsVolume = options.getEffectsVolume();
         language = options.getLanguage();
-        background = new Texture("graphics/othermenus/Tausta75.png");
+        background = assetManager.get("graphics/othermenus/Tausta75.png");
         backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
 
         stage = new Stage(new ScreenViewport(), batch);

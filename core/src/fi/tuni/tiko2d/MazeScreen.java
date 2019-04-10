@@ -37,7 +37,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -63,16 +62,26 @@ public class MazeScreen implements Screen {
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
 
-    private Stage hud;
-    private Stage pauseMenu;
     private Skin skin;
+    // Hud
+    private Stage hud;
     private Label timeSpentLabel;
     private String timeSpentText;
     private Label objectsLeftLabel;
     private String objectsLeftText;
-    private Button pauseButton;
+    private TextButton pauseButton;
+    // Pause menu
+    private Stage pauseMenu;
+    private Table pauseTable;
+    private TextButton mainMenuButton;
+    private TextButton optionsButton;
+    private TextButton mapButton;
+    private TextButton continueButton;
+    private Label pausedLabel;
+
     private InputMultiplexer multiplexer;
 
+    // Sounds
     private ArrayList<Sound> wallHitSounds;
     private Sound badSound;
     private Sound goodSound;
@@ -102,6 +111,8 @@ public class MazeScreen implements Screen {
 
     private String levelName;
 
+    private MazeScreen mazeScreen;
+
     private AssetManager assetManager;
 
     /**
@@ -113,6 +124,7 @@ public class MazeScreen implements Screen {
     public MazeScreen(RaccoonRoll game, String levelName) {
         this.levelName = levelName;
         this.game = game;
+        mazeScreen = this;
         assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
@@ -121,8 +133,6 @@ public class MazeScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
         player = new Player(game);
 
-
-        pauseMenu = new Stage(new ScreenViewport(), batch);
         skin = assetManager.get("uiskin/comic-ui.json");
 
         debugRenderer = new Box2DDebugRenderer();
@@ -140,6 +150,7 @@ public class MazeScreen implements Screen {
         getGoalRectangle();
 
         createHud();
+        createPauseMenu();
         createWalls();
         createGoalBlockBody();
         addContactListener();
@@ -240,6 +251,69 @@ public class MazeScreen implements Screen {
         world.destroyBody(goalBlock);
     }
 
+    private void createPauseMenu() {
+        float padding = game.scaleHorizontal(25);
+        float buttonHeight = game.scaleVertical(175f);
+        pauseMenu = new Stage(new ScreenViewport(), batch);
+        pauseTable = new Table(skin);
+        pauseTable.setBackground("text-field");
+        pauseMenu.addActor(pauseTable);
+
+        pausedLabel = new Label(mazeBundle.get("paused"), skin);
+        mainMenuButton = new TextButton(mazeBundle.get("mainMenu"), skin);
+        optionsButton = new TextButton(mazeBundle.get("options"), skin);
+        mapButton = new TextButton(mazeBundle.get("map"), skin);
+        continueButton = new TextButton(mazeBundle.get("continue"), skin);
+
+        mainMenuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MenuScreen(game));
+                dispose();
+            }
+        });
+
+        mapButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MapScreen(game));
+                dispose();
+            }
+        });
+
+        optionsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new OptionsScreen(game, mazeScreen));
+            }
+        });
+
+        continueButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                paused = false;
+                multiplexer.removeProcessor(pauseMenu);
+                player.setPaused(paused);
+            }
+        });
+
+        pauseTable.add(pausedLabel);
+        pauseTable.row();
+        pauseTable.add(mainMenuButton).padTop(padding).height(buttonHeight);
+        pauseTable.row();
+        pauseTable.add(mapButton).padTop(padding).height(buttonHeight).uniformX().fillX();
+        pauseTable.row();
+        pauseTable.add(optionsButton).padTop(padding).height(buttonHeight).uniformX().fillX();
+        pauseTable.row();
+        pauseTable.add(continueButton).padTop(padding).height(buttonHeight).uniformX().fillX();
+
+        pauseTable.pack();
+
+        pauseTable.setPosition(
+                Gdx.graphics.getWidth() / 2 - pauseTable.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - pauseTable.getHeight() / 2);
+    }
+
     private void createHud() {
         hud = new Stage(new ScreenViewport(), batch);
 
@@ -248,7 +322,7 @@ public class MazeScreen implements Screen {
 
         objectsLeftLabel = new Label(objectsLeftText + goodObjectsRemaining, skin, "small-white");
         timeSpentLabel = new Label(timeSpentText + game.formatTime(timeSpent), skin, "small-white");
-        pauseButton = new TextButton("Pause", skin);
+        pauseButton = new TextButton(mazeBundle.get("pauseButton"), skin);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -643,7 +717,10 @@ public class MazeScreen implements Screen {
 
     @Override
     public void show() {
-
+        if (paused) {
+            updateLanguage();
+            Gdx.input.setInputProcessor(multiplexer);
+        }
     }
 
     @Override
@@ -658,7 +735,6 @@ public class MazeScreen implements Screen {
 
     @Override
     public void hide() {
-
     }
 
     /**
@@ -687,5 +763,33 @@ public class MazeScreen implements Screen {
 
     private void updateObjectsLeftLabel() {
         objectsLeftLabel.setText(objectsLeftText + goodObjectsRemaining);
+    }
+
+    private void updateLanguage() {
+        mazeBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MazeBundle"), options.getLocale());
+        updateHudTexts();
+        updatePauseMenuTexts();
+    }
+
+    private void updatePauseMenuTexts() {
+        pausedLabel.setText(mazeBundle.get("paused"));
+        mainMenuButton.setText(mazeBundle.get("mainMenu"));
+        optionsButton.setText(mazeBundle.get("options"));
+        mapButton.setText(mazeBundle.get("map"));
+        continueButton.setText(mazeBundle.get("continue"));
+
+        pauseTable.pack();
+
+        pauseTable.setPosition(
+                Gdx.graphics.getWidth() / 2 - pauseTable.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - pauseTable.getHeight() / 2);
+    }
+
+    private void updateHudTexts() {
+        objectsLeftText = mazeBundle.get("goodObjectsRemaining");
+        timeSpentText = mazeBundle.get("time");
+        updateObjectsLeftLabel();
+        updateTimeSpentLabel();
+        pauseButton.setText(mazeBundle.get("pauseButton"));
     }
 }
