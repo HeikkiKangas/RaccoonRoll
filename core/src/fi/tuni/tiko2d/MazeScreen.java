@@ -430,8 +430,10 @@ public class MazeScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if (paused) {
                 paused = false;
+                multiplexer.removeProcessor(pauseMenu);
             } else {
                 paused = true;
+                multiplexer.addProcessor(pauseMenu);
             }
             player.setPaused(paused);
         }
