@@ -6,13 +6,13 @@
  <tileset firstgid="28" name="bad_objects" tilewidth="64" tileheight="64" tilecount="5" columns="5">
   <image source="../bad_objects.png" width="320" height="64"/>
  </tileset>
- <tileset firstgid="33" name="good_objects" tilewidth="64" tileheight="64" tilecount="2" columns="2">
-  <image source="../good_objects.png" width="128" height="64"/>
+ <tileset firstgid="33" name="good_objects" tilewidth="64" tileheight="64" tilecount="4" columns="4">
+  <image source="../good_objects.png" width="256" height="64"/>
  </tileset>
- <tileset firstgid="35" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="37" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../maali_placeholder.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="36" name="eiffel" tilewidth="64" tileheight="64" tilecount="4" columns="2">
+ <tileset firstgid="38" name="eiffel" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="eiffel.png" width="128" height="128"/>
  </tileset>
  <objectgroup id="7" name="startpos">
@@ -27,7 +27,7 @@
  </layer>
  <layer id="5" name="wall_tiles" width="66" height="45">
   <data encoding="base64" compression="zlib">
-   eJztWlluwjAQHXUjXdW9BX67XKNH4Sg9So/CUThKDQbpieYlM/E4UOKRRrGMPTYvbxZbqUS+KxE5Evkaoob/Pgu6CDq/CDhM1/oM7SHoWdCAwU/AZDEJT1nLGNpDkGnEYFZwqMfhTlZYNOoV2DlXjO+qT5nsnipwsPIhJ39y2Ua7BYcoGhyupZ1jD2AfxzNOW/qZ7VQ9Bru5+eDR30fMLjhE8coXuNcbp/6ND9wq1kcbWt/JnS+82pa9dOFM7nxxqDiwGon5BbYvyRjWP2qxzXLRC9mjds8aHKzvwytmps5rk4LD3/kMB8ZbFoux1hmRMYy7bZxm+SK1vsL5DAeGG5PUd9PFdh98sK53qDggzzSxWBuvmxTjP9Y46KNYLzH/06rmfLELWb6ft/B8l3wcYLJvOHyE56fsFod7sXHXWzEvoJ9h7ZPqC+hvWB8+yuquXs2HXcTDXGtY8wWz4y37iANyBrk0JmMsPoT9mrO75x0w1k4aHBhurF0n1ljXdR2LWPlQcNDvqc5HrHdUyHnGWYsvbu9hezzWTlifeeFQ985SbHhxQzu+4BDFC4e6+gY5iGPZmZ7ZY3Y0PtJ0Nsc8mDNOolhjo8aOdXzTbwWHKFYckNOWWp+dyxnnMb+wXMN8pOk8wmpCr/tJD+kjfrI5BYcomnva1LOuVpmPdM1XljX26R4GxTtOt61RcIhivY+yaMr3Uxof+Y/3tCnvro+YXXCIssGhWn9XPMmkr05zU+w06Ymsvqdd6ryK3xrLEHXz/38BIfxtyQ==
+   eJztWlluwjAQHXUjXdW9Bf673KJH4Sg9So/CUThKDQbpieYlM/E4UOKRRrGMPTYvbxZbqUS+KxE5Evkaoob/Pgu6CDq/CDhM1/oM7SHoWdCAwU/AZDEJT1nLGNpDkGnEYFZwqMfhTlZYNOoV2DlXjO+qT5nsnipwsPIhJ39y2Ua7BYcoGhyupZ1jD2AfxzNOW/qZ7VQ9Bru5+eDR30fMLjhE8coXuNcbp/6ND9wq1kcbWt/JnS+82pa9dOFM7nxxqDiwGon5BbYvyRjWP2qxzXLRC9mjds8aHKzvwytmps5rk4LD3/kMB8ZbFoux1hmRMYy7bZxm+SK1vsL5DAeGG5PUd9PFdh98sK53qDggzzSxWBuvmxTjP9Y46KNYLzH/06rmfLELWb6ft/B8l3wcYLJvOHyE56fsFod7sXHXWzEvoJ9h7ZPqC+hvWB8+yuquXs2HXcTDXGtY8wWz4y37iANyBrk0JmMsPoT9mrO75x0w1k4aHBhurF0n1ljXdR2LWPlQcNDvqc5HrHdUyHnGWYsvbu9hezzWTlifeeFQ985SbHhxQzu+4BDFC4e6+gY5iGPZmZ7ZY3Y0PtJ0Nsc8mDNOolhjo8aOdXzTbwWHKFYckNOWWp+dyxnnMb+wXMN8pOk8wmpCr/tJD+kjfrI5BYcomnva1LOuVpmPdM1XljX26R4GxTtOt61RcIhivY+yaMr3Uxof+Y/3tCnvro+YXXCIssGhWn9XPMmkr05zU+w06Ymsvqdd6ryK3xrLEHXz/38B58xt0Q==
   </data>
  </layer>
  <objectgroup id="8" name="wall_objects">
@@ -128,7 +128,7 @@
  </layer>
  <layer id="9" name="goal" width="66" height="45" visible="0">
   <data encoding="base64" compression="zlib">
-   eJzt0DENACAQBME3QUGNf48UiLhLmFGw2RkAAAAA4Ec7HVDipANK+PCsdAAAAAAAAJS4bD0AdQ==
+   eJzt0EENACAQA8EzwQMB+LfIAxFtwoyCzc4AAAAAAD/a6YASJx1QwodnpQMAAAAAAKDEBc89AHk=
   </data>
  </layer>
  <layer id="14" name="bad_tiles" width="66" height="45">
@@ -147,7 +147,7 @@
  </objectgroup>
  <layer id="13" name="good_tiles" width="66" height="45">
   <data encoding="base64" compression="zlib">
-   eJzt2FEKACEIBcCust3/kP31V0TRmjBzAkFRnqXAmi+6AMLU6ALo9OIuey4/PQQAeMeN/CITAQAw4jfIid2sMZs7+QWAv7k9QAZ2FeTTAPztAbY=
+   eJzt2tEJwCAMBUBXsbr/jP3rZymKppG7AcIDRUhiKfBNjQ5AmCs6AI8eHeBw3rn8nCEAwH+s6CXbgpoAAJzBbJAZo/3L272z0wFgN7MzIAP/0CCfG5AoAbw=
   </data>
  </layer>
  <objectgroup id="16" name="good_objects">

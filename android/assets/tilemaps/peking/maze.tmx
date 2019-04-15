@@ -3,13 +3,13 @@
  <tileset firstgid="1" name="bad_objects" tilewidth="64" tileheight="64" tilecount="5" columns="5">
   <image source="../bad_objects.png" width="320" height="64"/>
  </tileset>
- <tileset firstgid="6" name="good_objects" tilewidth="64" tileheight="64" tilecount="2" columns="2">
-  <image source="../good_objects.png" width="128" height="64"/>
+ <tileset firstgid="6" name="good_objects" tilewidth="64" tileheight="64" tilecount="4" columns="4">
+  <image source="../good_objects.png" width="256" height="64"/>
  </tileset>
- <tileset firstgid="8" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="10" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../maali_placeholder.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="9" name="tileset" tilewidth="64" tileheight="64" tilecount="24" columns="24">
+ <tileset firstgid="11" name="tileset" tilewidth="64" tileheight="64" tilecount="24" columns="24">
   <image source="tileset.png" width="1536" height="64"/>
  </tileset>
  <objectgroup id="12" name="startpos">
@@ -19,12 +19,12 @@
  </objectgroup>
  <layer id="5" name="ground" width="80" height="60">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAMBKGb37/guugECaumqqqqqqqqqqqqqqqqqqqqqqqqTw+eJruB
+   eJztw0ENAAAMA6ETUP9652IvSFg1VVVVVVVVVVVVVVVVVVVVVVVVfXp7l+EB
   </data>
  </layer>
  <layer id="6" name="wall_tiles" width="80" height="60">
   <data encoding="base64" compression="zlib">
-   eJztXG1uIzEIfX+rdtttsts2/dhylD1aj9ajbf6VSPN2wEA8UUFCsiwbM29gwNjJM4Dn5hDfHPl1kG8Dcyu5Wq9rhd8bxuk9MLeSqvUSNH4REizj9+vIf1Z4R/S0zK1kptdjQOYP0n8FfCzhZ3lv74b2DKrQhckRLNtf48dlahKs46ftnvkGax9Uu9Kvn8j6vxPk/e+ZBD77s2A22y4r1mHPIWj8vDIt+P3Eum9421pmBuuYuDOsw2KoRf6ePJPgcu3Pu453fYscQeNnkc/6Bb74e0fGeNujsdj7LWG6s7yA5RcH0i+YY38Zthixv6y2oPGrwI/lnXsyhsWn7Fhs8d+K3MGLX4Ta/mL0XfG7wnIcstR9vPvi0X2pZksuUJE7ROIHo0vL/xq/y8GP5bpen2V+Nco65j+o9hbib/X7rKSt2V/j58fvgYzXfsdyZjY3I+Z6/TqiL+v35n8Wu7G88y2RV9/G75Qq8NP5s+Z70m8ZY5k7g7366n79HdD4Ze3fvhMJGr8ICcbvb7BcmtVzK85/vWdCGaxzcobfJezfqmR6SND4RUjgqz8zO7ZglnX+q78J58rJvf7rpXPa32yb0yRo/CIkWMbPcm9qVv1K568z7mp64++W6y+zbVHQ+EVI4MOP3WOYVb/SZ0Keb4L3fIyx5f5zxLaq7WNUfpZeAp/9NX6nJMjHT8fEivqV5a5k5rzM+LuFc47RtSp0FDR+ERLU4pf1+wVLrr4mn50fRfSqiL8VdpktP0svQa39NX62c9CK/W/l/lrn3d68PlJ/Pqf9Vco/Z/xg6zZ+/vqzzodfsO4POuZZclZW07Z8Q9b8kMn27n/1d0UwXj/1vvuI/UXWzdCFzRU0fpG5gvX7GxYfsMQw716YjWd5sMcPI/vyrPsb1fs0C83WQdD4RUhw8v85f18dfOscX8GzdThi9jn6f0XNX/wPQCXnAA==
+   eJztXFtOAzEMzH8FlEehUF7lJByNo3E0+scUdVhPbG9a1ZZGiqLE8c46sZNN+9xaey64cLnDayeWjr6ZyLbrAvh7a/2ydfTNlGy7Plrx5xHG3/0O7xO4g/Zop6VvJphdjw6dV6R+0drXIf4s721rKI+QDFuYHuZ/xR/XiWLhD/2ezQ1W3kA5c14/kfEfAvT990yq/1k4G+2XGeOw5yj+dJ0W/m7a9NxQy6gzAhgTcV1h47AYatG/Is90yv6njqOOb9FT/Nn0s3o1/l6TNmq5NxarawmzneUFLL/YkPpR/hfhix7/iyoXfzn8sbxzRdqw+MTKvbHYMn8zcgeVP4+U//nkXPlbtMNxyHLuo+6Le/elCEsukJE7eOIHk7l8Th1TbV/8HR9/LNdV5yybV73AmL+G8jHE3+z3mSnH5n/Fn87fmrTHecdyZtY3IuZagHZ57GX1Fv5QLH5jeefHJKq9xd++ZPCH+TPiltRb2lj6joBqL9bjOpCxfzsnKf584rm/gbgjfVl9FNRvQhHAnPyU929ZOhUp/nyinj8j1L1l1PdfXBPmyskRlvmrypz+N9rnUIo/nzD+LPemRp1fYf464q6mGn/Z+1Y5O6f4UfzZROWP3WPA8pznV/hNSFkT1O9jDJb7zx7fyvaPXv1Rdqn+V/ztSwZ/GBMzzq8sdyUj+/2FJ/6OihMovWNl2Fj8+SSbv6jfL1hy9Sn97PuRx66M+Jvhl9H6o+zK9r/iz/YdVC1n3OlS9GPereb1nvPnOf0vU/+c8YONW/zp58+YD7+06fmAMc+Ss7IzbcsaMjUPmW51/4vriuf8VH33Hv/zjBthC+tb/Pn6Wu5vIDy/s1X3wqw9y4OVeejZl0fd34hagz0y2obizyfI32Vrn68ClmL7DIy2YcfZd+//FRV+8QN+afWi
   </data>
  </layer>
  <objectgroup id="13" name="wall_objects" visible="0">
@@ -146,12 +146,12 @@
  </objectgroup>
  <layer id="9" name="goal_ground" width="80" height="60" visible="0">
   <data encoding="base64" compression="zlib">
-   eJzt0LEJAAAIBDFr9x/Yxgl8sErgFrgq+NcbN/5l/Mv4BwAAAAAAAAAAAAAAAAAAAACkBmAqAFE=
+   eJzt0DENAAAIBDEE4F8vCwr4hKlNzsBVwb/euPEv41/GPwAAAAAAAAAAAAAAAAAAAAAgNcrGAGE=
   </data>
  </layer>
  <layer id="8" name="goal" width="80" height="60" visible="0">
   <data encoding="base64" compression="zlib">
-   eJzt08EJACAMA8A+HcJh3H8qFZygD0vhDvIPgUTAf/OFvFFdoDn75Z3vrpvqHgAAAAAAAAAAAAAAAAAAAABAXxsDegEB
+   eJzt08EJACAMA8C+HcJZ3H8qFZygD0vhDvIPgUTAf/OFvFFdoDn75Z3vrpvqHgAAAAAAAAAAAAAAAAAAAABAXxtTZwEN
   </data>
  </layer>
  <layer id="11" name="bad_tiles" width="80" height="60">
@@ -172,7 +172,7 @@
  </objectgroup>
  <layer id="10" name="good_tiles" width="80" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2NENgCAMBFC/dP+NnUATg5UrvjfBEZJrYdsAAKDePjsAwIAOHXbMDsAwdwgk6jAD73TPDwmSd5TkbNCJeclT+hcA1vfVjpi8V1RlSz4zXPFuBACAWnZu4E2rdkrKv1pKDoAqf+u5pLmZlAUAZjgBIiQAkA==
+   eJzt2MkRgCAQBEBfHvknbAT6UdhhqzuCoSj2YNsAAGC8vToAwAcr1LCjOgCfuUMg0Qo98M1ZHQAaSH5H5if4x+r9nvnUXwDob9aMmDxXjMqWfGZ4Ym8EAICxruoAQCtd9/iUfzU1G+gupd7OktQ3k7IAQIUbDzcAmA==
   </data>
  </layer>
  <objectgroup id="16" name="good_objects">
