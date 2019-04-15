@@ -344,6 +344,7 @@ public class RaccoonRoll extends Game {
         assetManager.load("graphics/worldmap/buttons/eg.png", Texture.class);
         assetManager.load("graphics/worldmap/buttons/ch.png", Texture.class);
         assetManager.load("graphics/worldmap/buttons/fr.png", Texture.class);
+        assetManager.load("graphics/worldmap/buttons/ru.png", Texture.class);
 
         // TutorialScreen
         assetManager.load("tilemaps/good_objects.png", Texture.class);
