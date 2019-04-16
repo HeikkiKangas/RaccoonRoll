@@ -49,6 +49,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private Label raunoTalk;
     private Label timeSpentLabel;
     private Label title;
+    private Label unlocked;
     private I18NBundle positiveBundle;
     private Options options;
     private AssetManager assetManager;
@@ -104,19 +105,21 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         posNum = getRandomPositive();
 
         Table speechBubble = new Table(skin);
-        speechBubble.background("bubble-lower-left");
+        speechBubble.background("bubble-lower-right");
 
         createLabels();
 
         raunoTalk.setAlignment(Align.center);
-        speechBubble.add(raunoTalk);
+        speechBubble.add(raunoTalk); //.left()
 
         float padding = game.scaleFromFHD(600);
         table.add(title);
         table.row().pad(padding / 10, 0, 0, 0);;
-        table.add(speechBubble).padRight(padding);
+        table.add(speechBubble).padRight(padding); //padin sijaan .left
         table.row().pad(padding / 13);
         table.add(timeSpentLabel).padLeft(padding * 1.85f);
+        table.row();
+        table.add(unlocked);
         //table.row().pad(padding / 3, 0, 0, 0); yksirivisille
         table.row().pad(padding / 4, 0, 0, 0);
         buttonHeight = game.scaleFromFHD(200f);
@@ -171,6 +174,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         //pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
         timeSpentLabel = new Label(positiveBundle.get("time") + game.formatTime(timeSpent), skin);
         title = new Label(positiveBundle.get("title"), skin, "title");
+        unlocked = new Label(positiveBundle.get("unlocked"), skin);
     }
 
     @Override
