@@ -45,6 +45,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
+/**
+ * Tutorial explaining how to play the game
+ *
+ * @author Heikki Kangas
+ */
 public class TutorialScreen implements Screen {
     private final boolean debugWorldStep = false;
     private RaccoonRoll game;
@@ -76,6 +81,11 @@ public class TutorialScreen implements Screen {
 
     private final float tileSize = 64f;
 
+    /**
+     * Sets up the tutorial
+     *
+     * @param game main game class
+     */
     public TutorialScreen(RaccoonRoll game) {
         this.game = game;
         assetManager = game.getAssetManager();
@@ -123,6 +133,9 @@ public class TutorialScreen implements Screen {
         createTable();
     }
 
+    /**
+     * Sets up the table for the texts and buttons for tutorial maze and MapScreen
+     */
     private void createTable() {
         Table buttonTable = new Table();
         TextButton tutorialMazeButton = new TextButton(tutorialBundle.get("buttonTxt"), skin);
@@ -252,6 +265,10 @@ public class TutorialScreen implements Screen {
 
     }
 
+    /**
+     * Renders the player, tutorial texts, buttons and TiledMap
+     * @param delta how long since last frame
+     */
     @Override
     public void render(float delta) {
         clearScreen();
@@ -281,6 +298,10 @@ public class TutorialScreen implements Screen {
         }
     }
 
+    /**
+     * Steps the world with 1/61s steps while delta is bigger than 1/61
+     * @param delta time since last frame
+     */
     private void stepWorld(float delta) {
         double accumulator;
         if (delta > 1 / 4f) {
@@ -314,7 +335,7 @@ public class TutorialScreen implements Screen {
      * Clears the screen with black color
      */
     private void clearScreen() {
-        Gdx.gl.glClearColor(74f / 255, 60f / 255, 27f / 255, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
@@ -338,6 +359,9 @@ public class TutorialScreen implements Screen {
 
     }
 
+    /**
+     * Disposes no longer used assets
+     */
     @Override
     public void dispose() {
         stage.dispose();

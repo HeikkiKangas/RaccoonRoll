@@ -119,8 +119,8 @@ public class Player {
 
     /**
      * Moves player according to keys pressed (desktop) or accelerometer values (android).
-     * Applies friction so player will not roll indefinately
-     * @param deltatime
+     * Applies friction so player will not roll indefinitely
+     * @param deltatime how long since last frame
      */
     public void movePlayer(float deltatime) {
         float x = 0;

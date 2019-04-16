@@ -31,9 +31,8 @@ import java.util.ArrayList;
 /**
  * Screen for displaying a map with buttons for level selection
  *
- * @author
+ * @author Heikki Kangas
  */
-
 public class MapScreen extends ApplicationAdapter implements Screen {
 
     private RaccoonRoll game;
@@ -62,6 +61,11 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     private float bgX;
 
+    /**
+     * Creates the map where to choose the level to play
+     *
+     * @param game the main game class
+     */
     public MapScreen(RaccoonRoll game) {
         this.game = game;
         highScores = game.getHighScores();
@@ -70,13 +74,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
                 Gdx.files.internal("localization/MapBundle"),
                 game.getOptions().getLocale());
 
-        levels = new ArrayList<Country>();
-        levels.add(new Country("uk", new String[]{"london", "manchester"}, 1300, 325));
-        levels.add(new Country("fr", new String[]{"paris", "marseille"}, 1300, 200));
-        levels.add(new Country("eg", new String[]{"kairo", "alexandria"}, 1375, 10));
-        levels.add(new Country("us", new String[]{"newyork", "philadelphia"}, 400, 100));
-        levels.add(new Country("ch", new String[]{"peking", "shanghai"}, 2600, 25));
-        levels.add(new Country("ru", new String[]{"anadyr", "egvekinot"}, 3350, 640));
+        addLevels();
 
         batch = game.getBatch();
         textCamera = game.getTextCamera();
@@ -85,7 +83,9 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
 
+        // Stage for buttons with flags
         buttonStage = new Stage(new ScreenViewport(), batch);
+        // Stage for tutorial button on right top edge of the screen
         tutorialStage = new Stage(new ScreenViewport(), batch);
 
         multiplexer = new InputMultiplexer();
@@ -100,9 +100,11 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
 
+        // Adjusts the map's start position
         bgX = game.scaleVertical(-600);
 
-        createSkin();
+        skin = assetManager.get("uiskin/comic-ui.json");
+
         createButtons();
     }
 
@@ -111,6 +113,10 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     }
 
+    /**
+     * Renders the map and buttons
+     * @param delta not used for anything
+     */
     @Override
     public void render(float delta) {
         if (game.DEBUGGING()) {
@@ -152,6 +158,22 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     }
 
+    /**
+     * Adds all the playable levels to ArrayList
+     */
+    private void addLevels() {
+        levels = new ArrayList<Country>();
+        levels.add(new Country("uk", new String[]{"london", "manchester"}, 1300, 325));
+        levels.add(new Country("fr", new String[]{"paris", "marseille"}, 1300, 200));
+        levels.add(new Country("eg", new String[]{"kairo", "alexandria"}, 1375, 10));
+        levels.add(new Country("us", new String[]{"newyork", "philadelphia"}, 400, 100));
+        levels.add(new Country("ch", new String[]{"peking", "shanghai"}, 2600, 25));
+        levels.add(new Country("ru", new String[]{"anadyr", "egvekinot"}, 3350, 640));
+    }
+
+    /**
+     * Gesture detector for moving the map when the screen is swept
+     */
     class MapScroller extends GestureDetector.GestureAdapter {
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
@@ -176,6 +198,10 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         }
     }
 
+    /**
+     * Generates level selection menu when flag on the map is tapped
+     * @param selectedCountry for which country to generate the menu
+     */
     private void generateLevelSelector(Country selectedCountry) {
         final Country country = selectedCountry;
         float padding = game.scaleVertical(50);
@@ -270,11 +296,9 @@ public class MapScreen extends ApplicationAdapter implements Screen {
                 Gdx.graphics.getHeight() / 2 - table.getHeight() / 2);
     }
 
-    private void createSkin() {
-        skin = assetManager.get("uiskin/comic-ui.json");
-
-    }
-
+    /**
+     * Creates buttons on map for each contry
+     */
     private void createButtons() {
         buttons = new Group();
         buttonStage.addActor(buttons);
@@ -348,6 +372,9 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         }
     }
 
+    /**
+     * Disposes no longer needed assets
+     */
     @Override
     public void dispose() {
         buttonStage.dispose();
@@ -360,6 +387,9 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         }
     }
 
+    /**
+     * Holds each contry's info about country name, button position on map and playable levels available
+     */
     private class Country {
         private String countryCode;
         private String countryName;
@@ -368,6 +398,13 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         private float buttonX;
         private float buttonY;
 
+        /**
+         * Sets conytry code, level names and button position
+         * @param country country code
+         * @param levels array of level names
+         * @param buttonX button's x coordinate on map
+         * @param buttonY button's y coordinate on map
+         */
         public Country(String country, String[] levels, float buttonX, float buttonY) {
             this.countryCode = country;
             countryName = mapBundle.get(countryCode);
