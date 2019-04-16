@@ -116,6 +116,12 @@ public class MazeScreen implements Screen {
 
     private AssetManager assetManager;
 
+    /*
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Define and initialize all the ArrayLists in class / constructor
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     */
+
     /**
      * Sets up the selected maze
      *
@@ -434,6 +440,7 @@ public class MazeScreen implements Screen {
 
         if (game.DEBUGGING()) {
             debugRenderer.render(world, worldCamera.combined);
+            MemoryDebug.memoryUsed(delta);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {

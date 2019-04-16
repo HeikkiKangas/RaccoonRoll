@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -41,7 +40,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private TextButton finnish;
     private TextButton save;
     private Stage stage;
-    private TextureAtlas skinAtlas;
     private float buttonHeight;
     private float bgWidth;
     private float bgHeight;
@@ -126,7 +124,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         createSkin();
         createButtons();
 
-        Table options = new Table();
+        Table optionsTable = new Table();
         Table backSave = new Table();
 
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
@@ -156,19 +154,19 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         float padding = game.scaleFromFHD(50);
         buttonHeight = game.scaleFromFHD(200f);
 
-        table.add(options);
+        table.add(optionsTable);
 
-        options.add(titleLabel);
-        options.row().pad(padding, 0, 0, 0);
-        options.add(volumeMusicLabel);
-        options.add(musicContainer);
-        options.row().pad(padding * 2, 0, 0, 0);
-        options.add(volumeEffectsLabel);
-        options.add(effectsContainer);
-        options.row().pad(padding, 0, 0, 0);
-        options.add(languageLabel);
-        options.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding);
-        options.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        optionsTable.add(titleLabel);
+        optionsTable.row().pad(padding, 0, 0, 0);
+        optionsTable.add(volumeMusicLabel);
+        optionsTable.add(musicContainer);
+        optionsTable.row().pad(padding * 2, 0, 0, 0);
+        optionsTable.add(volumeEffectsLabel);
+        optionsTable.add(effectsContainer);
+        optionsTable.row().pad(padding, 0, 0, 0);
+        optionsTable.add(languageLabel);
+        optionsTable.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding);
+        optionsTable.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
 
         table.row().pad(padding * 2, 0, 0, 0);
 
@@ -184,17 +182,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
      */
 
     private void createSkin() {
-        //skinAtlas = new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas"));
         skin = assetManager.get("uiskin/comic-ui.json");
-        /*
-        skin.addRegions(skinAtlas);
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTextFont());
-        skin.add("smallfont", game.getTutorialSmallFont());
 
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        */
         selected = skin.get("selected", TextButton.TextButtonStyle.class);
         notSelected = skin.get("default", TextButton.TextButtonStyle.class);
     }
@@ -341,11 +330,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        /*
-        background.dispose();
-        skin.dispose();
-        skinAtlas.dispose();
-        */
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "OptionsScreen");
         }

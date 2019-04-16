@@ -76,7 +76,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
             highScores.putFloat(levelName, timeSpent);
             highScores.flush();
             newHighscore = true;
-            Gdx.app.log("HighScore", "New HighScore!");
+            if (game.DEBUGGING()) {
+                Gdx.app.log("HighScore", "New HighScore!");
+            }
         }
 
         positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
@@ -114,7 +116,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         float padding = game.scaleFromFHD(600);
         table.add(title);
-        table.row().pad(padding / 10, 0, 0, 0);;
+        table.row().pad(padding / 10, 0, 0, 0);
         table.add(speechBubble).padRight(padding); //padin sijaan .left
         table.row().pad(padding / 13);
         table.add(timeSpentLabel).padLeft(padding * 1.85f);
@@ -156,15 +158,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     private void createSkin() {
         skin = assetManager.get("uiskin/comic-ui.json");
-        /*
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTextFont());
-        skin.add("smallfont", game.getTutorialSmallFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        */
     }
 
     private void createLabels() {
@@ -214,10 +207,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         }
         // dispose of assets when not needed anymore
         stage.dispose();
-        /*
-        background.dispose();
-        rauno.dispose();
-        */
     }
 
     /**
@@ -225,7 +214,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
      */
 
     public int getRandomPositive() {
-        int number = MathUtils.random(0, 14);
-        return number;
+        return MathUtils.random(0, 14);
     }
 }

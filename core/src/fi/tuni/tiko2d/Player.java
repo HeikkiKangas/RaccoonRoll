@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author Heikki Kangas
  */
 public class Player {
+    private final boolean debugAccelerometer = false;
     private Body playerBody;
     private float playerRotation;
     private float playerRadius;
@@ -51,7 +52,6 @@ public class Player {
                 atlas.findRegions("racc_roll")
         );
         playerRotation = 0;
-        // 16px tileset scaling: playerRadius = 12 * game.getScale();
         playerRadius = 48 * game.getScale();
     }
 
@@ -133,7 +133,7 @@ public class Player {
         } else if (Gdx.app.getType() == Application.ApplicationType.Android) {
             x = MathUtils.clamp(Gdx.input.getAccelerometerY() * 15, -100f, 100f) * deltatime;
             y = MathUtils.clamp(Gdx.input.getAccelerometerX() * 15, -100f, 100f) * deltatime;
-            if (game.DEBUGGING()) {
+            if (game.DEBUGGING() && debugAccelerometer) {
                 Gdx.app.log("Accelerometer", "X: " + x / deltatime + " Y: " + y / deltatime);
             }
             if (x < 0.2 && x > -0.2) {
@@ -210,11 +210,6 @@ public class Player {
      * Disposes used assets
      */
     public void dispose() {
-        if (game.DEBUGGING()) {
-            Gdx.app.log("Disposed", "Player");
-        }
-        atlas.dispose();
-        //playerBody.destroyFixture(playerBody.getFixtureList().get(0));
     }
 
     /**

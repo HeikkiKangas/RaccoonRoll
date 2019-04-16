@@ -45,9 +45,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
-import javax.xml.soap.Text;
-
 public class TutorialScreen implements Screen {
+    private final boolean debugWorldStep = false;
     private RaccoonRoll game;
     private SpriteBatch batch;
     private Player player;
@@ -76,9 +75,6 @@ public class TutorialScreen implements Screen {
     private final float TIME_STEP = 1 / 61f;
 
     private final float tileSize = 64f;
-
-    private boolean goToTutorialMaze;
-
 
     public TutorialScreen(RaccoonRoll game) {
         this.game = game;
@@ -174,10 +170,6 @@ public class TutorialScreen implements Screen {
         table.row().expand().fill();
         table.add(badTable).top();
 
-        /*
-        table.row().right().padRight(game.scaleHorizontal(10)).bottom().padBottom(game.scaleVertical(10));
-        table.add(tutorialMazeButton);
-        */
         table.row().bottom().pad(0,
                 game.scaleHorizontal(10),
                 game.scaleVertical(10),
@@ -204,7 +196,6 @@ public class TutorialScreen implements Screen {
                 }
                 game.setScreen(new MazeScreen(game, "tutorial"));
                 dispose();
-                //goToTutorialMaze = true;
             }
         });
     }
@@ -288,13 +279,6 @@ public class TutorialScreen implements Screen {
             game.setScreen(new MenuScreen(game));
             dispose();
         }
-
-        /*
-        if (goToTutorialMaze) {
-            game.setScreen(new MazeScreen(game, "tutorial"));
-            dispose();
-        }
-        */
     }
 
     private void stepWorld(float delta) {
@@ -307,24 +291,22 @@ public class TutorialScreen implements Screen {
             accumulator = delta;
         }
 
-        /*
-        if (game.DEBUGGING()) {
+        if (game.DEBUGGING() && debugWorldStep) {
             Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
             Gdx.app.log("DeltaTime", "" + delta);
             Gdx.app.log("TimeStep ", "" + TIME_STEP);
-            Gdx.app.log("Delta / Timestep", "" + df.format(delta / TIME_STEP));
         }
-        */
+
         while (accumulator >= TIME_STEP) {
-            if (game.DEBUGGING()) {
-                //Gdx.app.log("WorldStep Accumulator", "" + accumulator);
+            if (game.DEBUGGING() && debugWorldStep) {
+                Gdx.app.log("WorldStep Accumulator", "" + accumulator);
             }
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
 
-        if (game.DEBUGGING()) {
-            //Gdx.app.log("LeftOver", df.format(accumulator));
+        if (game.DEBUGGING() && debugWorldStep) {
+            Gdx.app.log("LeftOver", "" + accumulator);
         }
     }
 
@@ -361,6 +343,7 @@ public class TutorialScreen implements Screen {
         stage.dispose();
         tiledMap.dispose();
         world.dispose();
+        debugRenderer.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }

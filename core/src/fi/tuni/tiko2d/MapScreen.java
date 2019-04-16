@@ -27,7 +27,6 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Screen for displaying a map with all levels
@@ -61,12 +60,6 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private AssetManager assetManager;
     private Music backgroundMusic;
 
-    /*
-    private Texture notStarted;
-    private Texture started;
-    private Texture done;
-    */
-
     private float bgX;
 
     public MapScreen(RaccoonRoll game) {
@@ -91,12 +84,6 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         map2 = assetManager.get("graphics/worldmap/map2.png");
 
         backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
-
-        /*
-        notStarted = new Texture("graphics/worldmap/Nappipun.png");
-        started = new Texture("graphics/worldmap/Nappikelt.png");
-        done = new Texture("graphics/worldmap/Nappivih.png");
-        */
 
         buttonStage = new Stage(new ScreenViewport(), batch);
         tutorialStage = new Stage(new ScreenViewport(), batch);
@@ -148,7 +135,6 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         batch.end();
 
-        //buttonStage.act(Gdx.graphics.getDeltaTime());
         buttonStage.draw();
         tutorialStage.draw();
         if (showLevelSelect) {
@@ -278,7 +264,6 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         levelSelect.addActor(table);
 
         table.setBackground("text-field");
-        //table.setFillParent(true);
         table.pack();
         table.setPosition(
                 Gdx.graphics.getWidth() / 2 - table.getWidth() / 2,
@@ -319,35 +304,16 @@ public class MapScreen extends ApplicationAdapter implements Screen {
                     String.format("graphics/worldmap/buttons/%s.png", country.countryCode)
             );
 
-            //boolean addNextButton = game.getCompletedLevels().getBoolean(country.levels[1], false);
 
             boolean addNextButton = true;
 
             float x = game.scaleVertical(entry.buttonX);
             float y = game.scaleVertical(entry.buttonY);
 
-            /*
-            Texture texture;
-            if (firstLevelCompleted && secondLevelCompleted) {
-                addNextButton = true;
-                texture = done;
-            } else if (firstLevelCompleted && !secondLevelCompleted) {
-                texture = started;
-            } else {
-                texture = notStarted;
-            }
-            */
-
-            //selectedTexture = new Texture("graphics/worldmap/buttons/uk2.png");
-
             ImageButton btn1 = new ImageButton(new TextureRegionDrawable(texture));
             ImageButton btn2 = new ImageButton(new TextureRegionDrawable(texture));
             ImageButton btn3 = new ImageButton(new TextureRegionDrawable(texture));
-            /*
-            btn1.setRound(true);
-            btn2.setRound(true);
-            btn3.setRound(true);
-            */
+
             btn1.setTransform(true);
             btn2.setTransform(true);
             btn3.setTransform(true);
@@ -384,15 +350,6 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
-        /*
-        started.dispose();
-        notStarted.dispose();
-        done.dispose();
-        */
-        /*
-        map1.dispose();
-        map2.dispose();
-        */
         buttonStage.dispose();
         tutorialStage.dispose();
         if (levelSelect != null) {
@@ -404,15 +361,14 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     }
 
     private class Country {
-        public String countryCode;
-        public String countryName;
-        public String[] levels;
-        public String[] levelNames;
-        public float buttonX;
-        public float buttonY;
+        private String countryCode;
+        private String countryName;
+        private String[] levels;
+        private String[] levelNames;
+        private float buttonX;
+        private float buttonY;
 
         public Country(String country, String[] levels, float buttonX, float buttonY) {
-            Locale locale = game.getOptions().getLocale();
             this.countryCode = country;
             countryName = mapBundle.get(countryCode);
             this.levels = levels;
