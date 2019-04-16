@@ -241,7 +241,9 @@ public class MazeScreen implements Screen {
     private void hideGoal() {
         tiledMap.getLayers().get("goal").setVisible(false);
         tiledMap.getLayers().get("goal_ground").setVisible(false);
-        tiledMap.getLayers().get("goal_ground2").setVisible(false);
+        if (tiledMap.getLayers().getIndex("goal_ground2") != -1) {
+            tiledMap.getLayers().get("goal_ground2").setVisible(false);
+        }
     }
 
     /**
@@ -250,6 +252,9 @@ public class MazeScreen implements Screen {
     private void showGoal() {
         tiledMap.getLayers().get("goal").setVisible(true);
         tiledMap.getLayers().get("goal_ground").setVisible(true);
+        if (tiledMap.getLayers().getIndex("goal_ground2") != -1) {
+            tiledMap.getLayers().get("goal_ground2").setVisible(true);
+        }
         world.destroyBody(goalBlock);
     }
 
