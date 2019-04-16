@@ -47,6 +47,7 @@ public class RaccoonRoll extends Game {
     private Preferences completedLevels;
     private Preferences highScores;
 
+    private BitmapFont creditFont;
     private BitmapFont textFont;
     private BitmapFont titleFont;
     private BitmapFont outlinedFont;
@@ -143,6 +144,10 @@ public class RaccoonRoll extends Game {
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         fontParameter.color = Color.BLACK;
+
+        fontParameter.size = scaleTextFromFHD(35);
+        creditFont = fontGenerator.generateFont(fontParameter);
+
         fontParameter.size = scaleTextFromFHD(55);
         textFont = fontGenerator.generateFont(fontParameter);
 
@@ -319,6 +324,7 @@ public class RaccoonRoll extends Game {
         resources.put("button", buttonFont);
         resources.put("title", titleFont);
         resources.put("font", textFont);
+        resources.put("credits", creditFont);
         resources.put("outlinedfont", outlinedFont);
         resources.put("outlinedsmallfont", outlinedSmallFont);
         assetManager.load("uiskin/comic-ui.atlas", TextureAtlas.class);
