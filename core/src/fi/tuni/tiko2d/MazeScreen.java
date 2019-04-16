@@ -88,9 +88,11 @@ public class MazeScreen implements Screen {
     private Sound victorySound;
     private Music backgroundMusic;
 
+    // TiledMap
     private float tiledMapHeight;
     private float tiledMapWidth;
     private float tileSize = 64f;
+    private int goodObjectsRemaining;
     private ArrayList<Rectangle> goodObjectRectangles;
     private ArrayList<Rectangle> badObjectRectangles;
     private Rectangle goalRectangle;
@@ -101,7 +103,6 @@ public class MazeScreen implements Screen {
     private I18NBundle mazeBundle;
     private Options options;
 
-    private int goodObjectsRemaining;
     private float timeSpent;
 
     private long levelFinishedTime;
@@ -240,6 +241,7 @@ public class MazeScreen implements Screen {
     private void hideGoal() {
         tiledMap.getLayers().get("goal").setVisible(false);
         tiledMap.getLayers().get("goal_ground").setVisible(false);
+        tiledMap.getLayers().get("goal_ground2").setVisible(false);
     }
 
     /**
@@ -316,6 +318,8 @@ public class MazeScreen implements Screen {
 
     private void createHud() {
         hud = new Stage(new ScreenViewport(), batch);
+        float verticalPad = game.scaleVertical(10);
+        float horizontalPad = game.scaleHorizontal(10);
 
         objectsLeftText = mazeBundle.get("goodObjectsRemaining");
         timeSpentText = mazeBundle.get("time");
@@ -332,10 +336,10 @@ public class MazeScreen implements Screen {
             table.setDebug(true);
         }
 
-        table.top();
-        table.add(timeSpentLabel).left().top().padLeft(game.scaleHorizontal(10)).width(Gdx.graphics.getWidth() / 6f);
+        table.top().padTop(verticalPad);
+        table.add(timeSpentLabel).left().top().padLeft(horizontalPad).width(Gdx.graphics.getWidth() / 6f);
         table.add(objectsLeftLabel).top().expandX();
-        table.add(pauseButton).right().top().padRight(game.scaleHorizontal(10)).padTop(5);
+        table.add(pauseButton).right().top().padRight(horizontalPad);
 
         pauseButton.addListener(new ClickListener() {
             @Override

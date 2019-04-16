@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="left-up" width="99" height="39" tilewidth="64" tileheight="64" infinite="0" nextlayerid="20" nextobjectid="135">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="left-up" width="99" height="39" tilewidth="64" tileheight="64" infinite="0" nextlayerid="21" nextobjectid="135">
  <tileset firstgid="1" name="tileset" tilewidth="64" tileheight="64" tilecount="16" columns="16">
   <image source="tileset.png" width="1024" height="64"/>
  </tileset>
@@ -17,7 +17,7 @@
    eJztw8EJAAAMA6F7ZP+Zu0dRcNVUVVVVVVVVVVVVVVVVVdW3D91oPFU=
   </data>
  </layer>
- <layer id="19" name="Tile Layer 7" width="99" height="39" opacity="0.52">
+ <layer id="19" name="ground2" width="99" height="39" opacity="0.5">
   <data encoding="base64" compression="zlib">
    eJztwwEJAAAMBKH7/qXXYyi4aqqqqqqqqqqqqqqqqqqq6tsHZJkPFg==
   </data>
@@ -135,9 +135,14 @@
  <objectgroup id="16" name="goal_blocking_object">
   <object id="30" x="2240" y="2368" width="128" height="128"/>
  </objectgroup>
- <layer id="12" name="goal_ground" width="99" height="39" visible="0">
+ <layer id="12" name="goal_ground" width="99" height="39">
   <data encoding="base64" compression="zlib">
    eJztxrEJAAAIwDAH/7/ZXXATHEyg0AgAAAAAAAAAAAAAAAAAALZlizs5/CcFbOQAGQ==
+  </data>
+ </layer>
+ <layer id="20" name="goal_ground2" width="99" height="39" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJztxrEJAAAIwDD9/2l3wU1wMIFCIwAAAAAAAAAAAAAAAAAA2JYt7uTwnxRIeAAH
   </data>
  </layer>
  <layer id="11" name="goal" width="99" height="39" visible="0">
