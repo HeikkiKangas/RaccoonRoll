@@ -90,6 +90,12 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         bgHeight = game.scaleFromFHD(background.getHeight());
     }
 
+    /**
+     * Sets up the options screen with MazeScreen to go back to
+     *
+     * @param game       main game class
+     * @param mazeScreen the MazeScreen to go back to
+     */
     public OptionsScreen(RaccoonRoll game, MazeScreen mazeScreen) {
         this.game = game;
         this.mazeScreen = mazeScreen;
@@ -197,6 +203,13 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         english = new TextButton(optionsBundle.get("englishButton"), skin);
         finnish = new TextButton(optionsBundle.get("finnishButton"), skin);
         save = new TextButton(optionsBundle.get("saveButton"), skin);
+        if (language.equals("fi")) {
+            finnish.setStyle(selected);
+            english.setStyle(notSelected);
+        } else {
+            english.setStyle(selected);
+            finnish.setStyle(notSelected);
+        }
     }
 
     /**

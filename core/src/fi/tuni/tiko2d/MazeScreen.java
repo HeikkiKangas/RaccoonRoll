@@ -99,6 +99,7 @@ public class MazeScreen implements Screen {
     private Body goalBlock;
     private Player player;
     private boolean goalReached;
+    private ArrayList<Rectangle> rectanglesToRemove;
 
     private I18NBundle mazeBundle;
     private Options options;
@@ -115,12 +116,6 @@ public class MazeScreen implements Screen {
     private MazeScreen mazeScreen;
 
     private AssetManager assetManager;
-
-    /*
-        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Define and initialize all the ArrayLists in class / constructor
-        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     */
 
     /**
      * Sets up the selected maze
@@ -166,6 +161,8 @@ public class MazeScreen implements Screen {
         multiplexer.addProcessor(hud);
         Gdx.input.setInputProcessor(multiplexer);
         Gdx.input.setCatchBackKey(true);
+
+        rectanglesToRemove = new ArrayList<Rectangle>();
     }
 
     /**
@@ -223,7 +220,7 @@ public class MazeScreen implements Screen {
     /**
      * Loads tilemap, sets up TiledMapRenderer and TiledMap dimensions in meters
      *
-     * @param levelName
+     * @param levelName Name of the level to be loaded
      */
     private void loadTileMap(String levelName) {
         TmxMapLoader.Parameters parameters = new TmxMapLoader.Parameters();
@@ -264,6 +261,9 @@ public class MazeScreen implements Screen {
         world.destroyBody(goalBlock);
     }
 
+    /**
+     * Creates the pause menu with buttons to main menu, map, options and unpausing
+     */
     private void createPauseMenu() {
         float padding = game.scaleHorizontal(25);
         float buttonHeight = game.scaleVertical(175f);
@@ -327,6 +327,9 @@ public class MazeScreen implements Screen {
                 Gdx.graphics.getHeight() / 2 - pauseTable.getHeight() / 2);
     }
 
+    /**
+     * Creates the hud that shows spent time, good objects left and pause button
+     */
     private void createHud() {
         hud = new Stage(new ScreenViewport(), batch);
         float verticalPad = game.scaleVertical(10);
@@ -503,7 +506,6 @@ public class MazeScreen implements Screen {
      * Checks if player overlaps with any good objects
      */
     private void checkGoodObjectOverlaps() {
-        ArrayList<Rectangle> rectanglesToRemove = new ArrayList<Rectangle>();
         Vector2 playerPos = player.getPosition();
         Circle playerCircle = new Circle(playerPos.x, playerPos.y, player.getBodyRadius());
 
@@ -522,6 +524,7 @@ public class MazeScreen implements Screen {
         }
         goodObjectRectangles.removeAll(rectanglesToRemove);
         goodObjectsRemaining = goodObjectRectangles.size();
+        rectanglesToRemove.clear();
     }
 
     /**
@@ -543,7 +546,6 @@ public class MazeScreen implements Screen {
      * Checks if player overlaps with any bad objects
      */
     private void checkBadObjectOverlaps() {
-        ArrayList<Rectangle> rectanglesToRemove = new ArrayList<Rectangle>();
         Vector2 playerPos = player.getPosition();
         Circle playerCircle = new Circle(playerPos.x, playerPos.y, player.getBodyRadius());
 
@@ -563,6 +565,7 @@ public class MazeScreen implements Screen {
             }
         }
         badObjectRectangles.removeAll(rectanglesToRemove);
+        rectanglesToRemove.clear();
     }
 
     /**
@@ -756,7 +759,7 @@ public class MazeScreen implements Screen {
     }
 
     /**
-     * Disposes used assets
+     * Disposes no longer needed assets and stops the background music playing
      */
     @Override
     public void dispose() {
@@ -775,20 +778,32 @@ public class MazeScreen implements Screen {
         }
     }
 
+    /**
+     * Updates the hud label showing time spent
+     */
     private void updateTimeSpentLabel() {
         timeSpentLabel.setText(timeSpentText + game.formatTime(timeSpent));
     }
 
+    /**
+     * Updates the hud label showing good objects left
+     */
     private void updateObjectsLeftLabel() {
         objectsLeftLabel.setText(objectsLeftText + goodObjectsRemaining);
     }
 
+    /**
+     * Updates the used language when player returns from options to game
+     */
     private void updateLanguage() {
         mazeBundle = I18NBundle.createBundle(Gdx.files.internal("localization/MazeBundle"), options.getLocale());
         updateHudTexts();
         updatePauseMenuTexts();
     }
 
+    /**
+     * Updates pause menu texts to use currently selected language
+     */
     private void updatePauseMenuTexts() {
         pausedLabel.setText(mazeBundle.get("paused"));
         mainMenuButton.setText(mazeBundle.get("mainMenu"));
@@ -803,6 +818,9 @@ public class MazeScreen implements Screen {
                 Gdx.graphics.getHeight() / 2 - pauseTable.getHeight() / 2);
     }
 
+    /**
+     * Updates hud texts to use currently selected language
+     */
     private void updateHudTexts() {
         objectsLeftText = mazeBundle.get("goodObjectsRemaining");
         timeSpentText = mazeBundle.get("time");

@@ -18,13 +18,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ObjectMap;
 
-/*
-Tile width: 16
-Resolution: 1920
-Show tiles: 30
-16px -> 64px on FHD scale = 1/48f
- */
-
 /**
  * Main game class.
  * Creates variables used in several classes and starts main menu
@@ -172,7 +165,7 @@ public class RaccoonRoll extends Game {
     /**
      * Updates world height according to window's aspect ratio
      */
-    public void updateWorldDimensions() {
+    private void updateWorldDimensions() {
         float aspectRatio = 1.0f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
         WORLD_HEIGHT = WORLD_WIDTH * aspectRatio;
         setupCameras();
@@ -286,6 +279,11 @@ public class RaccoonRoll extends Game {
         textCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
+    /**
+     * Getter for options
+     *
+     * @return the options
+     */
     public Options getOptions() {
         return options;
     }
@@ -298,10 +296,17 @@ public class RaccoonRoll extends Game {
         return DEBUGGING;
     }
 
+    /**
+     * Getter for completed levels
+     * @return the completed levels
+     */
     public Preferences getCompletedLevels() {
         return completedLevels;
     }
 
+    /**
+     * Loads all the assets the game needs except TiledMaps
+     */
     private void loadAssets() {
         long start = System.currentTimeMillis();
         // All menus
@@ -358,10 +363,18 @@ public class RaccoonRoll extends Game {
         Gdx.app.log("Assets loaded", "in " + (System.currentTimeMillis() - start) + "ms");
     }
 
+    /**
+     * Getter for the AssetManager used to load all the needed assets
+     * @return the AssetManager
+     */
     public AssetManager getAssetManager() {
         return assetManager;
     }
 
+    /**
+     * Getter for highscores
+     * @return the highscores
+     */
     public Preferences getHighScores() {
         return highScores;
     }

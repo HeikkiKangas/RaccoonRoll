@@ -35,7 +35,7 @@ public class Player {
     private boolean paused;
     private AssetManager assetManager;
 
-    private boolean logVelocity;
+    private final boolean debugVelocity = false;
 
     /**
      * Creates TextureAtlas of the player animation and sets the size of the player
@@ -43,7 +43,6 @@ public class Player {
      */
     public Player(RaccoonRoll game) {
         assetManager = game.getAssetManager();
-        logVelocity = false;
 
         this.game = game;
         atlas = assetManager.get("graphics/player/roll_animation/racc_roll.txt");
@@ -98,10 +97,18 @@ public class Player {
         return playerBody.getPosition();
     }
 
+    /**
+     * Getter for player body radius
+     *
+     * @return the player body radius
+     */
     public float getBodyRadius() {
         return playerRadius;
     }
 
+    /**
+     * Adds 10s slowing debuff to player
+     */
     public void applyDebuff() {
         if (debuffTimeLeft > 0) {
             debuffTimeLeft += 10f;
@@ -167,7 +174,7 @@ public class Player {
         }
 
         Vector2 playerVelocity = playerBody.getLinearVelocity();
-        if (game.DEBUGGING() && logVelocity) {
+        if (game.DEBUGGING() && debugVelocity) {
             Gdx.app.log("Current velocity", "" + playerVelocity);
         }
         playerVelocity.x = -(playerVelocity.x * 2 * deltatime);
@@ -219,6 +226,10 @@ public class Player {
         playerBody.setType(BodyDef.BodyType.StaticBody);
     }
 
+    /**
+     * Setter for the player's animation pause variable
+     * @param paused should the player's animation be paused or not
+     */
     public void setPaused(boolean paused) {
         this.paused = paused;
     }

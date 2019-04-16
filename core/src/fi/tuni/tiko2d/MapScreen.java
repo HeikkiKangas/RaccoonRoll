@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.util.ArrayList;
 
 /**
- * Screen for displaying a map with all levels
+ * Screen for displaying a map with buttons for level selection
  *
  * @author
  */
