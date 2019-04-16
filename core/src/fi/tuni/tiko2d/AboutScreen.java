@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -24,6 +25,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  *
  * @author Laura Kanerva
  */
+
+// whatever changes we made (also, should link to license)
 
 public class AboutScreen extends ApplicationAdapter implements Screen {
 
@@ -46,7 +49,8 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     private Label graphics;
     private Label musicTitle;
     private Label music;
-    private Label font;
+    private Label fontCredit;
+    private Label uiCredit;
     private I18NBundle aboutBundle;
     private Boolean screenActive = true;
     private Options options;
@@ -91,7 +95,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         createLabels();
 
         float padding = game.scaleFromFHD(50);
-        table.row().padTop(padding);
+        table.row().padTop(padding / 2);
         table.add(programmerTitle);
         table.row();
         table.add(programmer1);
@@ -111,14 +115,17 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.add(music);
         table.row();
         table.row().pad(padding, 0, 0, 0);
-        table.add(font);
+        table.add(uiCredit);
+        table.row();
+        table.add(fontCredit);
         table.row();
 
-        buttonTable.row();
-        buttonTable.padRight(padding * 26);
+        //buttonTable.padRight(padding * 26);
         buttonHeight = game.scaleFromFHD(200f);
-        table.add(buttonTable);
+        stage.addActor(buttonTable);
         buttonTable.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight);
+        buttonTable.padBottom(padding * 5);
+        buttonTable.padLeft(padding * 9);
 
         back.addListener(new ClickListener(){
             @Override
@@ -161,7 +168,10 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         graphics = new Label(aboutBundle.get("graphics"), skin);
         musicTitle = new Label(aboutBundle.get("musicTitle"), skin, "title");
         music = new Label(aboutBundle.get("music"), skin);
-        font = new Label(aboutBundle.get("font"), skin, "small-white");
+        fontCredit = new Label(aboutBundle.get("fontCredit"), skin, "credits");
+        fontCredit.setAlignment(Align.top, Align.center);
+        uiCredit = new Label(aboutBundle.get("uiCredit"), skin, "credits");
+        uiCredit.setAlignment(Align.top, Align.center);
     }
 
     /**

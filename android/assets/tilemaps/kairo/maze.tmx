@@ -6,10 +6,10 @@
  <tileset firstgid="40" name="bad_objects" tilewidth="64" tileheight="64" tilecount="5" columns="5">
   <image source="../bad_objects.png" width="320" height="64"/>
  </tileset>
- <tileset firstgid="45" name="good_objects" tilewidth="64" tileheight="64" tilecount="2" columns="2">
-  <image source="../good_objects.png" width="128" height="64"/>
+ <tileset firstgid="45" name="good_objects" tilewidth="64" tileheight="64" tilecount="4" columns="4">
+  <image source="../good_objects.png" width="256" height="64"/>
  </tileset>
- <tileset firstgid="47" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="49" name="maali_placeholder" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../maali_placeholder.png" width="64" height="64"/>
  </tileset>
  <objectgroup id="8" name="startpos">
@@ -107,7 +107,7 @@
  </layer>
  <layer id="5" name="goal" width="66" height="44" visible="0">
   <data encoding="base64" compression="zlib">
-   eJzt0MEJACAQA8H8rUCbsP/uFLSHE5yB/YckAAAAAAAAAAAAAH9ou1494hGzesAj/JCMG8cC7VMAtw==
+   eJzt0MEJACAQA8H8rUC7sP/mFLSHE5yB/YckAAAAAAAAAAAAAH9ou1494hGzesAj/JCMG8cC97MAuw==
   </data>
  </layer>
  <layer id="7" name="bad_tiles" width="66" height="44">
@@ -124,7 +124,7 @@
  </objectgroup>
  <layer id="6" name="good_tiles" width="66" height="44">
   <data encoding="base64" compression="zlib">
-   eJzt18ENACAIBDAW0v3HcwZ8iGg7wYUQckQA8JJRHQAAHjCrA/AdO8cu/X+f2ZHhTgPcqeo+n+gRugoA9JLpJX5MAIAeFi2jAfY=
+   eJzt17kRACEMA0AagqP/6qgBghPPbgNW4PHIpQBwk5oOAAAXaOkAPMfOsUr/X/elA3AUdxpgTz00948OpqsAwFlm/sZUhwEAYM4AveMB/g==
   </data>
  </layer>
  <objectgroup id="13" name="good_objects">
