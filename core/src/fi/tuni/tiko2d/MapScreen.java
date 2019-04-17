@@ -167,8 +167,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         levels.add(new Country("fr", new String[]{"paris", "marseille"}, 1300, 200));
         levels.add(new Country("eg", new String[]{"kairo", "alexandria"}, 1375, 10));
         levels.add(new Country("us", new String[]{"newyork", "philadelphia"}, 400, 100));
-        levels.add(new Country("ch", new String[]{"peking", "shanghai"}, 2600, 25));
         levels.add(new Country("ru", new String[]{"anadyr", "egvekinot"}, 3350, 640));
+        levels.add(new Country("ch", new String[]{"peking", "shanghai"}, 2600, 25));
     }
 
     /**
