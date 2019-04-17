@@ -170,6 +170,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         table.add(languageLabel);
         table.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding);
         table.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        table.padBottom(padding * 5);
 
         stage.addActor(backSave);
         backSave.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight).padRight(padding * 10);
