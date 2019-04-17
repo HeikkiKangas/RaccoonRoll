@@ -196,12 +196,12 @@
  <objectgroup id="8" name="goal_object" visible="0">
   <object id="164" x="320" y="3832" width="128" height="8"/>
  </objectgroup>
- <layer id="9" name="goal_ground" width="75" height="60">
+ <layer id="9" name="goal_ground" width="75" height="60" visible="0">
   <data encoding="base64" compression="zlib">
    eJzt0DENAAAMw7DSGH+i+yf13mNLIZAEAAAAAAAAAAAAAAAAAAAAAPg2JzqvugWUvwDJ
   </data>
  </layer>
- <layer id="10" name="goal" width="75" height="60">
+ <layer id="10" name="goal" width="75" height="60" visible="0">
   <data encoding="base64" compression="zlib">
    eJzt0MENABAAA8Dugd2NioeEGMDnLmnadxMAAAAAAAAAAAAAAAAAAAAA4LeS9L3rsXmtr9rsFV/dBmPzAyk=
   </data>
