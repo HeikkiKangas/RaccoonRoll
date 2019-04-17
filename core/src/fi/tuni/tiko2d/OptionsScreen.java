@@ -122,16 +122,15 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
+        Table backSave = new Table();
         stage.addActor(table);
         if (game.DEBUGGING()) {
             table.setDebug(true);
+            backSave.setDebug(true);
         }
 
         createSkin();
         createButtons();
-
-        Table optionsTable = new Table();
-        Table backSave = new Table();
 
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
         volumeMusicSlider.setValue(musicVolume);
@@ -160,25 +159,24 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         float padding = game.scaleFromFHD(50);
         buttonHeight = game.scaleFromFHD(200f);
 
-        table.add(optionsTable);
-
-        optionsTable.add(titleLabel);
-        optionsTable.row().pad(padding, 0, 0, 0);
-        optionsTable.add(volumeMusicLabel);
-        optionsTable.add(musicContainer);
-        optionsTable.row().pad(padding * 2, 0, 0, 0);
-        optionsTable.add(volumeEffectsLabel);
-        optionsTable.add(effectsContainer);
-        optionsTable.row().pad(padding, 0, 0, 0);
-        optionsTable.add(languageLabel);
-        optionsTable.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding);
-        optionsTable.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
-
+        table.add(titleLabel);
+        table.row().pad(padding, 0, 0, 0);
+        table.add(volumeMusicLabel);
+        table.add(musicContainer);
         table.row().pad(padding * 2, 0, 0, 0);
+        table.add(volumeEffectsLabel);
+        table.add(effectsContainer);
+        table.row().pad(padding, 0, 0, 0);
+        table.add(languageLabel);
+        table.add(english).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padRight(padding);
+        table.add(finnish).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
+        table.padBottom(padding * 5);
 
-        table.add(backSave);
+        stage.addActor(backSave);
         backSave.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight).padRight(padding * 10);
         backSave.add(save).width(Value.percentWidth(0.20f, table)).height(buttonHeight).padLeft(padding * 10);
+        backSave.padBottom(padding * 5);
+        backSave.padLeft(padding * 38);
 
         addListeners();
     }
