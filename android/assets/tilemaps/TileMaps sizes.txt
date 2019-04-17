@@ -1,0 +1,26 @@
+		  Koko nyt	Koko ehdotus
+uk
+    lontoo	  60x42
+    manchester    ..............66x45
+
+fr
+    pariisi	  66x45.........72x48
+    marseille	  45x66.........51x78
+
+eg
+    kairo	  66x44.........84x54
+    alexandria	  69x50.........90x57
+
+us
+    newyork	  75x60.........96x60
+    philadelphia  ..............102x63
+
+ru
+    anadyr	  99x39.........108x66
+    egvekinot     ..............114x69
+
+ch
+    peking	  80x60.........120x72
+    shanghai	  80x60.........126x75
+
+Leveys kasvaisi 6 ruutua edellisestä kentästä, korkeus 3
