@@ -42,7 +42,6 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private TextButton.TextButtonStyle selected;
     private TextButton.TextButtonStyle notSelected;
     private Stage stage;
-    private float buttonHeight;
     private float bgWidth;
     private float bgHeight;
     private float musicVolume;
@@ -146,7 +145,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         createLabels();
 
         float padding = game.scaleFromFHD(50);
-        buttonHeight = game.scaleFromFHD(200f);
+        float buttonHeight = game.scaleFromFHD(200f);
 
         table.add(titleLabel);
         table.row().pad(padding, 0, 0, 0);

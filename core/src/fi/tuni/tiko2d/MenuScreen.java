@@ -28,7 +28,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class MenuScreen extends ApplicationAdapter implements Screen {
     private RaccoonRoll game;
     private SpriteBatch batch;
-    private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
     private Skin skin;
     private TextButton play;
@@ -36,7 +35,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     private TextButton about;
     private Stage stage;
     private I18NBundle menuBundle;
-    private float buttonHeight;
     private float titleWidth;
     private float titleHeight;
     private float bgWidth;
@@ -48,9 +46,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     private Texture rauno;
     private Music backgroundMusic;
     private Options options;
-    private boolean screenChanged = false;
     private boolean tutorialCompleted;
-
     private AssetManager assetManager;
 
     /**
@@ -64,7 +60,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         assetManager = game.getAssetManager();
         options = game.getOptions();
         batch = game.getBatch();
-        worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
         tutorialCompleted = game.getCompletedLevels().getBoolean("tutorial", false);
         createTextures();
@@ -77,11 +72,17 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
         scaleObjects();
         setUpAudio();
 
+        createTable();
+
         Gdx.input.setCatchBackKey(false);
     }
 
     @Override
     public void show() {
+
+    }
+
+    private void createTable() {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
@@ -89,15 +90,17 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             table.setDebug(true);
         }
 
-        createSkin();
+        skin = assetManager.get("uiskin/comic-ui.json");
+        float padding = game.scaleFromFHD(300);
+        float scaledButtonPadding = game.scaleFromFHD(25f);
+        float buttonHeight = game.scaleFromFHD(200f);
+
         createButtons();
 
-        float padding = game.scaleFromFHD(300);
         table.right();
         table.bottom().padBottom(padding / 2);
         table.padRight(padding);
-        buttonHeight = game.scaleFromFHD(200f);
-        float scaledButtonPadding = game.scaleFromFHD(25f);
+
         table.add(play).width(Value.percentWidth(0.25f, table)).height(buttonHeight);
         table.row().padTop(scaledButtonPadding);
         table.add(optionsButton).uniformX().fillX().height(buttonHeight);
@@ -112,11 +115,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
      */
 
     private void createTextures() {
-        /*
-        title = new Texture("graphics/mainmenu/Logoiso2.png");
-        background = new Texture("graphics/mainmenu/Valikontausta.png");
-        rauno = new Texture("graphics/mainmenu/Valikkorauno.png");
-        */
         title = assetManager.get("graphics/mainmenu/Logoiso2.png");
         background = assetManager.get("graphics/mainmenu/Valikontausta.png");
         rauno = assetManager.get("graphics/mainmenu/Valikkorauno.png");
@@ -149,23 +147,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Creates skin and assigns fonts to different styles
-     */
-
-    private void createSkin() {
-        skin = assetManager.get("uiskin/comic-ui.json");
-        /*
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin/comic-ui.atlas")));
-        skin.add("button", game.getButtonFont());
-        skin.add("title", game.getTitleFont());
-        skin.add("font", game.getTextFont());
-        skin.add("smallfont", game.getTutorialSmallFont());
-
-        skin.load(Gdx.files.internal("uiskin/comic-ui.json"));
-        */
-    }
-
-    /**
      * Creates textbuttons
      */
 
@@ -185,8 +166,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Play", "Button clicked");
-                //screenChanged = true;
-                //game.setScreen(new MazeScreen(game, "london"));
                 if (tutorialCompleted) {
                     game.setScreen(new MapScreen(game));
                 } else {
@@ -194,7 +173,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                     backgroundMusic.stop();
                 }
                 dispose();
-                //backgroundMusic.stop();
             }
         });
 
@@ -204,7 +182,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("optionsButton", "Button clicked");
                 game.setScreen(new OptionsScreen(game));
                 dispose();
-                //backgroundMusic.stop();
             }
         });
 
@@ -216,9 +193,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
                 dispose();
                 //for testing purposes
                 //game.setScreen(new LevelCompletedScreen(game, 200f, "london"));
-                //game.setScreen(new MapScreen(game));
-                //game.setScreen(new TutorialScreen(game));
-                //backgroundMusic.stop();
             }
         });
     }
@@ -243,10 +217,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
-        if(screenChanged) {
-            dispose();
-        }
 
         if (game.DEBUGGING()) {
             MemoryDebug.memoryUsed(delta);
@@ -279,13 +249,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        /*
-        background.dispose();
-        rauno.dispose();
-        title.dispose();
-        backgroundMusic.dispose();
-        */
-        //skin.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "MenuScreen");
         }

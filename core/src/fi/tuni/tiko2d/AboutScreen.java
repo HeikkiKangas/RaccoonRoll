@@ -34,9 +34,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera textCamera;
     private Skin skin;
-    private TextButton back;
     private Stage stage;
-    private float buttonHeight;
     private float bgWidth;
     private float bgHeight;
     private Texture background;
@@ -52,7 +50,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     private Label fontCredit;
     private Label uiCredit;
     private I18NBundle aboutBundle;
-    private Boolean screenActive = true;
+    private boolean screenActive = true;
     private Options options;
     private AssetManager assetManager;
 
@@ -77,10 +75,16 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
         bgWidth = game.scaleFromFHD(background.getWidth());
         bgHeight = game.scaleFromFHD(background.getHeight());
+
+        createTables();
     }
 
     @Override
     public void show() {
+
+    }
+
+    private void createTables() {
         Table table = new Table();
         table.setFillParent(true);
         Table buttonTable = new Table();
@@ -90,11 +94,12 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
             buttonTable.setDebug(true);
         }
 
-        createSkin();
-        back = new TextButton(aboutBundle.get("backButton"), skin);
+        float padding = game.scaleFromFHD(50);
+        float buttonHeight = game.scaleFromFHD(200f);
+        skin = assetManager.get("uiskin/comic-ui.json");
+        TextButton back = new TextButton(aboutBundle.get("backButton"), skin);
         createLabels();
 
-        float padding = game.scaleFromFHD(50);
         table.row().padTop(padding / 2);
         table.add(programmerTitle);
         table.row();
@@ -120,7 +125,6 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
         table.add(fontCredit);
         table.row();
 
-        buttonHeight = game.scaleFromFHD(200f);
         stage.addActor(buttonTable);
         buttonTable.add(back).width(Value.percentWidth(0.20f, table)).height(buttonHeight);
         buttonTable.padBottom(padding * 5);
@@ -134,14 +138,6 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
                 screenActive = false;
             }
         });
-    }
-
-    /**
-     * Creates skin and assigns fonts to different styles
-     */
-
-    private void createSkin() {
-        skin = assetManager.get("uiskin/comic-ui.json");
     }
 
     /**

@@ -35,11 +35,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera textCamera;
     private Skin skin;
-    private TextButton ok;
     private Stage stage;
     private int posNum;
     private float timeSpent;
-    private float buttonHeight;
     private float bgWidth;
     private float bgHeight;
     private float raunoHeight;
@@ -117,10 +115,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         }
 
         skin = assetManager.get("uiskin/comic-ui.json");
-        ok = new TextButton(positiveBundle.get("ok"), skin);
+        TextButton ok = new TextButton(positiveBundle.get("ok"), skin);
         posNum = getRandomPositive();
         float padding = game.scaleFromFHD(600);
-        buttonHeight = game.scaleFromFHD(200f);
+        float buttonHeight = game.scaleFromFHD(200f);
 
         Table speechBubble = new Table(skin);
         speechBubble.background("bubble-lower-right");
@@ -180,7 +178,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         //for testing purposes
         //raunoTalk = new Label(positiveBundle.get("pos14"), skin);
         raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
-        //pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
         timeSpentLabel = new Label(positiveBundle.get("time") + game.formatTime(timeSpent), skin);
         title = new Label(positiveBundle.get("title"), skin, "title");
         unlocked = new Label(positiveBundle.get("unlocked"), skin);
