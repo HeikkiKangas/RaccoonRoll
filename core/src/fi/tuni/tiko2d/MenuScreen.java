@@ -233,7 +233,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Should be called when window resizes but doesn't
+     * Should be called when window resizes
      * Should change the stage's viewport when the screen size is changed
      *
      * @param width  not used
@@ -242,7 +242,6 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        // change the stage's viewport when the screen size is changed
         stage.getViewport().update(width, height, true);
     }
 

@@ -82,6 +82,10 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
     }
 
+    /**
+     * Creates tables and places all elements in right places
+     */
+
     private void createTables() {
         Table table = new Table();
         table.setFillParent(true);
@@ -187,15 +191,25 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
 
     }
 
+    /**
+     * Should be called when window resizes
+     * Should change the stage's viewport when the screen size is changed
+     *
+     * @param width  not used
+     * @param height not used
+     */
+
     @Override
     public void resize(int width, int height) {
-        // change the stage's viewport when the screen size is changed
         stage.getViewport().update(width, height, true);
     }
 
+    /**
+     * Disposes used assets when they are not needed anymore
+     */
+
     @Override
     public void dispose() {
-        // dispose of assets when not needed anymore
         stage.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "AboutScreen");
