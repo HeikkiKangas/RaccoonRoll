@@ -45,9 +45,13 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
-import javax.xml.soap.Text;
-
+/**
+ * Tutorial explaining how to play the game
+ *
+ * @author Heikki Kangas
+ */
 public class TutorialScreen implements Screen {
+    private final boolean debugWorldStep = false;
     private RaccoonRoll game;
     private SpriteBatch batch;
     private Player player;
@@ -77,9 +81,11 @@ public class TutorialScreen implements Screen {
 
     private final float tileSize = 64f;
 
-    private boolean goToTutorialMaze;
-
-
+    /**
+     * Sets up the tutorial
+     *
+     * @param game main game class
+     */
     public TutorialScreen(RaccoonRoll game) {
         this.game = game;
         assetManager = game.getAssetManager();
@@ -127,6 +133,9 @@ public class TutorialScreen implements Screen {
         createTable();
     }
 
+    /**
+     * Sets up the table for the texts and buttons for tutorial maze and MapScreen
+     */
     private void createTable() {
         Table buttonTable = new Table();
         TextButton tutorialMazeButton = new TextButton(tutorialBundle.get("buttonTxt"), skin);
@@ -174,10 +183,6 @@ public class TutorialScreen implements Screen {
         table.row().expand().fill();
         table.add(badTable).top();
 
-        /*
-        table.row().right().padRight(game.scaleHorizontal(10)).bottom().padBottom(game.scaleVertical(10));
-        table.add(tutorialMazeButton);
-        */
         table.row().bottom().pad(0,
                 game.scaleHorizontal(10),
                 game.scaleVertical(10),
@@ -204,7 +209,6 @@ public class TutorialScreen implements Screen {
                 }
                 game.setScreen(new MazeScreen(game, "tutorial"));
                 dispose();
-                //goToTutorialMaze = true;
             }
         });
     }
@@ -261,6 +265,10 @@ public class TutorialScreen implements Screen {
 
     }
 
+    /**
+     * Renders the player, tutorial texts, buttons and TiledMap
+     * @param delta how long since last frame
+     */
     @Override
     public void render(float delta) {
         clearScreen();
@@ -288,15 +296,12 @@ public class TutorialScreen implements Screen {
             game.setScreen(new MenuScreen(game));
             dispose();
         }
-
-        /*
-        if (goToTutorialMaze) {
-            game.setScreen(new MazeScreen(game, "tutorial"));
-            dispose();
-        }
-        */
     }
 
+    /**
+     * Steps the world with 1/61s steps while delta is bigger than 1/61
+     * @param delta time since last frame
+     */
     private void stepWorld(float delta) {
         double accumulator;
         if (delta > 1 / 4f) {
@@ -307,24 +312,22 @@ public class TutorialScreen implements Screen {
             accumulator = delta;
         }
 
-        /*
-        if (game.DEBUGGING()) {
+        if (game.DEBUGGING() && debugWorldStep) {
             Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
             Gdx.app.log("DeltaTime", "" + delta);
             Gdx.app.log("TimeStep ", "" + TIME_STEP);
-            Gdx.app.log("Delta / Timestep", "" + df.format(delta / TIME_STEP));
         }
-        */
+
         while (accumulator >= TIME_STEP) {
-            if (game.DEBUGGING()) {
-                //Gdx.app.log("WorldStep Accumulator", "" + accumulator);
+            if (game.DEBUGGING() && debugWorldStep) {
+                Gdx.app.log("WorldStep Accumulator", "" + accumulator);
             }
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
 
-        if (game.DEBUGGING()) {
-            //Gdx.app.log("LeftOver", df.format(accumulator));
+        if (game.DEBUGGING() && debugWorldStep) {
+            Gdx.app.log("LeftOver", "" + accumulator);
         }
     }
 
@@ -332,7 +335,7 @@ public class TutorialScreen implements Screen {
      * Clears the screen with black color
      */
     private void clearScreen() {
-        Gdx.gl.glClearColor(74f / 255, 60f / 255, 27f / 255, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
@@ -356,11 +359,15 @@ public class TutorialScreen implements Screen {
 
     }
 
+    /**
+     * Disposes no longer used assets
+     */
     @Override
     public void dispose() {
         stage.dispose();
         tiledMap.dispose();
         world.dispose();
+        debugRenderer.dispose();
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }

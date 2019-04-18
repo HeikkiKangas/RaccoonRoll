@@ -12,19 +12,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ObjectMap;
-
-/*
-Tile width: 16
-Resolution: 1920
-Show tiles: 30
-16px -> 64px on FHD scale = 1/48f
- */
 
 /**
  * Main game class.
@@ -33,7 +25,7 @@ Show tiles: 30
  * @author Heikki Kangas
  */
 public class RaccoonRoll extends Game {
-    private final boolean DEBUGGING = false;
+    private final boolean DEBUGGING = true;
 
     private SpriteBatch batch;
     private final float WORLD_WIDTH = 10f;
@@ -41,9 +33,7 @@ public class RaccoonRoll extends Game {
     private OrthographicCamera worldCamera;
     private OrthographicCamera textCamera;
     private final float scale = 1f / 128f;
-    //private final float scale = 1f / 96f;
-    // 16px tile scaling: private final float scale = 1f / 48f;
-    private GlyphLayout glyphLayout;
+
     private Preferences completedLevels;
     private Preferences highScores;
 
@@ -53,7 +43,6 @@ public class RaccoonRoll extends Game {
     private BitmapFont outlinedFont;
     private BitmapFont outlinedSmallFont;
     private BitmapFont buttonFont;
-    private TextureAtlas skinAtlas;
 
     private boolean scaleHorizontal;
 
@@ -89,7 +78,6 @@ public class RaccoonRoll extends Game {
 
         worldCamera = new OrthographicCamera();
         textCamera = new OrthographicCamera();
-        glyphLayout = new GlyphLayout();
 
         updateWorldDimensions();
         setupCameras();
@@ -169,13 +157,15 @@ public class RaccoonRoll extends Game {
     @Override
     public void resize(int width, int height) {
         updateWorldDimensions();
-        // Gdx.app.log("RaccoonRoll", "Resize happened");
+        if (DEBUGGING) {
+            Gdx.app.log("RaccoonRoll", "Resize happened");
+        }
     }
 
     /**
      * Updates world height according to window's aspect ratio
      */
-    public void updateWorldDimensions() {
+    private void updateWorldDimensions() {
         float aspectRatio = 1.0f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
         WORLD_HEIGHT = WORLD_WIDTH * aspectRatio;
         setupCameras();
@@ -289,6 +279,11 @@ public class RaccoonRoll extends Game {
         textCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
+    /**
+     * Getter for options
+     *
+     * @return the options
+     */
     public Options getOptions() {
         return options;
     }
@@ -301,10 +296,17 @@ public class RaccoonRoll extends Game {
         return DEBUGGING;
     }
 
+    /**
+     * Getter for completed levels
+     * @return the completed levels
+     */
     public Preferences getCompletedLevels() {
         return completedLevels;
     }
 
+    /**
+     * Loads all the assets the game needs except TiledMaps
+     */
     private void loadAssets() {
         long start = System.currentTimeMillis();
         // All menus
@@ -361,10 +363,18 @@ public class RaccoonRoll extends Game {
         Gdx.app.log("Assets loaded", "in " + (System.currentTimeMillis() - start) + "ms");
     }
 
+    /**
+     * Getter for the AssetManager used to load all the needed assets
+     * @return the AssetManager
+     */
     public AssetManager getAssetManager() {
         return assetManager;
     }
 
+    /**
+     * Getter for highscores
+     * @return the highscores
+     */
     public Preferences getHighScores() {
         return highScores;
     }

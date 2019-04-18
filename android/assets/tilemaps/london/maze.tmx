@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="left-up" width="60" height="42" tilewidth="64" tileheight="64" infinite="0" nextlayerid="20" nextobjectid="71">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="left-up" width="60" height="42" tilewidth="64" tileheight="64" infinite="0" nextlayerid="22" nextobjectid="71">
  <tileset firstgid="1" name="london" tilewidth="64" tileheight="64" tilecount="16" columns="8">
   <image source="london.png" width="512" height="128"/>
  </tileset>
  <tileset firstgid="17" name="tileSet" tilewidth="64" tileheight="64" tilecount="21" columns="7">
   <image source="tileSet.png" width="448" height="192"/>
  </tileset>
+ <tileset firstgid="38" name="tileset2" tilewidth="64" tileheight="64" tilecount="32" columns="8">
+  <image source="tileset2.png" width="512" height="256"/>
+ </tileset>
  <objectgroup id="10" name="startpos">
   <object id="1" x="192" y="2496">
    <point/>
   </object>
  </objectgroup>
+ <layer id="8" name="old_wall_tiles" width="60" height="42" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztmgFugzAMRX2NCZR2EgfjaD1KjrZMnSaP5FO7joGBLVlykYvzyJdrKDciul3M78U/iOYze2F8/PDm8jnTya0w0kV56bP41PChaKB13Nt5XckaeM7I9i6V4y1etL8Ty9/SeF3JGlD+FLwVbwL5iXw1zHWI1pxAbOHVXtteJlmzJQ7eOmck316dBNd5S15u3nsdvH1jCe9Kr+bxyxnA0pP36lfaPqbNCd6+sYV3IF2/HcF8+194j7Z3wVvHvXi5Vhe9d96KJQlq9eI9wl5LagXvej7SDJ+xkXtoG9VFtSz3R5I9Reaxp5JawVvnIM2UeWN+pWGLtiX9lv8uoFl9YFza+yMPs/Qf7XeDt85Bs4TFF8+WM6v1fSwvXdvb0T3sXs+vevUfbRy8dY5klljpw7/nRBrTnt8yt3j3K21v8Th/8Na8vTSM6qJnI2/Umltr1s7PFtNec28L3ub/g29rjM/VPOYaS3/jLtqWaN5jf49sV+a9P9/ZeZzZC2Pe+72vPfwLx/m2qQ==
+  </data>
+ </layer>
  <layer id="19" name="ground" width="60" height="42">
   <data encoding="base64" compression="zlib">
    eJzt0bENACAMA8FI0MH+88IMNJbCFdb3vlFV82580nW3P2r6b758+fLly5dv/6b/5suXL1++fPn2b/pvvnz58uXLl2//pv/my5cvX758+fZv+m++fPm+9wAOFEnV
   </data>
  </layer>
- <layer id="8" name="wall_tiles" width="60" height="42">
+ <layer id="21" name="wall_tiles" width="60" height="42">
   <data encoding="base64" compression="zlib">
-   eJztmgFugzAMRX2NCZR2EgfjaD1KjrZMnSaP5FO7joGBLVlykYvzyJdrKDciul3M78U/iOYze2F8/PDm8jnTya0w0kV56bP41PChaKB13Nt5XckaeM7I9i6V4y1etL8Ty9/SeF3JGlD+FLwVbwL5iXw1zHWI1pxAbOHVXtteJlmzJQ7eOmck316dBNd5S15u3nsdvH1jCe9Kr+bxyxnA0pP36lfaPqbNCd6+sYV3IF2/HcF8+194j7Z3wVvHvXi5Vhe9d96KJQlq9eI9wl5LagXvej7SDJ+xkXtoG9VFtSz3R5I9Reaxp5JawVvnIM2UeWN+pWGLtiX9lv8uoFl9YFza+yMPs/Qf7XeDt85Bs4TFF8+WM6v1fSwvXdvb0T3sXs+vevUfbRy8dY5klljpw7/nRBrTnt8yt3j3K21v8Th/8Na8vTSM6qJnI2/Umltr1s7PFtNec28L3ub/g29rjM/VPOYaS3/jLtqWaN5jf49sV+a9P9/ZeZzZC2Pe+72vPfwLx/m2qQ==
+   eJztmusKwjAMhfM03pAh6lBx4PVBfVQn/gl0RxOSuGIbCIQRl33rIc3c5kQ0L9Dvf+4dY73R/9uFyuVFeu7A8V9oT3MNPGfJGCdEjyFetL5XyY0LsCuItfnTwnhnAt4W/HZLsRrmOkTX34JYko94tffWy1Bdr7jypjlN7yd66+1I/hpeZMZLguNeVnl9Ywkv6oF8H0d9WzInSHryWP0K7ePILPtmbryzwnhXNKzPjSD/lxr24s1t7SpvGnvxarUdEa8FOV68Oay1pFbl/ZyPNPOasb/NFRHaRnVRLcvzkWRNkUWsqaRW5U1zJFrVukTbkn7L9wU0qx+UvNFm6T/a31beNAfNEhbn2uN60/ZbFKNn2LH+v/LqP9HzpJflzGvpz/y5D2lMe37L3BLdr7z2UMv5K2/Ka9Ew77eo7s5wfqTtBhyX8FosYia0WOVNeSPeA3KN8dk4+p0jr1vy9wyl8Z573xfgY3/zNYY/AfcC9/4=
   </data>
  </layer>
- <objectgroup id="18" name="wall_objects">
+ <objectgroup id="18" name="wall_objects" visible="0">
   <object id="4" x="0" y="256" width="128" height="2432"/>
   <object id="5" x="0" y="0" width="3840" height="128"/>
   <object id="6" x="3712" y="128" width="128" height="2560"/>
@@ -82,14 +90,14 @@
  <objectgroup id="16" name="goal_object" visible="0">
   <object id="2" x="0" y="128" width="7.33333" height="128"/>
  </objectgroup>
- <layer id="15" name="goal_ground" width="60" height="42" visible="0">
+ <layer id="15" name="goal_ground" width="60" height="42">
   <data encoding="base64" compression="zlib">
    eJzt0cEJACAMBMGA/rT/ek0RIXk4A/s/uIi/nOxOj2i0sj09opF/AQAAAAAAAACAKg/kOAA9
   </data>
  </layer>
- <layer id="9" name="goal" width="60" height="42" visible="0">
+ <layer id="9" name="goal" width="60" height="42">
   <data encoding="base64" compression="zlib">
-   eJzt0rENwCAQBMFrw0Qk7ovSKNWmCV6CGenzPemTuzzJWFfdsctbHbDZbXv/X54t6dUdAAAAAAAAAABwog//1AIw
+   eJztz7ENACAMA8Esww50sP9UUGQGIpE76Xs7opeVdTGqBzzW7e++zeoRAAAAAAAAAADwqQN6pgFB
   </data>
  </layer>
  <layer id="13" name="bad_tiles" width="60" height="42">

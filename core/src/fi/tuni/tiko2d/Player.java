@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author Heikki Kangas
  */
 public class Player {
+    private final boolean debugAccelerometer = false;
     private Body playerBody;
     private float playerRotation;
     private float playerRadius;
@@ -34,7 +35,7 @@ public class Player {
     private boolean paused;
     private AssetManager assetManager;
 
-    private boolean logVelocity;
+    private final boolean debugVelocity = false;
 
     /**
      * Creates TextureAtlas of the player animation and sets the size of the player
@@ -42,7 +43,6 @@ public class Player {
      */
     public Player(RaccoonRoll game) {
         assetManager = game.getAssetManager();
-        logVelocity = false;
 
         this.game = game;
         atlas = assetManager.get("graphics/player/roll_animation/racc_roll.txt");
@@ -51,7 +51,6 @@ public class Player {
                 atlas.findRegions("racc_roll")
         );
         playerRotation = 0;
-        // 16px tileset scaling: playerRadius = 12 * game.getScale();
         playerRadius = 48 * game.getScale();
     }
 
@@ -98,10 +97,18 @@ public class Player {
         return playerBody.getPosition();
     }
 
+    /**
+     * Getter for player body radius
+     *
+     * @return the player body radius
+     */
     public float getBodyRadius() {
         return playerRadius;
     }
 
+    /**
+     * Adds 10s slowing debuff to player
+     */
     public void applyDebuff() {
         if (debuffTimeLeft > 0) {
             debuffTimeLeft += 10f;
@@ -112,8 +119,8 @@ public class Player {
 
     /**
      * Moves player according to keys pressed (desktop) or accelerometer values (android).
-     * Applies friction so player will not roll indefinately
-     * @param deltatime
+     * Applies friction so player will not roll indefinitely
+     * @param deltatime how long since last frame
      */
     public void movePlayer(float deltatime) {
         float x = 0;
@@ -133,8 +140,8 @@ public class Player {
         } else if (Gdx.app.getType() == Application.ApplicationType.Android) {
             x = MathUtils.clamp(Gdx.input.getAccelerometerY() * 15, -100f, 100f) * deltatime;
             y = MathUtils.clamp(Gdx.input.getAccelerometerX() * 15, -100f, 100f) * deltatime;
-            if (game.DEBUGGING()) {
-                //Gdx.app.log("Accelerometer", "X: " + x / deltatime + " Y: " + y / deltatime);
+            if (game.DEBUGGING() && debugAccelerometer) {
+                Gdx.app.log("Accelerometer", "X: " + x / deltatime + " Y: " + y / deltatime);
             }
             if (x < 0.2 && x > -0.2) {
                 x = 0;
@@ -167,7 +174,7 @@ public class Player {
         }
 
         Vector2 playerVelocity = playerBody.getLinearVelocity();
-        if (game.DEBUGGING() && logVelocity) {
+        if (game.DEBUGGING() && debugVelocity) {
             Gdx.app.log("Current velocity", "" + playerVelocity);
         }
         playerVelocity.x = -(playerVelocity.x * 2 * deltatime);
@@ -210,11 +217,6 @@ public class Player {
      * Disposes used assets
      */
     public void dispose() {
-        if (game.DEBUGGING()) {
-            Gdx.app.log("Disposed", "Player");
-        }
-        atlas.dispose();
-        //playerBody.destroyFixture(playerBody.getFixtureList().get(0));
     }
 
     /**
@@ -224,6 +226,10 @@ public class Player {
         playerBody.setType(BodyDef.BodyType.StaticBody);
     }
 
+    /**
+     * Setter for the player's animation pause variable
+     * @param paused should the player's animation be paused or not
+     */
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
