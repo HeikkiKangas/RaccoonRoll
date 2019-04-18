@@ -134,7 +134,7 @@ public class Player {
             x = MathUtils.clamp(Gdx.input.getAccelerometerY() * 15, -100f, 100f) * deltatime;
             y = MathUtils.clamp(Gdx.input.getAccelerometerX() * 15, -100f, 100f) * deltatime;
             if (game.DEBUGGING()) {
-                Gdx.app.log("Accelerometer", "X: " + x / deltatime + " Y: " + y / deltatime);
+                //Gdx.app.log("Accelerometer", "X: " + x / deltatime + " Y: " + y / deltatime);
             }
             if (x < 0.2 && x > -0.2) {
                 x = 0;
