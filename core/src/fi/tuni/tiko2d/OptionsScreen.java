@@ -39,10 +39,14 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private TextButton english;
     private TextButton finnish;
     private TextButton save;
+    private TextButton.TextButtonStyle selected;
+    private TextButton.TextButtonStyle notSelected;
     private Stage stage;
     private float buttonHeight;
     private float bgWidth;
     private float bgHeight;
+    private float musicVolume;
+    private float effectsVolume;
     private Texture background;
     private Label titleLabel;
     private Label volumeMusicLabel;
@@ -50,11 +54,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     private Label languageLabel;
     private I18NBundle optionsBundle;
     private Options options;
-    private float musicVolume;
-    private float effectsVolume;
     private String language;
-    private TextButton.TextButtonStyle selected;
-    private TextButton.TextButtonStyle notSelected;
     private Container musicContainer;
     private Container effectsContainer;
     private boolean screenActive = true;
@@ -88,6 +88,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         bgWidth = game.scaleFromFHD(background.getWidth());
         bgHeight = game.scaleFromFHD(background.getHeight());
+
+        createTables();
     }
 
     /**
@@ -116,10 +118,19 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         bgWidth = game.scaleFromFHD(background.getWidth());
         bgHeight = game.scaleFromFHD(background.getHeight());
+
+        createTables();
     }
 
     @Override
     public void show() {
+
+    }
+
+    /**
+     * Creates tables
+     */
+    private void createTables() {
         Table table = new Table();
         table.setFillParent(true);
         Table backSave = new Table();
@@ -131,29 +142,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
         createSkin();
         createButtons();
-
-        final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
-        volumeMusicSlider.setValue(musicVolume);
-        volumeMusicSlider.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                musicVolume = volumeMusicSlider.getValue();
-                backgroundMusic.setVolume(musicVolume);
-                return false;
-            }
-        });
-
-        final Slider volumeEffectsSlider = new Slider(0f, 1f, 0.1f, false, skin);
-        volumeEffectsSlider.setValue(effectsVolume);
-        volumeEffectsSlider.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                effectsVolume = volumeEffectsSlider.getValue();
-                return false;
-            }
-        });
-
-        createContainers(volumeMusicSlider, volumeEffectsSlider);
+        createSliders();
         createLabels();
 
         float padding = game.scaleFromFHD(50);
@@ -219,6 +208,31 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         volumeMusicLabel = new Label(optionsBundle.get("musicSlider"), skin );
         volumeEffectsLabel = new Label(optionsBundle.get("effectsSlider"), skin );
         languageLabel = new Label(optionsBundle.get("languageTitle"), skin, "title");
+    }
+
+    private void createSliders() {
+        final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
+        volumeMusicSlider.setValue(musicVolume);
+        volumeMusicSlider.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                musicVolume = volumeMusicSlider.getValue();
+                backgroundMusic.setVolume(musicVolume);
+                return false;
+            }
+        });
+
+        final Slider volumeEffectsSlider = new Slider(0f, 1f, 0.1f, false, skin);
+        volumeEffectsSlider.setValue(effectsVolume);
+        volumeEffectsSlider.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                effectsVolume = volumeEffectsSlider.getValue();
+                return false;
+            }
+        });
+
+        createContainers(volumeMusicSlider, volumeEffectsSlider);
     }
 
     /**

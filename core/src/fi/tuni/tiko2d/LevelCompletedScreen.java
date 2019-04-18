@@ -73,6 +73,27 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         backgroundMusic.setVolume(game.getOptions().getMusicVolume());
         backgroundMusic.play();
 
+        checkHighscore(levelName);
+
+        positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
+
+        scaleObjects();
+
+        stage = new Stage(new ScreenViewport(), batch);
+        Gdx.input.setInputProcessor(stage);
+
+        createTables();
+        if (game.DEBUGGING()) {
+            Gdx.app.log("Constructor ran", "LevelCompletedScreen");
+        }
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    private void checkHighscore(String levelName) {
         float highScore = highScores.getFloat(levelName, 0);
         if(highScore == 0) {
             levelUnlocked = true;
@@ -85,61 +106,53 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("HighScore", "New HighScore!");
             }
         }
-
-        positiveBundle = I18NBundle.createBundle(Gdx.files.internal("localization/Positive"), options.getLocale());
-
-        scaleObjects();
-
-        stage = new Stage(new ScreenViewport(), batch);
-        Gdx.input.setInputProcessor(stage);
-        if (game.DEBUGGING()) {
-            Gdx.app.log("Constructor ran", "LevelCompletedScreen");
-        }
     }
 
-    @Override
-    public void show() {
+    private void createTables() {
         Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
         if (game.DEBUGGING()) {
             table.setDebug(true);
         }
-        table.setFillParent(true);
-        stage.addActor(table);
 
-        createSkin();
+        skin = assetManager.get("uiskin/comic-ui.json");
         ok = new TextButton(positiveBundle.get("ok"), skin);
-
         posNum = getRandomPositive();
+        float padding = game.scaleFromFHD(600);
+        buttonHeight = game.scaleFromFHD(200f);
 
         Table speechBubble = new Table(skin);
         speechBubble.background("bubble-lower-right");
+        raunoTalk.setAlignment(Align.center);
+        speechBubble.add(raunoTalk);
 
         createLabels();
 
-        raunoTalk.setAlignment(Align.center);
-        speechBubble.add(raunoTalk); //.left()
 
-        float padding = game.scaleFromFHD(600);
         table.add(title);
         table.row().pad(padding / 10, 0, 0, 0);
         table.add(speechBubble).left();
+
         if(newHighscore) {
             table.row().padTop(padding / 14);
             table.add(highscore).padLeft(padding * 1.85f);
         }
+
         if(!newHighscore && !levelUnlocked) {
             table.row().padTop(padding / 5);
         } else {
             table.row().padTop(padding / 14);
         }
+
         table.add(timeSpentLabel).padLeft(padding * 1.85f);
+
         if(levelUnlocked) {
             table.row().padTop(padding / 14);
             table.add(unlocked).padLeft(padding * 1.85f);
         }
-        //table.row().pad(padding / 3, 0, 0, 0); yksirivisille
+
         table.row().pad(padding / 5, 0, 0, 0);
-        buttonHeight = game.scaleFromFHD(200f);
 
         table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padLeft(padding * 2);
         ok.addListener(new ClickListener(){
@@ -150,10 +163,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
                 dispose();
             }
         });
-
-        if (game.DEBUGGING()) {
-            Gdx.app.log("Show ran", "LevelCompletedScreen");
-        }
     }
 
     /**
@@ -165,14 +174,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         raunoHeight = game.scaleFromFHD(rauno.getHeight());
         bgWidth = game.scaleFromFHD(background.getWidth());
         bgHeight = game.scaleFromFHD(background.getHeight());
-    }
-
-    /**
-     * Creates skin and assigns fonts to different styles
-     */
-
-    private void createSkin() {
-        skin = assetManager.get("uiskin/comic-ui.json");
     }
 
     private void createLabels() {
@@ -199,10 +200,6 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-    }
-
-    private float rgbToFloat(float num) {
-        return num / 255;
     }
 
     @Override
