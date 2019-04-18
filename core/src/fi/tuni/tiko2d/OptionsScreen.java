@@ -241,6 +241,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
 
     /**
      * Creates containers for sliders
+     *
+     * @param music     the music slider
+     * @param effects   the effects slider
      */
 
     private void createContainers(Slider music, Slider effects) {

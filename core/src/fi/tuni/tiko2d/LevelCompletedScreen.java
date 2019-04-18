@@ -99,6 +99,12 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     }
 
+    /**
+     * Checks the previous highscore and compares it to the last score
+     *
+     * @param levelName name of the completed level
+     */
+
     private void checkHighscore(String levelName) {
         float highScore = highScores.getFloat(levelName, 0);
         if(highScore == 0) {
@@ -113,6 +119,10 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
             }
         }
     }
+
+    /**
+     * Creates tables and places all elements in right places
+     */
 
     private void createTables() {
         Table table = new Table();
@@ -182,7 +192,11 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         bgHeight = game.scaleFromFHD(background.getHeight());
     }
 
-    private void createLabels() {
+    /**
+     * Creates labels
+     */
+
+     private void createLabels() {
         //for testing purposes
         //raunoTalk = new Label(positiveBundle.get("pos14"), skin);
         raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
@@ -218,18 +232,28 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     }
 
+    /**
+     * Should be called when window resizes
+     * Should change the stage's viewport when the screen size is changed
+     *
+     * @param width  not used
+     * @param height not used
+     */
+
     @Override
     public void resize(int width, int height) {
-        // change the stage's viewport when the screen size is changed
         stage.getViewport().update(width, height, true);
     }
+
+    /**
+     * Disposes used assets when they are not needed anymore
+     */
 
     @Override
     public void dispose() {
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "LevelCompletedScreen");
         }
-        // dispose of assets when not needed anymore
         stage.dispose();
     }
 
