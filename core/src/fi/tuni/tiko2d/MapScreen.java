@@ -46,6 +46,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private Texture map2;
     private float bgHeight;
     private float bgWidth;
+    private float buttonHeight;
     private InputMultiplexer multiplexer;
     private GestureDetector mapScroller;
     private boolean showLevelSelect;
@@ -75,6 +76,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
                 game.getOptions().getLocale());
 
         addLevels();
+
+        buttonHeight = game.scaleFromFHD(150);
 
         batch = game.getBatch();
         textCamera = game.getTextCamera();
@@ -205,7 +208,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private void generateLevelSelector(Country selectedCountry) {
         final Country country = selectedCountry;
         float padding = game.scaleVertical(50);
-        boolean firstLevelCompleted = game.getCompletedLevels().getBoolean(country.levels[0], false);
+        //boolean firstLevelCompleted = game.getCompletedLevels().getBoolean(country.levels[0], false);
+        boolean firstLevelCompleted = true;
         levelSelect = new Stage(new ScreenViewport(), batch);
         Table table = new Table(skin);
         Table levelButtonTable = new Table();
@@ -254,7 +258,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
             }
         });
 
-        levelButtonTable.add(levelButton1).padTop(padding).uniformX().fillX();
+        levelButtonTable.add(levelButton1).padTop(padding).uniformX().fillX().height(buttonHeight);
         levelButtonTable.row();
 
         Label levelTimeLabel1 = new Label("", skin);
@@ -268,7 +272,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
 
         if (firstLevelCompleted) {
             levelButtonTable.row();
-            levelButtonTable.add(levelButton2).padTop(padding).fillX();
+            levelButtonTable.add(levelButton2).padTop(padding).fillX().height(buttonHeight);
             levelButtonTable.row();
 
             Label levelTimeLabel2 = new Label("", skin);
@@ -285,7 +289,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         table.row();
         table.add(levelButtonTable);
         table.row();
-        table.add(closeButton).padTop(padding);
+        table.add(closeButton).height(buttonHeight).padTop(padding);
 
         levelSelect.addActor(table);
 
@@ -309,7 +313,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
         tutorialTable.add(tutorialButton).pad(
                 game.scaleVertical(10),
                 0,0, game.scaleHorizontal(10)
-        );
+        ).height(buttonHeight);
         tutorialStage.addActor(tutorialTable);
         tutorialButton.addListener(new ClickListener() {
             @Override

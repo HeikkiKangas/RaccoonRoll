@@ -24,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Player {
     private final boolean debugAccelerometer = false;
+    private final boolean debugVelocity = false;
     private Body playerBody;
     private float playerRotation;
     private float playerRadius;
@@ -35,7 +36,6 @@ public class Player {
     private boolean paused;
     private AssetManager assetManager;
 
-    private final boolean debugVelocity = false;
 
     /**
      * Creates TextureAtlas of the player animation and sets the size of the player
@@ -214,7 +214,7 @@ public class Player {
     }
 
     /**
-     * Disposes used assets
+     * Dispose no longer needed assets
      */
     public void dispose() {
     }
