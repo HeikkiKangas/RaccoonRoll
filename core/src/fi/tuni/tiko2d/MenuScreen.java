@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
- * Screen for displaying main menu
+ * Screen for displaying main menu with buttons leading to credits, options and game play
  *
  * @author Laura Kanerva
  */
@@ -198,7 +198,7 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Draws the background, title and buttons
+     * Renders the background, image, title and buttons
      *
      * @param delta time since last frame was drawn
      */

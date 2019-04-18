@@ -21,12 +21,10 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
- * Screen for displaying information
+ * Screen for displaying credits
  *
  * @author Laura Kanerva
  */
-
-// whatever changes we made (also, should link to license)
 
 public class AboutScreen extends ApplicationAdapter implements Screen {
 
@@ -161,7 +159,7 @@ public class AboutScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Draws the information and a button
+     * Renders the information and a button
      *
      * @param delta time since last frame was drawn
      */

@@ -24,7 +24,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
- * Screen displayed after each level
+ * Screen displayed after level has been completed
  *
  * @author Laura Kanerva
  */
@@ -56,6 +56,14 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private boolean newHighscore;
     private boolean levelUnlocked;
     private Music backgroundMusic;
+
+    /**
+     * Sets up the screen showed after completing a level
+     *
+     * @param game      main game class
+     * @param timeSpent amount of time spent on the level
+     * @param levelName name of the completed level
+     */
 
     public LevelCompletedScreen(RaccoonRoll game, float timeSpent, String levelName) {
         this.game = game;
@@ -183,6 +191,12 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         unlocked = new Label(positiveBundle.get("unlocked"), skin);
         highscore = new Label(positiveBundle.get("highscore"), skin);
     }
+
+    /**
+     * Renders the background, text and button
+     *
+     * @param delta time since last frame was drawn
+     */
 
     @Override
     public void render(float delta) {

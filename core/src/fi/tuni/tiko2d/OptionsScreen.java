@@ -127,8 +127,9 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Creates tables
+     * Creates tables and places all elements in right places
      */
+
     private void createTables() {
         Table table = new Table();
         table.setFillParent(true);
@@ -208,6 +209,10 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         volumeEffectsLabel = new Label(optionsBundle.get("effectsSlider"), skin );
         languageLabel = new Label(optionsBundle.get("languageTitle"), skin, "title");
     }
+
+    /**
+     * Creates sliders for changing the volume
+     */
 
     private void createSliders() {
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
@@ -302,7 +307,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Draws background, buttons and sliders
+     * Renders background, buttons and sliders
      * Calls dispose() when screen is not active
      *
      * @param delta time since last frame was drawn
@@ -335,7 +340,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
     }
 
     /**
-     * Should be called when window resizes but doesn't
+     * Should be called when window resizes
      * Should change the stage's viewport when the screen size is changed
      *
      * @param width  not used
