@@ -50,11 +50,13 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
     private Label timeSpentLabel;
     private Label title;
     private Label unlocked;
+    private Label highscore;
     private I18NBundle positiveBundle;
     private Options options;
     private AssetManager assetManager;
     private Preferences highScores;
     private boolean newHighscore;
+    private boolean levelUnlocked;
     private Music backgroundMusic;
 
     public LevelCompletedScreen(RaccoonRoll game, float timeSpent, String levelName) {
@@ -72,6 +74,9 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         backgroundMusic.play();
 
         float highScore = highScores.getFloat(levelName, 0);
+        if(highScore == 0) {
+            levelUnlocked = true;
+        }
         if (highScore > timeSpent || highScore == 0) {
             highScores.putFloat(levelName, timeSpent);
             highScores.flush();
@@ -117,13 +122,23 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         float padding = game.scaleFromFHD(600);
         table.add(title);
         table.row().pad(padding / 10, 0, 0, 0);
-        table.add(speechBubble).padRight(padding); //padin sijaan .left
-        table.row().pad(padding / 13);
+        table.add(speechBubble).left();
+        if(newHighscore) {
+            table.row().padTop(padding / 14);
+            table.add(highscore).padLeft(padding * 1.85f);
+        }
+        if(!newHighscore && !levelUnlocked) {
+            table.row().padTop(padding / 5);
+        } else {
+            table.row().padTop(padding / 14);
+        }
         table.add(timeSpentLabel).padLeft(padding * 1.85f);
-        table.row();
-        table.add(unlocked);
+        if(levelUnlocked) {
+            table.row().padTop(padding / 14);
+            table.add(unlocked).padLeft(padding * 1.85f);
+        }
         //table.row().pad(padding / 3, 0, 0, 0); yksirivisille
-        table.row().pad(padding / 4, 0, 0, 0);
+        table.row().pad(padding / 5, 0, 0, 0);
         buttonHeight = game.scaleFromFHD(200f);
 
         table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padLeft(padding * 2);
@@ -162,12 +177,13 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     private void createLabels() {
         //for testing purposes
-        //raunoTalk = new Label(positiveBundle.get("pos13"), skin);
+        //raunoTalk = new Label(positiveBundle.get("pos14"), skin);
         raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         //pointsLabel = new Label((positiveBundle.get("points")) + points, skin);
         timeSpentLabel = new Label(positiveBundle.get("time") + game.formatTime(timeSpent), skin);
         title = new Label(positiveBundle.get("title"), skin, "title");
         unlocked = new Label(positiveBundle.get("unlocked"), skin);
+        highscore = new Label(positiveBundle.get("highscore"), skin);
     }
 
     @Override
