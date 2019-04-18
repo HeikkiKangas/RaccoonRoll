@@ -82,6 +82,10 @@ public class MenuScreen extends ApplicationAdapter implements Screen {
 
     }
 
+    /**
+     * Creates a table and places all elements in right places
+     */
+
     private void createTable() {
         Table table = new Table();
         table.setFillParent(true);
