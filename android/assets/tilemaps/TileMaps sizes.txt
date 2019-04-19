@@ -8,19 +8,19 @@ fr
     marseille	  45x66.........72x51
 
 eg
-    kairo	  66x44.........78x54
-    alexandria	  69x50.........81x57
+    kairo	  66x44.........78x54 	x
+    alexandria	  69x50.........81x57 	x
 
 us
     newyork	  75x60.........87x60
     philadelphia  ..............90x63
 
 ru
-    anadyr	  99x39.........96x66
+    anadyr	  99x39.........96x66	x
     egvekinot     ..............99x69
 
 ch
-    peking	  80x60.........105x72
-    shanghai	  80x60.........108x75
-
+    peking	  80x60.........105x72	x
+    shanghai	  80x60.........108x75	x
+x = koko muutettu
 Leveys kasvaisi 6 ruutua edellisestä kentästä, korkeus 3
