@@ -35,7 +35,7 @@
    eJzt2bENACAMA7D+AodyOisjA2pB2Bdka5RGAECeFjGqM8CPenUA4Ah3FADIpHsAwD77GwAA5NPDAVj5awAAwFtsOwDAbfQTuJP9HwCALBMDAgPk
   </data>
  </layer>
- <objectgroup id="4" name="wall_objects" visible="0">
+ <objectgroup id="4" name="wall_objects">
   <object id="1" x="0" y="0" width="4800" height="128"/>
   <object id="2" x="0" y="256" width="1088" height="64"/>
   <object id="4" x="0" y="320" width="128" height="3520"/>
