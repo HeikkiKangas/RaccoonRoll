@@ -20,7 +20,7 @@
    <point/>
   </object>
  </objectgroup>
- <layer id="15" name="ground" width="90" height="63" visible="0">
+ <layer id="15" name="ground" width="90" height="63">
   <data encoding="base64" compression="zlib">
    eJztwwENAAAMw6DamH+jF3JIWDVVVVVVVVVVVVVVVVVVVVVVVVVVVVX1xQPzwynV
   </data>
