@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  * @author Heikki Kangas
  */
 public class RaccoonRoll extends Game {
-    private final boolean DEBUGGING = true;
+    private final boolean DEBUGGING = false;
 
     private SpriteBatch batch;
     private final float WORLD_WIDTH = 10f;
