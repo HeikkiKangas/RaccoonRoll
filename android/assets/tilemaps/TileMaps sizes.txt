@@ -1,23 +1,23 @@
 		  Koko nyt	Koko ehdotus
 uk
     lontoo	  60x42
-    manchester    ..............63x45
+    manchester    ..............63x45	x
 
 fr
-    pariisi	  66x45.........69x48
-    marseille	  45x66.........72x51
+    pariisi	  66x45.........69x48	x
+    marseille	  45x66.........72x51	x
 
 eg
     kairo	  66x44.........78x54 	x
     alexandria	  69x50.........81x57 	x
 
 us
-    newyork	  75x60.........87x60
-    philadelphia  ..............90x63
+    newyork	  75x60.........87x60	x
+    philadelphia  ..............90x63	x
 
 ru
     anadyr	  99x39.........96x66	x
-    egvekinot     ..............99x69
+    egvekinot     ..............99x69	x
 
 ch
     peking	  80x60.........105x72	x
