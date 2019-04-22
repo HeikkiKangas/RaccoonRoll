@@ -32,20 +32,20 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="16" name="goal_blocking_object">
+ <objectgroup id="16" name="goal_blocking_object" visible="0">
   <object id="30" x="2240" y="4096" width="128" height="128"/>
  </objectgroup>
- <layer id="32" name="goal_ground" width="96" height="66" visible="0">
+ <layer id="32" name="goal_ground" width="96" height="66">
   <data encoding="base64" compression="zlib">
    eJztxjEKAAAIxDCH+/+b3QVXB0mg0CoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOCLjLiV5b9rkbAAGQ==
   </data>
  </layer>
- <layer id="33" name="goal_ground2" width="96" height="66" visible="0" opacity="0.5">
+ <layer id="33" name="goal_ground2" width="96" height="66" opacity="0.5">
   <data encoding="base64" compression="zlib">
    eJztxjEKAAAIxDDv/592F1wdJIFCqwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgC8y4laW/64BbqwABw==
   </data>
  </layer>
- <layer id="34" name="goal" width="96" height="66" visible="0">
+ <layer id="34" name="goal" width="96" height="66">
   <data encoding="base64" compression="zlib">
    eJzt0LENgEAMA0BXlHybcRid0T4SYgYkctfYpeUEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4iyO5334m13dLZlr9f3XW08fYB3ACIw==
   </data>

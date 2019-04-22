@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="69" height="48" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="135">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="69" height="48" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="139">
  <tileset firstgid="1" name="tilesetpariisi" tilewidth="64" tileheight="64" tilecount="27" columns="27">
   <image source="tilesetpariisi.png" width="1728" height="64"/>
  </tileset>
@@ -15,11 +15,6 @@
  <tileset firstgid="36" name="eiffel" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="eiffel.png" width="128" height="128"/>
  </tileset>
- <objectgroup id="7" name="startpos">
-  <object id="1" x="192" y="2880">
-   <point/>
-  </object>
- </objectgroup>
  <layer id="17" name="ground" width="69" height="48">
   <data encoding="base64" compression="zlib">
    eJztw0ENAAAMA6FzUP9up2I/SFg1VVVVVVVVVVVVVVVV9eUBPEDCEQ==
@@ -31,8 +26,6 @@
   </data>
  </layer>
  <objectgroup id="8" name="wall_objects">
-  <object id="4" x="0" y="0" width="128" height="2752"/>
-  <object id="5" x="128" y="0" width="3968" height="128"/>
   <object id="6" x="256" y="128" width="64" height="960"/>
   <object id="7" x="320" y="256" width="576" height="64"/>
   <object id="8" x="448" y="448" width="576" height="64"/>
@@ -121,11 +114,15 @@
   <object id="120" x="4160" y="2752" width="128" height="64"/>
   <object id="121" x="3968" y="1216" width="320" height="64"/>
   <object id="122" x="4096" y="128" width="64" height="960"/>
+  <object id="135" x="0" y="0" width="4416" height="128"/>
+  <object id="136" x="0" y="128" width="128" height="2944"/>
+  <object id="137" x="128" y="2944" width="4288" height="128"/>
+  <object id="138" x="4288" y="128" width="128" height="2816"/>
  </objectgroup>
- <objectgroup id="11" name="goal_blocking_object">
+ <objectgroup id="11" name="goal_blocking_object" visible="0">
   <object id="90" x="2112" y="1280" width="64" height="128"/>
  </objectgroup>
- <objectgroup id="10" name="goal_object">
+ <objectgroup id="10" name="goal_object" visible="0">
   <object id="89" x="2168" y="1280" width="8" height="128"/>
  </objectgroup>
  <layer id="19" name="goal_ground" width="69" height="48" visible="0">
@@ -143,7 +140,7 @@
    eJzt2tsNACAIA0AGUfcf0xnwETS5m6CfTSECOGVUB4BCvTrAhlYdAAAAAACAlNO77s8bN+vc9gCA2/QNACDj9e7g1xL2TaBDAQc=
   </data>
  </layer>
- <objectgroup id="15" name="bad_objects">
+ <objectgroup id="15" name="bad_objects" visible="0">
   <object id="91" x="320" y="192" width="64" height="64"/>
   <object id="92" x="2368" y="384" width="64" height="64"/>
   <object id="93" x="384" y="1728" width="64" height="64"/>
@@ -153,18 +150,13 @@
   <object id="97" x="3776" y="320" width="64" height="64"/>
   <object id="128" x="4224" y="2816" width="64" height="64"/>
   <object id="129" x="1664" y="2816" width="64" height="64"/>
-  <object id="130" x="0" y="2752" width="128" height="320"/>
-  <object id="131" x="128" y="2944" width="3968" height="128"/>
-  <object id="132" x="4096" y="2944" width="320" height="128"/>
-  <object id="133" x="4096" y="0" width="320" height="128"/>
-  <object id="134" x="4288" y="128" width="128" height="2816"/>
  </objectgroup>
  <layer id="22" name="good_tiles" width="69" height="48">
   <data encoding="base64" compression="zlib">
    eJzt2dEJwCAMBUA3adr9h+wCIsViY/XuU1ECSsBnKfDOkV0Aqc7KWHxdBI9c2QVsRF9cl7MFANhTDN6/9rYGAIBMslBGiM51rfvo/wuAv5IJAquL7AIaojGnP8O8ZssA5Gf0ugGVdwJF
   </data>
  </layer>
- <objectgroup id="16" name="good_objects">
+ <objectgroup id="16" name="good_objects" visible="0">
   <object id="98" x="3648" y="384" width="64" height="64"/>
   <object id="100" x="2240" y="320" width="64" height="64"/>
   <object id="101" x="2432" y="512" width="64" height="64"/>
@@ -183,5 +175,10 @@
   <object id="125" x="4096" y="2880" width="64" height="64"/>
   <object id="126" x="4160" y="2624" width="64" height="64"/>
   <object id="127" x="4224" y="192" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="7" name="startpos" visible="0">
+  <object id="1" x="192" y="2880">
+   <point/>
+  </object>
  </objectgroup>
 </map>
