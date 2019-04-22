@@ -107,7 +107,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
     private void checkHighscore(String levelName) {
         float highScore = highScores.getFloat(levelName, 0);
-        if(highScore == 0) {
+        if (highScore == 0 && !levelName.equals("tutorial")) {
             levelUnlocked = true;
         }
         if (highScore > timeSpent || highScore == 0) {

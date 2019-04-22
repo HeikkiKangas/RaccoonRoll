@@ -332,7 +332,7 @@ public class MapScreen extends ApplicationAdapter implements Screen {
                     String.format("graphics/worldmap/buttons/%s.png", country.countryCode)
             );
 
-
+            //boolean addNextButton = game.getCompletedLevels().getBoolean(country.levels[1], false);
             boolean addNextButton = true;
 
             float x = game.scaleVertical(entry.buttonX);
