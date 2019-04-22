@@ -147,7 +147,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         createLabels();
 
 
-        table.add(title);
+        table.add(title).top();
         table.row().pad(padding / 10, 0, 0, 0);
         table.add(speechBubble).left();
 
@@ -171,7 +171,8 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         table.row().pad(padding / 5, 0, 0, 0);
 
-        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padLeft(padding * 2);
+        //table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight).padLeft(padding * 2);
+        table.add(ok).width(Value.percentWidth(0.25f, table)).height(buttonHeight).right().bottom();
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
