@@ -278,6 +278,28 @@ public class MazeScreen implements Screen {
         mapButton = new TextButton(mazeBundle.get("map"), skin);
         continueButton = new TextButton(mazeBundle.get("continue"), skin);
 
+        pauseTable.add(pausedLabel);
+        pauseTable.row();
+        pauseTable.add(mainMenuButton).padTop(padding).height(buttonHeight);
+        pauseTable.row();
+        pauseTable.add(mapButton).padTop(padding).height(buttonHeight).uniformX().fillX();
+        pauseTable.row();
+        pauseTable.add(optionsButton).padTop(padding).height(buttonHeight).uniformX().fillX();
+        pauseTable.row();
+        pauseTable.add(continueButton).padTop(padding).height(buttonHeight).uniformX().fillX();
+
+        pauseTable.pack();
+
+        pauseTable.setPosition(
+                Gdx.graphics.getWidth() / 2 - pauseTable.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - pauseTable.getHeight() / 2);
+        addPauseMenuListeners();
+    }
+
+    /**
+     * Adds listeners for pause menu buttons
+     */
+    private void addPauseMenuListeners() {
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -312,22 +334,6 @@ public class MazeScreen implements Screen {
                 player.setPaused(paused);
             }
         });
-
-        pauseTable.add(pausedLabel);
-        pauseTable.row();
-        pauseTable.add(mainMenuButton).padTop(padding).height(buttonHeight);
-        pauseTable.row();
-        pauseTable.add(mapButton).padTop(padding).height(buttonHeight).uniformX().fillX();
-        pauseTable.row();
-        pauseTable.add(optionsButton).padTop(padding).height(buttonHeight).uniformX().fillX();
-        pauseTable.row();
-        pauseTable.add(continueButton).padTop(padding).height(buttonHeight).uniformX().fillX();
-
-        pauseTable.pack();
-
-        pauseTable.setPosition(
-                Gdx.graphics.getWidth() / 2 - pauseTable.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - pauseTable.getHeight() / 2);
     }
 
     /**
