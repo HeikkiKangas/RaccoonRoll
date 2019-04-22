@@ -282,6 +282,7 @@ public class MazeScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MenuScreen(game));
+                backgroundMusic.stop();
                 dispose();
             }
         });
@@ -290,6 +291,7 @@ public class MazeScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MapScreen(game));
+                backgroundMusic.stop();
                 dispose();
             }
         });
@@ -298,6 +300,7 @@ public class MazeScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new OptionsScreen(game, mazeScreen));
+                backgroundMusic.pause();
             }
         });
 
@@ -741,6 +744,10 @@ public class MazeScreen implements Screen {
         if (paused) {
             updateLanguage();
             Gdx.input.setInputProcessor(multiplexer);
+        }
+        if (!backgroundMusic.isPlaying()) {
+            backgroundMusic.setVolume(options.getMusicVolume());
+            backgroundMusic.play();
         }
     }
 

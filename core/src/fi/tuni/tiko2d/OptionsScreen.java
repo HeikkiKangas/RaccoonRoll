@@ -109,6 +109,8 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
         language = options.getLanguage();
         background = assetManager.get("graphics/othermenus/Tausta75.png");
         backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
+        backgroundMusic.setVolume(options.getMusicVolume());
+        backgroundMusic.play();
 
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
@@ -267,6 +269,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
                 Gdx.app.log("Back", "Button clicked");
                 if (mazeScreen != null) {
                     game.setScreen(mazeScreen);
+                    backgroundMusic.stop();
                 } else {
                     game.setScreen(new MenuScreen(game));
                 }
@@ -301,6 +304,7 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
                 saveOptions();
                 if (mazeScreen != null) {
                     game.setScreen(mazeScreen);
+                    backgroundMusic.stop();
                 } else {
                     game.setScreen(new MenuScreen(game));
                 }

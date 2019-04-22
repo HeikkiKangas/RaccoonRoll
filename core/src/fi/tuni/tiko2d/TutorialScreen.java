@@ -290,11 +290,11 @@ public class TutorialScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+        stepWorld(delta);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
             game.setScreen(new MenuScreen(game));
             dispose();
         }
-        stepWorld(delta);
     }
 
     /**
