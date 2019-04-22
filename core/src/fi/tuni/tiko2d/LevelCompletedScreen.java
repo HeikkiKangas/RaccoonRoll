@@ -2,6 +2,7 @@ package fi.tuni.tiko2d;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -87,6 +88,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         stage = new Stage(new ScreenViewport(), batch);
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
 
         createTables();
         if (game.DEBUGGING()) {
@@ -227,6 +229,11 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            game.setScreen(new MapScreen(game));
+            dispose();
+        }
     }
 
     @Override
