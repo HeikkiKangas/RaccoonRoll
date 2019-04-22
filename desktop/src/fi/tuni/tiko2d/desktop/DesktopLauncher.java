@@ -17,7 +17,7 @@ public class DesktopLauncher {
 	    2 = 18.5:9
 	    3 = 19.5:9
     */
-    final static int aspectRatio = -1;
+    final static int aspectRatio = 1;
 
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
