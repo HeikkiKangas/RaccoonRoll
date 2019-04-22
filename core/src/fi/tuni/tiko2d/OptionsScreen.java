@@ -98,29 +98,10 @@ public class OptionsScreen extends ApplicationAdapter implements Screen {
      * @param mazeScreen the MazeScreen to go back to
      */
     public OptionsScreen(RaccoonRoll game, MazeScreen mazeScreen) {
-        this.game = game;
+        this(game);
         this.mazeScreen = mazeScreen;
-        assetManager = game.getAssetManager();
-        options = game.getOptions();
-        batch = game.getBatch();
-        textCamera = game.getTextCamera();
-        musicVolume = options.getMusicVolume();
-        effectsVolume = options.getEffectsVolume();
-        language = options.getLanguage();
-        background = assetManager.get("graphics/othermenus/Tausta75.png");
-        backgroundMusic = assetManager.get("sounds/backgroundMusic/main_menu_loop.mp3");
         backgroundMusic.setVolume(options.getMusicVolume());
         backgroundMusic.play();
-
-        stage = new Stage(new ScreenViewport(), batch);
-        Gdx.input.setInputProcessor(stage);
-
-        optionsBundle = I18NBundle.createBundle(Gdx.files.internal("localization/OptionsBundle"), options.getLocale());
-
-        bgWidth = game.scaleFromFHD(background.getWidth());
-        bgHeight = game.scaleFromFHD(background.getHeight());
-
-        createTables();
     }
 
     @Override
