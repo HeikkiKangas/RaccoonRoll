@@ -135,6 +135,7 @@ public class LevelCompletedScreen extends ApplicationAdapter implements Screen {
         skin = assetManager.get("uiskin/comic-ui.json");
         TextButton ok = new TextButton(positiveBundle.get("ok"), skin);
         posNum = getRandomPositive();
+        raunoTalk = new Label(positiveBundle.get("pos" + posNum), skin);
         float padding = game.scaleFromFHD(600);
         float buttonHeight = game.scaleFromFHD(200f);
 

@@ -287,8 +287,6 @@ public class TutorialScreen implements Screen {
             debugRenderer.render(world, worldCamera.combined);
         }
 
-        stepWorld(delta);
-
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
@@ -296,6 +294,7 @@ public class TutorialScreen implements Screen {
             game.setScreen(new MenuScreen(game));
             dispose();
         }
+        stepWorld(delta);
     }
 
     /**
