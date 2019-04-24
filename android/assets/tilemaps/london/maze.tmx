@@ -14,9 +14,9 @@
    <point/>
   </object>
  </objectgroup>
- <layer id="8" name="old_wall_tiles" width="60" height="42" visible="0">
+ <layer id="21" name="wall_tiles" width="60" height="42" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztmgFugzAMRX2NCZR2EgfjaD1KjrZMnSaP5FO7joGBLVlykYvzyJdrKDciul3M78U/iOYze2F8/PDm8jnTya0w0kV56bP41PChaKB13Nt5XckaeM7I9i6V4y1etL8Ty9/SeF3JGlD+FLwVbwL5iXw1zHWI1pxAbOHVXtteJlmzJQ7eOmck316dBNd5S15u3nsdvH1jCe9Kr+bxyxnA0pP36lfaPqbNCd6+sYV3IF2/HcF8+194j7Z3wVvHvXi5Vhe9d96KJQlq9eI9wl5LagXvej7SDJ+xkXtoG9VFtSz3R5I9Reaxp5JawVvnIM2UeWN+pWGLtiX9lv8uoFl9YFza+yMPs/Qf7XeDt85Bs4TFF8+WM6v1fSwvXdvb0T3sXs+vevUfbRy8dY5klljpw7/nRBrTnt8yt3j3K21v8Th/8Na8vTSM6qJnI2/Umltr1s7PFtNec28L3ub/g29rjM/VPOYaS3/jLtqWaN5jf49sV+a9P9/ZeZzZC2Pe+72vPfwLx/m2qQ==
+   eJztmusKwjAMhfM03pAh6lBx4PVBfVQn/gl0RxOSuGIbCIQRl33rIc3c5kQ0L9Dvf+4dY73R/9uFyuVFeu7A8V9oT3MNPGfJGCdEjyFetL5XyY0LsCuItfnTwnhnAt4W/HZLsRrmOkTX34JYko94tffWy1Bdr7jypjlN7yd66+1I/hpeZMZLguNeVnl9Ywkv6oF8H0d9WzInSHryWP0K7ePILPtmbryzwnhXNKzPjSD/lxr24s1t7SpvGnvxarUdEa8FOV68Oay1pFbl/ZyPNPOasb/NFRHaRnVRLcvzkWRNkUWsqaRW5U1zJFrVukTbkn7L9wU0qx+UvNFm6T/a31beNAfNEhbn2uN60/ZbFKNn2LH+v/LqP9HzpJflzGvpz/y5D2lMe37L3BLdr7z2UMv5K2/Ka9Ew77eo7s5wfqTtBhyX8FosYia0WOVNeSPeA3KN8dk4+p0jr1vy9wyl8Z573xfgY3/zNYY/AfcC9/4=
   </data>
  </layer>
  <layer id="19" name="ground" width="60" height="42">
@@ -24,9 +24,9 @@
    eJzt0bENACAMA8FI0MH+88IMNJbCFdb3vlFV82580nW3P2r6b758+fLly5dv/6b/5suXL1++fPn2b/pvvnz58uXLl2//pv/my5cvX758+fZv+m++fPm+9wAOFEnV
   </data>
  </layer>
- <layer id="21" name="wall_tiles" width="60" height="42">
+ <layer id="8" name="old_wall_tiles" width="60" height="42">
   <data encoding="base64" compression="zlib">
-   eJztmusKwjAMhfM03pAh6lBx4PVBfVQn/gl0RxOSuGIbCIQRl33rIc3c5kQ0L9Dvf+4dY73R/9uFyuVFeu7A8V9oT3MNPGfJGCdEjyFetL5XyY0LsCuItfnTwnhnAt4W/HZLsRrmOkTX34JYko94tffWy1Bdr7jypjlN7yd66+1I/hpeZMZLguNeVnl9Ywkv6oF8H0d9WzInSHryWP0K7ePILPtmbryzwnhXNKzPjSD/lxr24s1t7SpvGnvxarUdEa8FOV68Oay1pFbl/ZyPNPOasb/NFRHaRnVRLcvzkWRNkUWsqaRW5U1zJFrVukTbkn7L9wU0qx+UvNFm6T/a31beNAfNEhbn2uN60/ZbFKNn2LH+v/LqP9HzpJflzGvpz/y5D2lMe37L3BLdr7z2UMv5K2/Ka9Ew77eo7s5wfqTtBhyX8FosYia0WOVNeSPeA3KN8dk4+p0jr1vy9wyl8Z573xfgY3/zNYY/AfcC9/4=
+   eJztmgFugzAMRX2NCZR2EgfjaD1KjrZMnSaP5FO7joGBLVlykYvzyJdrKDciul3M78U/iOYze2F8/PDm8jnTya0w0kV56bP41PChaKB13Nt5XckaeM7I9i6V4y1etL8Ty9/SeF3JGlD+FLwVbwL5iXw1zHWI1pxAbOHVXtteJlmzJQ7eOmck316dBNd5S15u3nsdvH1jCe9Kr+bxyxnA0pP36lfaPqbNCd6+sYV3IF2/HcF8+194j7Z3wVvHvXi5Vhe9d96KJQlq9eI9wl5LagXvej7SDJ+xkXtoG9VFtSz3R5I9Reaxp5JawVvnIM2UeWN+pWGLtiX9lv8uoFl9YFza+yMPs/Qf7XeDt85Bs4TFF8+WM6v1fSwvXdvb0T3sXs+vevUfbRy8dY5klljpw7/nRBrTnt8yt3j3K21v8Th/8Na8vTSM6qJnI2/Umltr1s7PFtNec28L3ub/g29rjM/VPOYaS3/jLtqWaN5jf49sV+a9P9/ZeZzZC2Pe+72vPfwLx/m2qQ==
   </data>
  </layer>
  <objectgroup id="18" name="wall_objects" visible="0">
@@ -97,7 +97,7 @@
  </layer>
  <layer id="9" name="goal" width="60" height="42">
   <data encoding="base64" compression="zlib">
-   eJztz7ENACAMA8Esww50sP9UUGQGIpE76Xs7opeVdTGqBzzW7e++zeoRAAAAAAAAAADwqQN6pgFB
+   eJzt0rENwCAQBMFrw0Qk7ovSKNWmCV6CGenzPemTuzzJWFfdsctbHbDZbXv/X54t6dUdAAAAAAAAAABwog//1AIw
   </data>
  </layer>
  <layer id="13" name="bad_tiles" width="60" height="42">
