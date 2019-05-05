@@ -10,25 +10,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -39,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -51,7 +42,6 @@ import java.util.ArrayList;
  * @author Heikki Kangas
  */
 public class TutorialScreen implements Screen {
-    private final boolean debugWorldStep = false;
     private RaccoonRoll game;
     private SpriteBatch batch;
     private Player player;
@@ -74,10 +64,10 @@ public class TutorialScreen implements Screen {
     private Options options;
     private AssetManager assetManager;
 
+    private TiledMapUtil tiledMapUtil;
+
     private float WORLD_WIDTH;
     private float WORLD_HEIGHT;
-
-    private final float TIME_STEP = 1 / 61f;
 
     private final float tileSize = 64f;
 
@@ -93,6 +83,7 @@ public class TutorialScreen implements Screen {
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
         textCamera = game.getTextCamera();
+        tiledMapUtil = game.getTiledMapUtil();
 
         game.getCompletedLevels().putBoolean("tutorial", true);
         game.getCompletedLevels().flush();
@@ -120,13 +111,13 @@ public class TutorialScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
         player = new Player(game);
-        player.createPlayerBody(world, getPlayerStartPos());
+        player.createPlayerBody(world, tiledMapUtil.getPlayerStartPos(tiledMap));
 
         tutorialBundle = I18NBundle.createBundle(Gdx.files.internal("localization/TutorialBundle"), options.getLocale());
         loadSounds();
         loadBackgroundMusic();
 
-        createWalls();
+        tiledMapUtil.createWalls(tiledMapUtil.getWallRectangles(tiledMap), world);
 
         addContactListener();
 
@@ -290,43 +281,10 @@ public class TutorialScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        stepWorld(delta);
+        tiledMapUtil.stepWorld(delta, world);
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
             game.setScreen(new MenuScreen(game));
             dispose();
-        }
-    }
-
-    /**
-     * Steps the world with 1/61s steps while delta is bigger than 1/61
-     * @param delta time since last frame
-     */
-    private void stepWorld(float delta) {
-        double accumulator;
-        if (delta > 1 / 4f) {
-            accumulator = 1 / 4f;
-        } else if (delta < TIME_STEP) {
-            accumulator = TIME_STEP;
-        } else {
-            accumulator = delta;
-        }
-
-        if (game.DEBUGGING() && debugWorldStep) {
-            Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
-            Gdx.app.log("DeltaTime", "" + delta);
-            Gdx.app.log("TimeStep ", "" + TIME_STEP);
-        }
-
-        while (accumulator >= TIME_STEP) {
-            if (game.DEBUGGING() && debugWorldStep) {
-                Gdx.app.log("WorldStep Accumulator", "" + accumulator);
-            }
-            world.step(TIME_STEP, 6, 2);
-            accumulator -= TIME_STEP;
-        }
-
-        if (game.DEBUGGING() && debugWorldStep) {
-            Gdx.app.log("LeftOver", "" + accumulator);
         }
     }
 
@@ -370,96 +328,5 @@ public class TutorialScreen implements Screen {
         if (game.DEBUGGING()) {
             Gdx.app.log("Disposed", "TutorialScreen");
         }
-    }
-
-    /**
-     * Gets player starting position from tilemap
-     *
-     * @return vector of player start position
-     */
-    private Vector2 getPlayerStartPos() {
-        MapLayer startPosLayer = tiledMap.getLayers().get("startpos");
-        MapObject startPos = startPosLayer.getObjects().get(0);
-        float startPosX = startPos.getProperties().get("x", Float.class) * game.getScale();
-        float startPosY = startPos.getProperties().get("y", Float.class) * game.getScale();
-        return new Vector2(startPosX, startPosY);
-    }
-
-    /**
-     * Creates world bodies from wall rectangles
-     */
-    private void createWalls() {
-        ArrayList<Rectangle> wallRectangles = getWallRectangles();
-        for (Rectangle wallRectangle : wallRectangles) {
-            Body wallBody = world.createBody(getWallBodyDef(wallRectangle));
-            wallBody.createFixture(getWallShape(wallRectangle), 0.0f);
-        }
-    }
-
-    /**
-     * Creates Rectangles scaled to world units from RectangleMapObjects on wall objects layer of the tilemap
-     *
-     * @return ArrayList of the Rectangles scaled to meters
-     */
-    private ArrayList<Rectangle> getWallRectangles() {
-        ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-        MapLayer wallsLayer = tiledMap.getLayers().get("wall_objects");
-        MapObjects mapObjects = wallsLayer.getObjects();
-        Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
-
-        float scale = game.getScale();
-        for (RectangleMapObject rectangleMapObject : rectangleObjects) {
-            Rectangle tempRect = rectangleMapObject.getRectangle();
-            Rectangle scaledRect = scaleRectangle(tempRect, scale);
-            rectangles.add(scaledRect);
-        }
-        return rectangles;
-    }
-
-    /**
-     * Creates BodyDef for wall bodies
-     *
-     * @param wallRect dimensions of the body to create
-     * @return BodyDef of the wall
-     */
-    private BodyDef getWallBodyDef(Rectangle wallRect) {
-        BodyDef wallBodyDef = new BodyDef();
-        wallBodyDef.type = BodyDef.BodyType.StaticBody;
-        wallBodyDef.position.set(
-                wallRect.x + wallRect.width / 2,
-                wallRect.y + wallRect.height / 2
-        );
-        return wallBodyDef;
-    }
-
-    /**
-     * Creates PolygonShape of the scaled wall Rectangle
-     *
-     * @param wallRect dimensions of the shape to create
-     * @return PolygonShape of the given wall rectangle
-     */
-    private PolygonShape getWallShape(Rectangle wallRect) {
-        PolygonShape wallShape = new PolygonShape();
-        wallShape.setAsBox(
-                wallRect.width / 2,
-                wallRect.height / 2
-        );
-        return wallShape;
-    }
-
-    /**
-     * Scales given rectangle from pixels to meters
-     *
-     * @param r     Rectangle to scale
-     * @param scale scaling to use
-     * @return scaled Rectangle
-     */
-    private Rectangle scaleRectangle(Rectangle r, float scale) {
-        Rectangle rr = new Rectangle();
-        rr.x = r.x * scale;
-        rr.y = r.y * scale;
-        rr.width = r.width * scale;
-        rr.height = r.height * scale;
-        return rr;
     }
 }

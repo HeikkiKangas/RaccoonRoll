@@ -11,11 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -27,13 +23,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -42,7 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -89,6 +82,7 @@ public class MazeScreen implements Screen {
     private Music backgroundMusic;
 
     // TiledMap
+    private TiledMapUtil tiledMapUtil;
     private float tiledMapHeight;
     private float tiledMapWidth;
     private float tileSize = 64f;
@@ -131,6 +125,7 @@ public class MazeScreen implements Screen {
         options = game.getOptions();
         batch = game.getBatch();
         worldCamera = game.getWorldCamera();
+        tiledMapUtil = game.getTiledMapUtil();
 
         world = new World(new Vector2(0, 0), true);
         player = new Player(game);
@@ -145,16 +140,16 @@ public class MazeScreen implements Screen {
         loadSounds();
         loadBackgroundMusic();
 
-        player.createPlayerBody(world, getPlayerStartPos());
-        goodObjectRectangles = getGoodRectangles();
+        player.createPlayerBody(world, tiledMapUtil.getPlayerStartPos(tiledMap));
+        goodObjectRectangles = tiledMapUtil.getGoodRectangles(tiledMap);
         goodObjectsRemaining = goodObjectRectangles.size();
-        badObjectRectangles = getBadRectangles();
-        getGoalRectangle();
+        badObjectRectangles = tiledMapUtil.getBadRectangles(tiledMap);
+        goalRectangle = tiledMapUtil.getGoalRectangle(tiledMap);
 
         createHud();
         createPauseMenu();
-        createWalls();
-        createGoalBlockBody();
+        tiledMapUtil.createWalls(tiledMapUtil.getWallRectangles(tiledMap), world);
+        goalBlock = tiledMapUtil.createGoalBlockBody(tiledMap, world);
         addContactListener();
 
         multiplexer = new InputMultiplexer();
@@ -235,31 +230,9 @@ public class MazeScreen implements Screen {
         tiledMapWidth = mapProps.get("width", Integer.class) * tileSize * game.getScale();
         tiledMapHeight = mapProps.get("height", Integer.class) * tileSize * game.getScale();
 
-        hideGoal();
+        tiledMapUtil.hideGoal(tiledMap);
     }
 
-    /**
-     * Hides the goal on tilemap
-     */
-    private void hideGoal() {
-        tiledMap.getLayers().get("goal").setVisible(false);
-        tiledMap.getLayers().get("goal_ground").setVisible(false);
-        if (tiledMap.getLayers().getIndex("goal_ground2") != -1) {
-            tiledMap.getLayers().get("goal_ground2").setVisible(false);
-        }
-    }
-
-    /**
-     * Reveals the goal on tilemap
-     */
-    private void showGoal() {
-        tiledMap.getLayers().get("goal").setVisible(true);
-        tiledMap.getLayers().get("goal_ground").setVisible(true);
-        if (tiledMap.getLayers().getIndex("goal_ground2") != -1) {
-            tiledMap.getLayers().get("goal_ground2").setVisible(true);
-        }
-        world.destroyBody(goalBlock);
-    }
 
     /**
      * Creates the pause menu with buttons to main menu, map, options and unpausing
@@ -387,18 +360,7 @@ public class MazeScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
-    /**
-     * Gets player starting position from tilemap
-     *
-     * @return vector of player start position
-     */
-    private Vector2 getPlayerStartPos() {
-        MapLayer startPosLayer = tiledMap.getLayers().get("startpos");
-        MapObject startPos = startPosLayer.getObjects().get(0);
-        float startPosX = startPos.getProperties().get("x", Float.class) * game.getScale();
-        float startPosY = startPos.getProperties().get("y", Float.class) * game.getScale();
-        return new Vector2(startPosX, startPosY);
-    }
+
 
     /**
      * Should be called when window resizes but doesn't
@@ -467,7 +429,7 @@ public class MazeScreen implements Screen {
         }
 
         if (!paused) {
-            world.step(1 / 60f, 6, 2);
+            tiledMapUtil.stepWorld(delta, world);
         }
 
         if (goalReached && System.currentTimeMillis() >= levelFinishedTime + levelCompletedScreenDelay) {
@@ -521,13 +483,13 @@ public class MazeScreen implements Screen {
         for (Rectangle rectangle : goodObjectRectangles) {
             if (Intersector.overlaps(playerCircle, rectangle)) {
                 rectanglesToRemove.add(rectangle);
-                clearTile(
+                tiledMapUtil.clearTile(
                         (TiledMapTileLayer) tiledMap.getLayers().get("good_tiles"),
-                        getRectangleTileIndex(rectangle)
+                        tiledMapUtil.getRectangleTileIndex(rectangle, tileSize)
                 );
                 goodSound.play(options.getEffectsVolume());
                 if (goodObjectsRemaining == 1) {
-                    showGoal();
+                    tiledMapUtil.showGoal(tiledMap, world, goalBlock);
                 }
             }
         }
@@ -561,9 +523,9 @@ public class MazeScreen implements Screen {
         for (Rectangle rectangle : badObjectRectangles) {
             if (Intersector.overlaps(playerCircle, rectangle)) {
                 rectanglesToRemove.add(rectangle);
-                clearTile(
+                tiledMapUtil.clearTile(
                         (TiledMapTileLayer) tiledMap.getLayers().get("bad_tiles"),
-                        getRectangleTileIndex(rectangle)
+                        tiledMapUtil.getRectangleTileIndex(rectangle, tileSize)
                 );
                 player.applyDebuff();
                 if (game.DEBUGGING()) {
@@ -577,173 +539,7 @@ public class MazeScreen implements Screen {
         rectanglesToRemove.clear();
     }
 
-    /**
-     * Checks given rectangles x and y index in tilemap
-     *
-     * @param rectangle which tile index should be returned
-     * @return vector of given rectangle's x and y indexes
-     */
-    private Vector2 getRectangleTileIndex(Rectangle rectangle) {
-        float scale = game.getScale();
-        return new Vector2(rectangle.x / scale / tileSize, rectangle.y / scale / tileSize);
-    }
 
-    /**
-     * Clears given TileLayer's tile at given x and y index
-     *
-     * @param tileLayer on which layer the tile should be cleared
-     * @param tileIndex coordinates of the tile to be cleared
-     */
-    private void clearTile(TiledMapTileLayer tileLayer, Vector2 tileIndex) {
-        int x = (int) tileIndex.x;
-        int y = (int) tileIndex.y;
-        tileLayer.setCell(x, y, null);
-    }
-
-    /**
-     * Creates world bodies from wall rectangles
-     */
-    private void createWalls() {
-        ArrayList<Rectangle> wallRectangles = getWallRectangles();
-        for (Rectangle wallRectangle : wallRectangles) {
-            Body wallBody = world.createBody(getWallBodyDef(wallRectangle));
-            wallBody.createFixture(getWallShape(wallRectangle), 0.0f);
-        }
-    }
-
-    /**
-     * Creates body for blocking the goal while there's good objects remaining in tilemap
-     */
-    private void createGoalBlockBody() {
-        MapLayer goalBlockLayer = tiledMap.getLayers().get("goal_blocking_object");
-        RectangleMapObject goalBlockObject = goalBlockLayer.getObjects().getByType(RectangleMapObject.class).get(0);
-        Rectangle goalBlockRectangle = scaleRectangle(goalBlockObject.getRectangle(), game.getScale());
-        goalBlock = world.createBody(getWallBodyDef(goalBlockRectangle));
-        goalBlock.createFixture(getWallShape(goalBlockRectangle), 0.0f);
-    }
-
-    /**
-     * Creates Rectangles scaled to world units from RectangleMapObjects on wall objects layer of the tilemap
-     *
-     * @return ArrayList of the Rectangles scaled to meters
-     */
-    private ArrayList<Rectangle> getWallRectangles() {
-        ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-        MapLayer wallsLayer = tiledMap.getLayers().get("wall_objects");
-        MapObjects mapObjects = wallsLayer.getObjects();
-        Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
-
-        float scale = game.getScale();
-        for (RectangleMapObject rectangleMapObject : rectangleObjects) {
-            Rectangle tempRect = rectangleMapObject.getRectangle();
-            Rectangle scaledRect = scaleRectangle(tempRect, scale);
-            rectangles.add(scaledRect);
-        }
-        return rectangles;
-    }
-
-    /**
-     * Creates Rectangles scaled to world units from RectangleMapObjects on good objects layer of the tilemap
-     *
-     * @return ArrayList of the Rectangles scaled to meters
-     */
-    private ArrayList<Rectangle> getGoodRectangles() {
-        ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-        MapLayer goodLayer = tiledMap.getLayers().get("good_objects");
-        MapObjects mapObjects = goodLayer.getObjects();
-        Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
-
-        float scale = game.getScale();
-        for (RectangleMapObject rectangleMapObject : rectangleObjects) {
-            Rectangle tempRect = rectangleMapObject.getRectangle();
-            Rectangle scaledRect = scaleRectangle(tempRect, scale);
-            rectangles.add(scaledRect);
-        }
-        return rectangles;
-    }
-
-    /**
-     * Creates Rectangles scaled to world units from RectangleMapObjects on bad objects layer of the tilemap
-     *
-     * @return ArrayList of the Rectangles scaled to meters
-     */
-    private ArrayList<Rectangle> getBadRectangles() {
-        ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-        MapLayer badLayer = tiledMap.getLayers().get("bad_objects");
-        MapObjects mapObjects = badLayer.getObjects();
-        Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
-
-        float scale = game.getScale();
-        for (RectangleMapObject rectangleMapObject : rectangleObjects) {
-            Rectangle tempRect = rectangleMapObject.getRectangle();
-            Rectangle scaledRect = scaleRectangle(tempRect, scale);
-            rectangles.add(scaledRect);
-        }
-        return rectangles;
-    }
-
-    /**
-     * Creates Rectangle scaled to world units from RectangleMapObject on goal object layer of the tilemap
-     */
-    private void getGoalRectangle() {
-        MapLayer goalLayer = tiledMap.getLayers().get("goal_object");
-        MapObjects mapObjects = goalLayer.getObjects();
-        RectangleMapObject rectangleObject = mapObjects.getByType(RectangleMapObject.class).get(0);
-
-        float scale = game.getScale();
-
-        Rectangle tempRect = rectangleObject.getRectangle();
-        Rectangle scaledRect = scaleRectangle(tempRect, scale);
-
-        goalRectangle = scaledRect;
-    }
-
-    /**
-     * Creates BodyDef for wall bodies
-     *
-     * @param wallRect dimensions of the body to create
-     * @return BodyDef of the wall
-     */
-    private BodyDef getWallBodyDef(Rectangle wallRect) {
-        BodyDef wallBodyDef = new BodyDef();
-        wallBodyDef.type = BodyDef.BodyType.StaticBody;
-        wallBodyDef.position.set(
-                wallRect.x + wallRect.width / 2,
-                wallRect.y + wallRect.height / 2
-        );
-        return wallBodyDef;
-    }
-
-    /**
-     * Creates PolygonShape of the scaled wall Rectangle
-     *
-     * @param wallRect dimensions of the shape to create
-     * @return PolygonShape of the given wall rectangle
-     */
-    private PolygonShape getWallShape(Rectangle wallRect) {
-        PolygonShape wallShape = new PolygonShape();
-        wallShape.setAsBox(
-                wallRect.width / 2,
-                wallRect.height / 2
-        );
-        return wallShape;
-    }
-
-    /**
-     * Scales given rectangle from pixels to meters
-     *
-     * @param r     Rectangle to scale
-     * @param scale scaling to use
-     * @return scaled Rectangle
-     */
-    private Rectangle scaleRectangle(Rectangle r, float scale) {
-        Rectangle rr = new Rectangle();
-        rr.x = r.x * scale;
-        rr.y = r.y * scale;
-        rr.width = r.width * scale;
-        rr.height = r.height * scale;
-        return rr;
-    }
 
     @Override
     public void show() {

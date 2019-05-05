@@ -46,6 +46,8 @@ public class RaccoonRoll extends Game {
 
     private boolean scaleHorizontal;
 
+    private TiledMapUtil tiledMapUtil;
+
     private Options options;
 
     private AssetManager assetManager;
@@ -62,6 +64,7 @@ public class RaccoonRoll extends Game {
         options = new Options();
         completedLevels = Gdx.app.getPreferences("completedLevels");
         highScores = Gdx.app.getPreferences("highScores");
+        tiledMapUtil = new TiledMapUtil(this);
 
         if ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth() <= 0.5625f) {
             scaleHorizontal = true;
@@ -377,6 +380,15 @@ public class RaccoonRoll extends Game {
      */
     public Preferences getHighScores() {
         return highScores;
+    }
+
+    /**
+     * Getter for TiledMapUtil
+     *
+     * @return the TiledMapUtil
+     */
+    public TiledMapUtil getTiledMapUtil() {
+        return tiledMapUtil;
     }
 
     /**

@@ -208,8 +208,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
     private void generateLevelSelector(Country selectedCountry) {
         final Country country = selectedCountry;
         float padding = game.scaleVertical(50);
-        //boolean firstLevelCompleted = game.getCompletedLevels().getBoolean(country.levels[0], false);
-        boolean firstLevelCompleted = true;
+        boolean firstLevelCompleted = game.getCompletedLevels().getBoolean(country.levels[0], false);
+        //boolean firstLevelCompleted = true;
         levelSelect = new Stage(new ScreenViewport(), batch);
         Table table = new Table(skin);
         Table levelButtonTable = new Table();
@@ -332,8 +332,8 @@ public class MapScreen extends ApplicationAdapter implements Screen {
                     String.format("graphics/worldmap/buttons/%s.png", country.countryCode)
             );
 
-            //boolean addNextButton = game.getCompletedLevels().getBoolean(country.levels[1], false);
-            boolean addNextButton = true;
+            boolean addNextButton = game.getCompletedLevels().getBoolean(country.levels[1], false);
+            //boolean addNextButton = true;
 
             float x = game.scaleVertical(entry.buttonX);
             float y = game.scaleVertical(entry.buttonY);
